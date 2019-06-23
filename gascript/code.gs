@@ -139,7 +139,7 @@ function doGet(e) {
   return msg;
 }
 
-function fakeget() {
+function try_get() {
     var e = 
     {
       "parameter": {
