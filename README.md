@@ -30,10 +30,10 @@ The application will track and download the photos and videos to your Google Dri
 
 ## Configure an Auto-Run
 
-1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the `target` to the instagram account you're willing to fetch.
+1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the value of the `target` field to the instagram account you're willing to fetch.
 
 2. Go to your Google Developer Hub, and create a new trigger for this project.
 
-3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropiate time interval to call the function, as the example below.
+3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval to call the function, as the example below.
 
-![Setup a Google App Script Timed Trigger](/doc/setup_a_google_app_script_timed_trigger.png)
+![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
