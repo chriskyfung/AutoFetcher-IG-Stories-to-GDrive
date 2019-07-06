@@ -1,1 +1,3 @@
-remote-theme: chriskyfung/chriskyfung.github.io
+show_downloads: true
+google_analytics:
+theme: jekyll-theme-architect
