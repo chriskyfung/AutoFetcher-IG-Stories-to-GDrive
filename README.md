@@ -2,6 +2,8 @@
 
 A Google App Script for deploying a web application that automatically fetches the latest avaliable IG Stories of a target Instagram user to your Google Drive.
 
+**Last Verified**: 2019-12-25T08:17:41+00:00
+
 ## How to Use
 
 1. New a App Script project in your Google account, and open the project in the App Script Editor.
