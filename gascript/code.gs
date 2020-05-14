@@ -145,8 +145,7 @@ function try_get() {
       "parameter": {
         "usr": g_username,
         "pwd": g_password,
-        //"target": "___alicecream___"
-        "target": "amber_hawken"
+        "target": "google"
       }
     };
   doGet(e);
