@@ -2,7 +2,9 @@
 
 A Google App Script for deploying a web application that automatically fetches the latest avaliable IG Stories of a target Instagram user to your Google Drive.
 
-**Last Verified**: 2019-12-25T08:17:41+00:00
+**Last Verified**: 2020-05-07T12:00:13+08:00
+
+<p style="color:red;">Due to the suspension of storyig.com, the script has failed since 2020-05-08</p>
 
 ## How to Use
 
