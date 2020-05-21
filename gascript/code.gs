@@ -4,6 +4,7 @@ var g_password = 'your password for this app';
 var gdrive_id = 'your google drive folder id for storing the downloaded files';
 var lastlog_id = '<your google doc ID for storing last tracking log>';
 var historylog_id = '<your google doc ID for storing history log>';
+var crashReportEmail = '<your email for receiving crash report>';
 
 function parseDownloadUrl(html){
   var dlTags = html.match(/<a .* href="(.*)" .*>Download<\/a>/g);
@@ -62,6 +63,19 @@ function myFunction(targetIgUsername) {
   historyfile.getBody().appendParagraph(logtxt);
   
   return logtxt;  
+}
+
+function testGoogleIg () {
+  var IgStoriesFeed  = "https://storydownloader.net/user/google/";
+  var html = UrlFetchApp.fetch(IgStoriesFeed).getContentText();
+  var urls = parseDownloadUrl(html);
+  if (urls.length > 0) {
+    return true;
+  };
+  MailApp.sendEmail(crashReportEmail,
+                  "Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter",
+                  "Get none urls from the test account https://storydownloader.net/user/google/.\nPlease verify the service websites and check update on https://bit.ly/2zQLd6p.");
+  return false;
 }
 
 function doGet(e) {
