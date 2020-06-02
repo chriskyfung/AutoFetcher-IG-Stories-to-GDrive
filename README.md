@@ -2,11 +2,9 @@
 
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
 
-**AN IMPORTANT UPDATE ON 2020-05-14T06:00:00+08:00**
+**AN IMPORTANT UPDATE ON 2020-06-02T16:00:00+08:00**
 
-<p style="color:red;">Due to the suspension of storyig.com, the former version has failed since 2020-05-08.</p>
-
-The new script fetches IG stories from storydownloader.net.
+<p style="color:red;">The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.</p>
 
 ## How to Use
 
@@ -24,13 +22,18 @@ var gdrive_id = 'your google drive folder id for storing the downloaded files';
 var lastlog_id = '<your google doc ID for storing last tracking log>';
 var historylog_id = '<your google doc ID for storing history log>';
 var crashReportEmail = '<your email for receiving crash report>';
+
+// New variables in Build 2020.06.02
+var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON Data';
+var query_hash = '<your IG query_hash for story look up>';
+var COOKIE = 'IG Cookie in your web browser';
 ```
 
 4. Deploy the updated App Script project as a web application, and authorize the app to read and write files in your Google Drive.
 
 5. Copy the url of the deployed web application, like `https://script.google.com/<your-app-path>/exec?`
 
-Now you can test the application by passing a url like this, `https://script.google.com/<your-app-path>/exec?usr=<app_username>&pwd=<app_password>&target=<target_ig_username>`.
+Now you can test the application by passing a url like this, `https://script.google.com/<your-app-path>/exec?usr=<app_username>&pwd=<app_password>&target={"target":{"name":"nasa","id":"528817151"}}`.
 The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories of the target Instagram account via storiesig.com.
 
 ## Configure an Auto-Run
