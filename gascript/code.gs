@@ -23,8 +23,11 @@ function fetch_ig_stories(query){
 }
 
 function parseDownloadUrl(html,isTest){
+  if (html == '{"data":{"reels_media":[]},"status":"ok"}') {
+    return [];
+  };
   if (isTest) {
-    var data = JSON.parse(body).html;
+    var data = JSON.parse(html).data;
   } else {
     var fetchContentlog = DocumentApp.openById(fetchContentLog_id);
     fetchContentlog.clear();
@@ -65,7 +68,7 @@ function myFunction(targetIgUser) {
   var msg = '';
   
   // For each article element found in the HTML
-  if (urls.length > 0) {
+  if (urls != null && urls.length > 0) {
     for (i in urls) {
       var url = urls[i];
       
@@ -93,19 +96,38 @@ function myFunction(targetIgUser) {
   return logtxt;  
 }
 
-function test_nasa_ig () {
-  var target = { "name": "nasa", "id": 528817151 }
-  var query_url = getQuery(target.id);
+function test_fucntion (targetIgUser) {
+  var query_url = getQuery(targetIgUser.id);
   var html = fetch_ig_stories(query_url);
   
   var urls = parseDownloadUrl(html,true);
-  if (urls.length == 0) {
+  if (urls == null || urls.length == 0) {
     MailApp.sendEmail(crashReportEmail,
                   "Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter",
                   "Get none urls from the test account https://www.instagram.com/stories/nasa/.\nPlease verify the service websites and check update on https://bit.ly/2zQLd6p.");
   }
   Logger.log("Number of URL(s): " + urls.length);
   return urls.length;
+}
+
+function test_nasa_ig(){
+  return test_fucntion({ "name": "nasa", "id":"528817151"});
+}
+
+function test_medium_ig(){
+  return test_fucntion({ "name": "medium", "id":"1112881921"});
+}
+
+function test_bbcnews_ig(){
+  return test_fucntion({ "name": "bbcnews", "id":"16278726"});
+}
+
+function test_pipeline(){
+  if (test_bbcnews_ig() == 0) {
+    if (test_nasa_ig() == 0) {
+      test_medium_ig();
+    };
+  };
 }
 
 function doGet(e) {
@@ -143,6 +165,7 @@ function try_get() {
         "usr": g_username,
         "pwd": g_password,
         "target" : { "name": "nasa", "id":"528817151"}
+        //"target" : { "name": "medium", "id":"1112881921"}
       }
     };
   doGet(e);

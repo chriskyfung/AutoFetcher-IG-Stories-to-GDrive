@@ -2,15 +2,18 @@
 
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
 
-**AN IMPORTANT UPDATE ON 2020-06-02T16:00:00+08:00**
+**AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00**
 
 <p style="color:red;">The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.</p>
+
+**LAST UPDATE ON 2020-06-05 T11:50:00 +08:00**
+<p style="color:green;">The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
 
 ## How to Use
 
 1. Create a new App Script project in your Google account, and open the project in the App Script Editor.
 
-2. Copy the scripts under the gascript folder to your App Script Editor.
+2. Copy the scripts under the `gascript` folder to your App Script Editor.
 
 3. Open `code.js` and replace the following variables with your own values, and save the file.
 
@@ -31,7 +34,7 @@ var COOKIE = 'IG Cookie in your web browser';
 
 4. Deploy the updated App Script project as a web application, and authorize the app to read and write files in your Google Drive.
 
-5. Copy the url of the deployed web application, like `https://script.google.com/<your-app-path>/exec?`
+5. Copy the URL of the deployed web application, like `https://script.google.com/<your-app-path>/exec?`
 
 Now you can test the application by passing a url like this, `https://script.google.com/<your-app-path>/exec?usr=<app_username>&pwd=<app_password>&target={"target":{"name":"nasa","id":"528817151"}}`.
 
@@ -39,7 +42,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 ## Configure an Auto-Run
 
-1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the value of the `target` field to the instagram account you're willing to fetch.
+1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the value of the `target` field to the Instagram account you're willing to fetch.
 
 2. Go to your Google Developer Hub, and create a new trigger for this project.
 
@@ -49,13 +52,13 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 ## Configure Crash Report
 
-Crash Report has introduced to Build 2020.05.21. A new function called `testGoogleIg()` has been added to check if there are any stories shown in Google's Instagram account. Since Google publishes stories frequently, there should be always one or more items available. The function will send an email to your specified email address if it fetches no URLs to download.
+For Build 2020.06.05, a new function called `test_pipeline()` has been added to check if there are any stories shown from the Instagram accounts of BBCNews, NASA and Medium. Since they publish stories frequently, there should be always one or more items available. The function will send an email to your specified email address if it fetches no URLs to download.
 
 1. Enter your email to `historylog_id` in line 7.
 
 2. Go to your Google Developer Hub, and create a new trigger for this project.
 
-3. In the Add Trigger Dialog, choose **testGoogleIg** and select Daily timer.
+3. In the Add Trigger Dialog, choose **test_pipeline** and select Daily timer.
 
 ## License
 
