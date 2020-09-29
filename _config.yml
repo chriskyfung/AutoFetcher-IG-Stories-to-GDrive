@@ -1,9 +1,13 @@
 show_downloads: true
 google_analytics: UA-72575541-9
 remote_theme: chriskyfung/amp-affiliately-jekyll-theme
+
 defaults:
   - 
     scope:
-      path: "README.md"
+      path: ""
     values:
-      permalink: "index.html"
+      layout: "default"
+
+plugins:
+  - jekyll-remote-theme

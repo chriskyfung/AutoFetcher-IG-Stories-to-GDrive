@@ -1,15 +1,23 @@
-# AutoFetcher for Saving IG Stories to GDrive
+---
+layout: page-right-sidebar
+title: AutoFetcher for Saving IG Stories to GDrive <i class="fab fa-instagram"></i><i class="fab fa-google-drive"><i class="fas fa-cloud-download-alt"></i></i>
+css:
+    syntax: true
+---
 
+{:style="font-size:1.25rem;margin-top:3rem"}
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
 
+{:style="background:gold;margin-bottom:0;padding:1rem"}
 **AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00**
 
-{:style="color:red;"}
+{:style="background:lightyellow;padding:1rem"}
 The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
 
+{:style="background:limegreen;margin-bottom:0;padding:1rem"}
 **LAST UPDATE ON 2020-06-05 T11:50:00 +08:00**
 
-{:style="color:green;"}
+{:style="background:lightgreen;padding:1rem"}
 The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
 
 ## How to Use
@@ -28,7 +36,7 @@ The version Build 2020.05.14 works again as storydownloader.net resumed their se
     var lastlog_id = '<your google doc ID for storing last tracking log>';
     var historylog_id = '<your google doc ID for storing history log>';
     var crashReportEmail = '<your email for receiving crash report>';
-    
+
     // New variables in Build 2020.06.02
     var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
     var query_hash = '<your IG query_hash for story look up>';
@@ -51,6 +59,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval to call the function, as the example below.
 
+{:style="margin-left:2.5rem"}
 ![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
 
 ## Configure Crash Report
@@ -63,6 +72,8 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 
 3. In the Add Trigger Dialog, choose **test_pipeline** and select Daily timer.
 
+{:style="background:skyblue;margin-bottom:0;padding:1rem"}
 ## License
 
+{:style="background:lightblue;padding:1rem"}
 GNU Affero General Public License v3.0

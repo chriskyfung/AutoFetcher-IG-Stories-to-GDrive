@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="91.44mm" height="91.44mm" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" version="1.1" viewBox="0 0 9144 9144" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <style type="text/css">.fil1 {fill:white;fill-rule:nonzero} .fil0 {fill:url(#a)}</style>
+  <linearGradient id="a" x1="10043" x2="-898.9" y1="6303" y2="2841" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#48CFAE" offset="0"/>
+   <stop stop-color="#4FC0E8" offset="1"/>
+  </linearGradient>
+ </defs>
+ <polygon class="fil0" points="0 0 9144 0 9144 9144 0 9144"/>
+ <path class="fil1" d="m5274 3284h819v-314h-819v314zm343 2363h134l252-353h-639l253 353zm162-2171v1627h314v-1627h-314zm-191 1627v-1627h-314v1627h314zm-2431-1769c-53 0-95-43-95-95 0-53 42-96 95-96h1926v-268c0-53 42-96 95-96h1011c53 0 95 43 95 96v2324c0 23-8 44-22 61l-496 695c-17 28-47 46-82 46h-2527c-53 0-95-43-95-96 0-52 42-95 95-95h2341l-324-452h-2017c-53 0-95-43-95-96s42-96 95-96h1926v-544h-1926c-53 0-95-43-95-96s42-96 95-96h1926v-452h-1926c-53 0-95-43-95-96s42-96 95-96h1926v-452h-1926zm-606-879h4042c53 0 96 43 96 96v4042c0 53-43 96-96 96h-4042c-53 0-96-43-96-96v-4042c0-53 43-96 96-96zm3946 192h-3850v3850h3850v-3850z"/>
+</svg>
