@@ -1,6 +1,7 @@
 show_downloads: true
 google_analytics: UA-72575541-9
 remote_theme: chriskyfung/amp-affiliately-jekyll-theme
+isSubdirectory: true
 
 defaults:
   - 
