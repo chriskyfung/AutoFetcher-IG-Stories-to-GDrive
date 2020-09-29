@@ -1,3 +1,9 @@
 show_downloads: true
 google_analytics: UA-72575541-9
 remote_theme: amp-affiliately-jekyll-theme
+defaults:
+  - 
+    scope:
+      path: "README.md"
+    values:
+      permalink: "index.html"
