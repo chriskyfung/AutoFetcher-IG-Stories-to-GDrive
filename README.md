@@ -28,7 +28,7 @@ The version Build 2020.05.14 works again as storydownloader.net resumed their se
     var lastlog_id = '<your google doc ID for storing last tracking log>';
     var historylog_id = '<your google doc ID for storing history log>';
     var crashReportEmail = '<your email for receiving crash report>';
-    
+
     // New variables in Build 2020.06.02
     var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
     var query_hash = '<your IG query_hash for story look up>';
@@ -62,6 +62,7 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 2. Go to your Google Developer Hub, and create a new trigger for this project.
 
 3. In the Add Trigger Dialog, choose **test_pipeline** and select Daily timer.
+
 
 ## License
 

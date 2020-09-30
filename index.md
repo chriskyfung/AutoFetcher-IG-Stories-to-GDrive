@@ -1,6 +1,7 @@
 ---
 layout: page-right-sidebar
 title: AutoFetcher for Saving IG Stories to GDrive <i class="fab fa-instagram"></i><i class="fab fa-google-drive"><i class="fas fa-cloud-download-alt"></i></i>
+download: true
 css:
     syntax: true
 ---
@@ -60,7 +61,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval to call the function, as the example below.
 
 {:style="margin-left:2.5rem"}
-![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
+![Setup a Google App Script Timed Trigger]({{ site.baseurl }}/docs/images/setup_a_google_app_script_timed_trigger.png)
 
 ## Configure Crash Report
 

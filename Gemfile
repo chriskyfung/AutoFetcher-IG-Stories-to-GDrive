@@ -20,5 +20,6 @@ group :jekyll_plugins do
     gem 'jekyll-gzip'
     gem 'jekyll-extlinks'
     gem "jekyll-remote-theme"
+    gem "jekyll-github-metadata"
 end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]

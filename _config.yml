@@ -1,5 +1,24 @@
-show_downloads: true
-google_analytics: UA-72575541-9
+name: "Chris KY FUNG's Page"
+title: "Chris KY FUNG's Page"
+description: "A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive."
+meta_description: "A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive."
+url: https://chriskyfung.github.io
+baseurl: '/AutoFetcher-IG-Stories-to-GDrive'
+sidebar:
+  featured: false
+  recent_posts: false
+repository: chriskyfung/AutoFetcher-IG-Stories-to-GDrive
+
+authors:
+  chris:
+    name: Chris KY Fung
+    display_name: Chris F.
+    gravatar: abd876486b2caa54b43bf64a5a86f620
+    email: 
+    web: https://en.gravatar.com/chrisfungky
+    facebook: https://www.facebook.com/chriskyfung/
+    description: "Author of this blog, M.Phil."
+
 remote_theme: chriskyfung/amp-affiliately-jekyll-theme
 
 defaults:
@@ -11,3 +30,4 @@ defaults:
 
 plugins:
   - jekyll-remote-theme
+  - jekyll-github-metadata

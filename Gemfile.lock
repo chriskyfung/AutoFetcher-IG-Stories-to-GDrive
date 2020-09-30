@@ -40,6 +40,9 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-gist (1.5.0)
       octokit (~> 4.2)
+    jekyll-github-metadata (2.13.0)
+      jekyll (>= 3.4, < 5.0)
+      octokit (~> 4.0, != 4.4.0)
     jekyll-gzip (2.4.2)
       jekyll (>= 3.0, < 5.0)
     jekyll-loading-lazy (0.1.1)
@@ -111,6 +114,7 @@ DEPENDENCIES
   jekyll-extlinks
   jekyll-feed
   jekyll-gist
+  jekyll-github-metadata
   jekyll-gzip
   jekyll-loading-lazy
   jekyll-remote-theme
