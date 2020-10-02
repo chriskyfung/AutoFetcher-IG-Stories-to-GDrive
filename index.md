@@ -61,7 +61,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval to call the function, as the example below.
 
 {:style="margin-left:2.5rem"}
-![Setup a Google App Script Timed Trigger]({{ site.baseurl }}/docs/images/setup_a_google_app_script_timed_trigger.png)
+![Setup a Google App Script Timed Trigger]({{site.url}}{{ site.baseurl }}/docs/images/setup_a_google_app_script_timed_trigger.png){:width="737" height="811"}
 
 ## Configure Crash Report
 

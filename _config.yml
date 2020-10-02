@@ -31,3 +31,4 @@ defaults:
 plugins:
   - jekyll-remote-theme
   - jekyll-github-metadata
+  - kramdown-amp

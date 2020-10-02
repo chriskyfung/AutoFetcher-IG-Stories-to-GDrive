@@ -12,6 +12,7 @@ GEM
     eventmachine (1.2.7-x64-mingw32)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
+    fastimage (2.2.0)
     ffi (1.13.1)
     ffi (1.13.1-x64-mingw32)
     forwardable-extended (2.6.0)
@@ -63,6 +64,9 @@ GEM
     jekyll-webp (1.0.0)
     kramdown (2.3.0)
       rexml
+    kramdown-amp (0.1.0)
+      fastimage
+      kramdown
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     liquid (4.0.3)
@@ -121,6 +125,7 @@ DEPENDENCIES
   jekyll-seo-tag
   jekyll-sitemap
   jekyll-webp
+  kramdown-amp
   tzinfo-data
   wdm (>= 0.1.0)
 
