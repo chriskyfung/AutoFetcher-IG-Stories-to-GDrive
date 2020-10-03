@@ -10,7 +10,7 @@ google_analytics: 'UA-72575541-9'
 gtm: 'GTM-WQMQK3X' # Google Tag Manager ID
 cse_id: 011006674894885990812:tjln7k0nyjx # Google Custom Search Engine ID
 adsense: 'ca-pub-4819282024314540' # Google Adsense ID
-buyme: chrisfungky
+buyme: chriskyfung
 sidebar:
   featured: false
   recent_posts: false
