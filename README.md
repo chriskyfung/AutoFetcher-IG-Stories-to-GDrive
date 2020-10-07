@@ -1,5 +1,7 @@
 # AutoFetcher for Saving IG Stories to GDrive
 
+![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download)
+
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
 
 **AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00**
