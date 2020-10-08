@@ -39,6 +39,18 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 `ig_user_id` is necessary to query the data of the target Instagram user from the official web API. You can obtain the ID with the username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id). The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories from the target Instagram account.
 
+## Set up your Status Badges
+
+1. Upload two SVG image files to you Google Drive.
+
+    ![Status Badges](/docs/images/status-badges.png)
+
+2. Share the files to view publicly.
+
+3. Copy their File IDs as the values of `statusBadge_id` and `lastTestedBadge_id` variables, respectivitly.
+
+4. Copy their Download URLs to your website or monitoring page.
+
 ## Configure an Auto-Run
 
 1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the value of the `target` field to the Instagram account you're willing to fetch.
