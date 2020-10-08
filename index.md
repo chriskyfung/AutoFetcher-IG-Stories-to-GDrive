@@ -4,24 +4,18 @@ title: AutoFetcher for Saving IG Stories to GDrive <i class="fab fa-instagram"><
 download: true
 css:
     syntax: true
+    custom: >-
+        .status-badge-container amp-img img {
+            object-fit: contain;
+        }
 ---
+
+<figure class="status-badge-container shadow-none" style="display:flex">
+    <amp-img layout="fixed" width="150" height="20" src="https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download" alt="Last tested date"></amp-img> <amp-img layout="fixed" width="150" height="20" src="https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download" alt="Service Status"></amp-img>
+</figure>
 
 {:style="font-size:1.25rem;margin-top:3rem"}
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
-
-![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download) ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download)
-
-{:style="background:gold;margin-bottom:0;padding:1rem"}
-**AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00**
-
-{:style="background:lightyellow;padding:1rem"}
-The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
-
-{:style="background:limegreen;margin-bottom:0;padding:1rem"}
-**LAST UPDATE ON 2020-06-05 T11:50:00 +08:00**
-
-{:style="background:lightgreen;padding:1rem"}
-The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
 
 ## How to Use
 
@@ -78,6 +72,25 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 3. In the Add Trigger Dialog, choose **test_pipeline** and select Daily timer.
 
 {:style="background:skyblue;margin-bottom:0;padding:1rem"}
+
+## History
+
+🆕 **REMOVE THIRD-PARTY DEPENDENCIES ON Build 2020.06.05** 🆕
+
+Start from the version Build 2020.06.05, all story data and files will be fetched directly from Instagram.com.
+
+{:style="background:limegreen;margin-bottom:0;padding:1rem"}
+🔔 **LAST UPDATE ON 2020-06-05 T11:50:00 +08:00** 🔔
+
+{:style="background:lightgreen;padding:1rem"}
+The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
+
+{:style="background:gold;margin-bottom:0;padding:1rem"}
+🚧 **AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00** 🚧
+
+{:style="background:lightyellow;padding:1rem"}
+The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
+
 ## License
 
 {:style="background:lightblue;padding:1rem"}
