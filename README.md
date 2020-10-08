@@ -43,7 +43,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 1. Upload two SVG image files to you Google Drive.
 
-    ![Status Badges](/docs/images/status-badges.png)
+    {% include picture.html alt="Status Badges" source="raw" img="/docs/images/status-badges.png" width="310" height="112" %}
 
 2. Share the files to view publicly.
 
