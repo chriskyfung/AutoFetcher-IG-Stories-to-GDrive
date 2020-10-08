@@ -22,8 +22,8 @@ A Google App Script for deploying a web application that automatically fetches t
     var crashReportEmail = '<your email for receiving crash report>';
 
     // New variables in Build 2020.10.08
-    var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
     var statusBadge_id = '<your google drive file ID of Test Status Badge>';
+    var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
 
     // New variables in Build 2020.06.02
     var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
@@ -38,6 +38,18 @@ A Google App Script for deploying a web application that automatically fetches t
 Now you can test the application by passing a url like this, `https://script.google.com/<your-app-path>/exec?usr=<app_username>&pwd=<app_password>&target={"target":{"name":"nasa","id":"528817151"}}`.
 
 `ig_user_id` is necessary to query the data of the target Instagram user from the official web API. You can obtain the ID with the username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id). The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories from the target Instagram account.
+
+## Set up your Status Badges
+
+1. Upload two SVG image files to you Google Drive.
+
+    ![Status Badges](/docs/images/status-badges.png)
+
+2. Share the files to view publicly.
+
+3. Copy their File IDs as the values of `statusBadge_id` and `lastTestedBadge_id` variables, respectivitly.
+
+4. Copy their Download URLs to your website or monitoring page.
 
 ## Configure an Auto-Run
 
