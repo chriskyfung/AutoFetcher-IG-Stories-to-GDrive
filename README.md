@@ -47,7 +47,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 2. Share the files to view publicly.
 
-3. Copy their File IDs as the values of `statusBadge_id` and `lastTestedBadge_id` variables, respectivitly.
+3. Copy their File IDs as the values of `statusBadge_id` and `lastTestedBadge_id` variables, respectively.
 
 4. Copy their Download URLs to your website or monitoring page.
 
