@@ -22,8 +22,8 @@ A Google App Script for deploying a web application that automatically fetches t
     var crashReportEmail = '<your email for receiving crash report>';
 
     // New variables in Build 2020.10.08
-    var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
     var statusBadge_id = '<your google drive file ID of Test Status Badge>';
+    var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
 
     // New variables in Build 2020.06.02
     var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
