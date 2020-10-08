@@ -2,27 +2,7 @@
 
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
 
-* * *
-
-<section :style="background-color:gold;">
-
-**AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00**
-
-The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
-
-</section>
-
-* * *
-
-<section :style="background-color:lightgreen;">
-
-**LAST UPDATE ON 2020-06-05 T11:50:00 +08:00**
-
-The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
-
-</section>
-
-* * *
+![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download) ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download)
 
 ## How to Use
 
@@ -40,9 +20,11 @@ The version Build 2020.05.14 works again as storydownloader.net resumed their se
     var lastlog_id = '<your google doc ID for storing last tracking log>';
     var historylog_id = '<your google doc ID for storing history log>';
     var crashReportEmail = '<your email for receiving crash report>';
-    
+
     // New variables in Build 2020.06.02
     var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
+    var statusBadge_id = '<your google drive file ID of Test Status Badge>';
+    var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
     var query_hash = '<your IG query_hash for story look up>';
     var COOKIE = 'IG Cookie in your web browser';
     ```
@@ -55,8 +37,6 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 `ig_user_id` is necessary to query the data of the target Instagram user from the official web API. You can obtain the ID with the username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id). The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories from the target Instagram account.
 
-* * *
-
 ## Configure an Auto-Run
 
 1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the value of the `target` field to the Instagram account you're willing to fetch.
@@ -66,8 +46,6 @@ Now you can test the application by passing a url like this, `https://script.goo
 3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval to call the function, as the example below.
 
 ![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
-
-* * *
 
 ## Configure Crash Report
 
@@ -79,7 +57,19 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 
 3. In the Add Trigger Dialog, choose **test_pipeline** and select Daily timer.
 
-* * *
+## History
+
+🆕 **REMOVE THIRD-PARTY DEPENDENCIES ON Build 2020.06.05** 🆕
+
+Start from the version Build 2020.06.05, all story data and files will be fetched directly from Instagram.com.
+
+🔔 **LAST UPDATE ON 2020-06-05 T11:50:00 +08:00** 🔔
+
+The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
+
+🚧 **AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00** 🚧
+
+The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
 
 ## License
 

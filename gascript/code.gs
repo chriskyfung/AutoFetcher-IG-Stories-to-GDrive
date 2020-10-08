@@ -5,11 +5,13 @@ var gdrive_id = 'your google drive folder id for storing the downloaded files';
 var lastlog_id = '<your google doc ID for storing last tracking log>';
 var historylog_id = '<your google doc ID for storing history log>';
 var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON Data';
+var statusBadge_id = '<your google drive file ID of Test Status Badge>';
+var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
 var crashReportEmail = '<your email for receiving crash report>';
 var query_hash = '<your IG query_hash for story look up>';
 var COOKIE = 'IG Cookie in your web browser';
 
-ffunction getQuery(ig_user_id){  
+function getQuery(ig_user_id){  
   return "https://www.instagram.com/graphql/query/?query_hash=" + query_hash + "&variables=%7B%22reel_ids%22%3A%5B%22" + ig_user_id +
 "%22%5D%2C%22tag_names%22%3A%5B%5D%2C%22location_ids%22%3A%5B%5D%2C%22highlight_reel_ids%22%3A%5B%5D%2C%22precomposed_overlay%22%3Afalse%2C%22show_story_viewer_list%22%3Atrue%2C%22story_viewer_fetch_count%22%3A50%2C%22story_viewer_cursor%22%3A%22%22%2C%22stories_video_dash_manifest%22%3Afalse%7D"
 }
@@ -101,12 +103,7 @@ function test_fucntion (targetIgUser) {
   var html = fetch_ig_stories(query_url);
   
   var urls = parseDownloadUrl(html,true);
-  if (urls == null || urls.length == 0) {
-    MailApp.sendEmail(crashReportEmail,
-                  "Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter",
-                  "Get none urls from the test account https://www.instagram.com/stories/nasa/.\nPlease verify the service websites and check update on https://bit.ly/2zQLd6p.");
-  }
-  Logger.log("Number of URL(s): " + urls.length);
+  Logger.log("Number of URL(s) from @" + targetIgUser.id + ": " + urls.length);
   return urls.length;
 }
 
@@ -123,10 +120,66 @@ function test_bbcnews_ig(){
 }
 
 function test_pipeline(){
+  updateLastTestedBadge();
   if (test_bbcnews_ig() == 0) {
     if (test_nasa_ig() == 0) {
-      test_medium_ig();
+      if (test_medium_ig() == 0) {
+        MailApp.sendEmail(crashReportEmail,
+                          "Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter",
+                          "Get none urls from the test accounts.\nPlease verify the service websites and check update on https://bit.ly/2zQLd6p.");
+        Logger.log('Failed to fetch data from the test accounts!!!')
+        updateBadgeToFailStatus();
+        return false;
+      };
     };
+  };
+  Logger.log('Successfully fetch data from the test accounts!')
+  updateBadgeToSucessStatus();
+  return true;
+}
+
+function updateBadgeToFailStatus() {
+  if (statusBadge_id != '') {
+    var fileDescr = Drive.Files.get(statusBadge_id).getDescription();
+    if (fileDescr != 'test-failed') {
+      var newBadge = UrlFetchApp.fetch("https://img.shields.io/badge/ig%20fetch%20test-failed-red");
+      var badgeBlob = newBadge.getBlob();
+      var file_meta = {
+        mimeType: 'image/svg+xml',
+        description: 'test-failed'
+      };
+      var updatedFile = Drive.Files.update(file_meta, statusBadge_id,badgeBlob);
+    };
+  };
+}
+
+function updateBadgeToSucessStatus() {
+  if (statusBadge_id != '') {    
+    var fileDescr = Drive.Files.get(statusBadge_id).getDescription();
+    if (fileDescr != 'test-passed') {
+      var newBadge = UrlFetchApp.fetch("https://img.shields.io/badge/ig%20fetch%20test-passed-brightgreen");
+      var badgeBlob = newBadge.getBlob();
+      var file_meta = {
+        mimeType: 'image/svg+xml',
+        description: 'test-passed'
+      };
+      var updatedFile = Drive.Files.update(file_meta, statusBadge_id,badgeBlob);
+    };
+  };
+}
+
+function updateLastTestedBadge() {
+  if (lastTestedBadge_id != '') {
+    var formattedDate = Utilities.formatDate(new Date(), "GMT", "MMM dd, YYYY");
+    var webSafeFormattedDate = formattedDate.replace(/\s/g, '%20').replace(/,/g, '%2C');
+    Logger.log(formattedDate) ;
+    var newBadge = UrlFetchApp.fetch("https://img.shields.io/badge/last%20tested-" + webSafeFormattedDate + "-orange");
+    var badgeBlob = newBadge.getBlob();
+    var file_meta = {
+      mimeType: 'image/svg+xml',
+      description: 'last test badge'
+    };
+    var updatedFile = Drive.Files.update(file_meta, lastTestedBadge_id,badgeBlob);
   };
 }
 
