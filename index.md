@@ -44,7 +44,7 @@ A Google App Script for deploying a web application that automatically fetches t
     // New variables in Build 2020.06.02
     var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
     var query_hash = '<your IG query_hash for story look up>';
-    var COOKIE = 'IG Cookie in your web browser';
+    var COOKIE = 'The cookie passed in request header to keep a user logged in';
     ```
 
 4. Deploy the updated App Script project as a web application, and authorize the app to read and write files in your Google Drive.
@@ -55,7 +55,17 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 `ig_user_id` is necessary to query the data of the target Instagram user from the official web API. You can obtain the ID with the username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id). The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories from the target Instagram account.
 
-## Set up your Status Badges
+## How to find your IG cookie
+
+1. Visit `www.instagram.com` and login to your account using a desktop browser, such as Chrome or Firefox.
+2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
+3. Open the **Network** tab, then reload the page.
+4. Select `www.instagram.com` from the list of request items and explore its Headers.
+5. Scroll to the **Request Header** section, grab the value of **cookie** as the picture below.
+
+   {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-cookie-with-devtools.png" width="962" height="844" class="ml-li" %}
+
+## How to set up your Status Badges
 
 1. Upload two SVG image files to you Google Drive.
 
@@ -67,7 +77,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 4. Copy their Download URLs to your website or monitoring page.
 
-## Configure an Auto-Run
+## How to configure an Auto-Run
 
 1. At the end of the file `code.js`, make a copy the function `try_get()` and give it a new unique function name. and replace the value of the `target` field to the Instagram account you're willing to fetch.
 
