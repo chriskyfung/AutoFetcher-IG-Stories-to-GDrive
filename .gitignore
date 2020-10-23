@@ -1,0 +1,9 @@
+### Jekyll ###
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
