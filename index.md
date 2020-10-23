@@ -1,7 +1,5 @@
 ---
 layout: page-right-sidebar
-date: 2020-09-29
-last_modified_at: 2020-10-23 17:27 +0800
 title: AutoFetcher for Saving IG Stories to GDrive <i class="fab fa-instagram"></i><i class="fab fa-google-drive"><i class="fas fa-cloud-download-alt"></i></i>
 download: true
 css:
