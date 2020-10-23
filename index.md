@@ -1,5 +1,7 @@
 ---
 layout: page-right-sidebar
+date: 2020-09-29
+last_modified_at: 2020-10-23 17:27 +0800
 title: AutoFetcher for Saving IG Stories to GDrive <i class="fab fa-instagram"></i><i class="fab fa-google-drive"><i class="fas fa-cloud-download-alt"></i></i>
 download: true
 css:
@@ -13,11 +15,11 @@ css:
         }
 ---
 
-<figure class="status-badge-container shadow-none" style="display:flex">
+<figure class="status-badge-container shadow-none" style="display:flex;margin-top:3rem">
     <amp-img layout="fixed" width="150" height="20" src="https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download" alt="Last tested date"></amp-img> <amp-img layout="fixed" width="150" height="20" src="https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download" alt="Service Status"></amp-img>
 </figure>
 
-{:style="font-size:1.25rem;margin-top:3rem"}
+{:style="font-size:1.25rem;margin-top:2rem"}
 A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.
 
 ## How to Use
@@ -55,15 +57,25 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 `ig_user_id` is necessary to query the data of the target Instagram user from the official web API. You can obtain the ID with the username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id). The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories from the target Instagram account.
 
-## How to find your IG cookie
+## How to find your `query_hash` and `COOKIE` pair
 
 1. Visit `www.instagram.com` and login to your account using a desktop browser, such as Chrome or Firefox.
 2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
-3. Open the **Network** tab, then reload the page.
-4. Select `www.instagram.com` from the list of request items and explore its Headers.
-5. Scroll to the **Request Header** section, grab the value of **cookie** as the picture below.
+3. Open the Network tab, then enter `story` in the filter.
+4. Go back to the Instagram page and click on an IG story.
+5. While the stories are playing on the screen, new items named `?query_hash=...` will iteratively added to the list of request items.
+6. Click on one of the story query items to explore its Headers.
+7. Scroll to the **Query String Parameters** section, grab the value of **query_hash** as the picture below.
 
-   {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-cookie-with-devtools.png" width="962" height="844" class="ml-li" %}
+    {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-story-query_hash.png" width="779" height="491" class="ml-li" %}
+
+{:start="8"}
+8. Scroll to the **Request Header** section, grab the value of **cookie** in the same header tab as the picture below.
+
+   {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" class="ml-li" %}
+
+{:style="text-align:right;font-size:small;color:grey"}
+<i class='far fa-calendar-alt'></i> Last updated on October 23, 2020
 
 ## How to set up your Status Badges
 
