@@ -11,6 +11,8 @@ var crashReportEmail = '<your email for receiving crash report>';
 var query_hash = '<your IG query_hash for story look up>';
 var COOKIE = 'IG Cookie in your web browser';
 
+var isDebug = false;
+
 function getQuery(ig_user_id){  
   return "https://www.instagram.com/graphql/query/?query_hash=" + query_hash + "&variables=%7B%22reel_ids%22%3A%5B%22" + ig_user_id +
 "%22%5D%2C%22tag_names%22%3A%5B%5D%2C%22location_ids%22%3A%5B%5D%2C%22highlight_reel_ids%22%3A%5B%5D%2C%22precomposed_overlay%22%3Afalse%2C%22show_story_viewer_list%22%3Atrue%2C%22story_viewer_fetch_count%22%3A50%2C%22story_viewer_cursor%22%3A%22%22%2C%22stories_video_dash_manifest%22%3Afalse%7D"
@@ -18,8 +20,10 @@ function getQuery(ig_user_id){
 
 function fetch_ig_stories(query){
   var header = {'Cookie': COOKIE};
-  var opt2 = {"headers":header}; 
-  return UrlFetchApp.fetch(query, opt2).getContentText();
+  var opt2 = {"headers":header};
+  var data = UrlFetchApp.fetch(query, opt2).getContentText();
+  if (isDebug) { Logger.log(data); }
+  return data;
   //var doc = XmlService.parse(html);
   //var html = doc.getRootElement();
 }
@@ -193,7 +197,7 @@ function doGet(e) {
   try {
     usr = e.parameter.usr.trim();
     pwd = e.parameter.pwd.trim();
-    target = e.parameter.target;
+    target = JSON.parse(e.parameter.target);
   }
   catch(err) {
     Logger.log(err);
