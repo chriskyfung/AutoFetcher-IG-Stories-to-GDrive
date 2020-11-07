@@ -197,7 +197,7 @@ function doGet(e) {
   try {
     usr = e.parameter.usr.trim();
     pwd = e.parameter.pwd.trim();
-    target = JSON.parse(e.parameter.target);
+    target = (typeof(e.parameter.target) === 'string') ? JSON.parse(e.parameter.target) : e.parameter.target;
   }
   catch(err) {
     Logger.log(err);
