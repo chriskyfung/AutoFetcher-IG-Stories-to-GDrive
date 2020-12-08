@@ -57,7 +57,7 @@ function parseDownloadUrl(html,isTest){
     fetchContentlog.clear();
     fetchContentlog.appendParagraph(html);
     var body = fetchContentlog.getBody().getText();
-    var data = JSON.parse(body).data;
+    var data = JSON.parse(body);
   }
   var items = data.reels_media[0].items;
 
