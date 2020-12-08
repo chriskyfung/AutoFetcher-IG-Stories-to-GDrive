@@ -8,20 +8,38 @@ var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON 
 var statusBadge_id = '<your google drive file ID of Test Status Badge>';
 var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
 var crashReportEmail = '<your email for receiving crash report>';
-var query_hash = '<your IG query_hash for story look up>';
+
 var COOKIE = 'IG Cookie in your web browser';
+
+var X_IG_APP_ID = '<your x-ig-app-id in the request header>';
+var X_IG_WWW_CLAIM = '<your x-ig-www-claim in the request header>';
 
 var isDebug = false;
 
 function getQuery(ig_user_id){  
-  return "https://www.instagram.com/graphql/query/?query_hash=" + query_hash + "&variables=%7B%22reel_ids%22%3A%5B%22" + ig_user_id +
-"%22%5D%2C%22tag_names%22%3A%5B%5D%2C%22location_ids%22%3A%5B%5D%2C%22highlight_reel_ids%22%3A%5B%5D%2C%22precomposed_overlay%22%3Afalse%2C%22show_story_viewer_list%22%3Atrue%2C%22story_viewer_fetch_count%22%3A50%2C%22story_viewer_cursor%22%3A%22%22%2C%22stories_video_dash_manifest%22%3Afalse%7D"
+  return "https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=" + ig_user_id;
 }
 
 function fetch_ig_stories(query){
-  var header = {'Cookie': COOKIE};
-  var opt2 = {"headers":header};
-  var data = UrlFetchApp.fetch(query, opt2).getContentText();
+  var opt3 = {
+    "headers": {
+      "accept": "*/*",
+      "cache-control": "no-cache",
+      "pragma": "no-cache",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "x-ig-app-id": X_IG_APP_ID,
+      "x-ig-www-claim": X_IG_WWW_CLAIM,
+      "cookie": COOKIE
+    },
+    "referrer": "https://www.instagram.com/",
+    "referrerPolicy": "strict-origin-when-cross-origin",
+    "body": null,
+    "method": "GET",
+    "mode": "cors"
+  };
+  var data = UrlFetchApp.fetch(query, opt3).getContentText();
   if (isDebug) { Logger.log(data); }
   return data;
   //var doc = XmlService.parse(html);
@@ -33,7 +51,7 @@ function parseDownloadUrl(html,isTest){
     return [];
   };
   if (isTest) {
-    var data = JSON.parse(html).data;
+    var data = JSON.parse(html);
   } else {
     var fetchContentlog = DocumentApp.openById(fetchContentLog_id);
     fetchContentlog.clear();
@@ -46,18 +64,18 @@ function parseDownloadUrl(html,isTest){
   var urls = [];
   for (i in items) {
     var item = items[i];
-    if (item.is_video) {
-      var video = item.video_resources;
-      urls[i] = video[video.length-1].src;
+    if (item.video_versions) {
+      var videos = item.video_versions;
+      urls[i] = videos[0].url;
     } else {
-      urls[i] = item.display_url;
+      urls[i] = item.image_versions2.candidates[0].url;
     }
   }
   //Logger.log(urls);
   return urls;
 }
 
-function myFunction(targetIgUser) {
+function __main__(targetIgUser) {
   
   // Access the body of the log google doc file
   var d = new Date();
@@ -207,7 +225,7 @@ function doGet(e) {
   
   // execute if correct username and password in the query
   if (usr == g_username && pwd == g_password && target != '') {
-    msg = myFunction(target);
+    msg = __main__(target);
     msg = ContentService.createTextOutput(msg);
   }
   else { msg = ContentService.createTextOutput('Invalid username and password or targetID!');
