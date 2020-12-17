@@ -42,12 +42,10 @@ function fetch_ig_stories(query){
   var data = UrlFetchApp.fetch(query, opt3).getContentText();
   if (isDebug) { Logger.log(data); }
   return data;
-  //var doc = XmlService.parse(html);
-  //var html = doc.getRootElement();
 }
 
 function parseDownloadUrl(html,isTest){
-  if (html == '{"data":{"reels_media":[]},"status":"ok"}') {
+  if (html == '{"reels": {}, "reels_media": [], "status": "ok"}') {
     return [];
   };
   if (isTest) {
@@ -71,7 +69,7 @@ function parseDownloadUrl(html,isTest){
       urls[i] = item.image_versions2.candidates[0].url;
     }
   }
-  //Logger.log(urls);
+  if (isDebug) { Logger.log(urls); }
   return urls;
 }
 
