@@ -113,14 +113,14 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 
 3. In the Add Trigger Dialog, choose **test_pipeline** and select Daily timer.
 
-{:style="background:skyblue;margin-bottom:0;padding:1rem"}
-
 ## History
 
+{:style="background:gold;margin-bottom:0;padding:1rem"}
 🚧 **AN IMPORTANT UPDATE ON 2020-12-09** 🚧
 
 ([#11](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/11)) Instagram changed code around noon, 7 Dec, UTC. Please update to Build 2020.12.09.
 
+{:style="background:skyblue;margin-bottom:0;padding:1rem"}
 🆕 **REMOVE THIRD-PARTY DEPENDENCIES IN Build 2020.06.05** 🆕
 
 Start from the version Build 2020.06.05, all story data and files will be fetched directly from Instagram.com.
