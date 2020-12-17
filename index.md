@@ -1,7 +1,7 @@
 ---
 layout: page-right-sidebar
 date: 2020-09-29
-last_modified_at: 2020-11-07 20:32 +0800
+last_modified_at: 2020-12-17 15:00 +0800
 title: AutoFetcher for Saving IG Stories to GDrive <i class="fab fa-instagram"></i><i class="fab fa-google-drive"><i class="fas fa-cloud-download-alt"></i></i>
 download: true
 css:
@@ -39,14 +39,16 @@ A Google App Script for deploying a web application that automatically fetches t
     var historylog_id = '<your google doc ID for storing history log>';
     var crashReportEmail = '<your email for receiving crash report>';
 
+    // New variables in Build 2020.06.02
+    var COOKIE = 'Your cookie passed in request header';
+
     // New variables in Build 2020.10.08
     var statusBadge_id = '<your google drive file ID of Test Status Badge>';
     var lastTestedBadge_id = '<your google drive file ID of Last Tested Badge>';
 
-    // New variables in Build 2020.06.02
-    var fetchContentLog_id = '<your google doc ID for storing fetched Instgram JSON     Data';
-    var query_hash = '<your IG query_hash for story look up>';
-    var COOKIE = 'The cookie passed in request header to keep a user logged in';
+    // New variables in Build 2020.12.09
+    var X_IG_APP_ID = '<your x-ig-app-id in the request header>';
+    var X_IG_WWW_CLAIM = '<your x-ig-www-claim in the request header>';
     ```
 
 4. Deploy the updated App Script project as a web application, and authorize the app to read and write files in your Google Drive.
@@ -57,25 +59,24 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 `ig_user_id` is necessary to query the data of the target Instagram user from the official web API. You can obtain the ID with the username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id/). The application will track and download the photos and videos to your Google Drive folder, if it finds any new IG stories from the target Instagram account.
 
-## How to find your `query_hash` and `COOKIE` pair
+## How to find your `COOKIE`, `X_IG_APP_ID`, and `X_IG_WWW_CLAIM`
 
 1. Visit `www.instagram.com` and login to your account using a desktop browser, such as Chrome or Firefox.
 2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
-3. Open the Network tab, then enter `story` in the filter.
+3. Open the **Network** tab, then enter `?reel_ids=` in the filter.
 4. Go back to the Instagram page and click on an IG story.
-5. While the stories are playing on the screen, new items named `?query_hash=...` will iteratively added to the list of request items.
-6. Click on one of the story query items to explore its Headers.
-7. Scroll to the **Query String Parameters** section, grab the value of **query_hash** as the picture below.
-
-    {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-story-query_hash.png" width="779" height="491" class="ml-li" %}
-
-{:start="8"}
-8. Scroll to the **Request Header** section, grab the value of **cookie** in the same header tab as the picture below.
+5. While the stories are playing on the screen, new items named `?reel_ids=...` will iteratively added to the list of request items.
+6. Click on one of the fetched items and explore its Headers.
+7. Scroll to the **Request Header** section, grab the value of **cookie** as the picture below.
 
    {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" class="ml-li" %}
 
+{:start="8"}
+8. Also, copy the values of `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
+
+
 {:style="text-align:right;font-size:small;color:grey"}
-<i class='far fa-calendar-alt'></i> Last updated on October 23, 2020
+<i class='far fa-calendar-alt'></i> Last updated on December 17, 2020
 
 ## How to set up your Status Badges
 
@@ -116,18 +117,22 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 
 ## History
 
-🆕 **REMOVE THIRD-PARTY DEPENDENCIES ON Build 2020.06.05** 🆕
+🚧 **AN IMPORTANT UPDATE ON 2020-12-09** 🚧
+
+([#11](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/11)) Instagram changed code around noon, 7 Dec, UTC. Please update to Build 2020.12.09.
+
+🆕 **REMOVE THIRD-PARTY DEPENDENCIES IN Build 2020.06.05** 🆕
 
 Start from the version Build 2020.06.05, all story data and files will be fetched directly from Instagram.com.
 
 {:style="background:limegreen;margin-bottom:0;padding:1rem"}
-🔔 **LAST UPDATE ON 2020-06-05 T11:50:00 +08:00** 🔔
+🔔 **LAST UPDATE ON 2020-06-05** 🔔
 
 {:style="background:lightgreen;padding:1rem"}
 The version Build 2020.05.14 works again as storydownloader.net resumed their service on 2020-06-05.
 
 {:style="background:gold;margin-bottom:0;padding:1rem"}
-🚧 **AN IMPORTANT UPDATE ON 2020-06-02 T16:00:00 +08:00** 🚧
+🚧 **AN IMPORTANT UPDATE ON 2020-06-02** 🚧
 
 {:style="background:lightyellow;padding:1rem"}
 The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
