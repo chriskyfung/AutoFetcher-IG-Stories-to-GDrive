@@ -70,7 +70,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 2. Go to your Google Developer Hub, and create a new trigger for this project.
 
-3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval to call the function, as the example below.
+3. In the Add Trigger Dialog, choose the function name that you previously copied. Also, select an appropriate time interval (6 - 12 hours) to call the function, as the example below.
 
 ![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
 
