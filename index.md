@@ -139,6 +139,10 @@ The version Build 2020.05.14 works again as storydownloader.net resumed their se
 {:style="background:lightyellow;padding:1rem"}
 The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
 
+## Get Help
+
+<i class="fas fa-comment-dots"></i> [Discussions]({{ site.github.repository_url }}/discussions) | <i class="fas fa-bug"></i> [Bug Reporting]({{ site.github.issues_url }})
+
 ## License
 
 GNU Affero General Public License v3.0
