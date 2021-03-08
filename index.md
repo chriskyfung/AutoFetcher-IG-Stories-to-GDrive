@@ -141,7 +141,7 @@ The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the d
 
 ## Get Help
 
-<i class="fas fa-comment-dots"></i> [Discussions]({{ site.github.repository_url }}/discussions) | <i class="fas fa-bug"></i> [Bug Reporting]({{ site.github.issues_url }})
+<i class="fas fa-comment-dots"></i> [Discussions]({{ site.github.repository_url }}/discussions) \| <i class="fas fa-bug"></i> [Bug Reporting]({{ site.github.issues_url }})
 
 ## License
 
