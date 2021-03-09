@@ -143,6 +143,11 @@ The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the d
 
 <i class="fas fa-comment-dots"></i> [Discussions]({{ site.github.repository_url }}/discussions) \| <i class="fas fa-bug"></i> [Bug Reporting]({{ site.github.issues_url }})
 
+## Like my stuff?
+
+Would you like to buy me a coffee? I would really appreciate it if you could support me for the development.
+
+<a href="https://www.buymeacoffee.com/chrisfungky"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" target="_blank"></a>
 ## License
 
 GNU Affero General Public License v3.0
