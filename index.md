@@ -11,7 +11,7 @@ css:
             object-fit: contain;
         }
         .ml-li {
-            margin-left: 2rem;
+            margin-left: 1.5rem;
         }
 ---
 
@@ -69,7 +69,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 6. Click on one of the fetched items and explore its Headers.
 7. Scroll to the **Request Header** section, grab the value of **cookie** as the picture below.
 
-   {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" class="ml-li" %}
+   {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/docs/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" %}
 
 {:start="8"}
 8. Also, copy the values of `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
@@ -82,7 +82,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 
 1. Upload two SVG image files to you Google Drive.
 
-   {% include picture.html alt="Status Badges" source="raw" img="/docs/images/status-badges.png" width="310" height="112" class="ml-li" %}
+   {% include picture.html alt="Status Badges" source="raw" img="/docs/images/status-badges.png" width="310" height="112" %}
 
 2. Share the files to view publicly.
 
@@ -101,7 +101,7 @@ Now you can test the application by passing a url like this, `https://script.goo
 <!--{:style="margin-left:2.5rem"}
 ![Setup a Google App Script Timed Trigger]({{site.url}}{{ site.baseurl }}/docs/images/setup_a_google_app_script_timed_trigger.png){:width="737" height="811"}-->
 
-<amp-img width="737" height="811" layout="responsive" src="{{site.url}}{{ site.baseurl }}/docs/images/setup_a_google_app_script_timed_trigger.png" alt="Setup a Google App Script Timed Trigger" style="margin-left:2.5rem"></amp-img>
+{% include picture.html source="raw" img="/docs/images/setup_a_google_app_script_timed_trigger.png" width="737" height="811" alt="Setup a Google App Script Timed Trigger" class="ml-li" %}
 
 ## Configure Crash Report
 
