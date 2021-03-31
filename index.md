@@ -145,4 +145,4 @@ The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the d
 
 ## License
 
-GNU Affero General Public License v3.0
+Distributed under the [GNU Affero General Public License v3.0](LICENSE.md)
