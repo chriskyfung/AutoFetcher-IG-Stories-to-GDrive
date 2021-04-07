@@ -1,7 +1,7 @@
 remote_theme: chriskyfung/amp-affiliately-jekyll-theme
 
 name: "Chris KY FUNG's Page"
-title: "Chris KY FUNG's Page"
+title: "AutoFetcher IG Stories to GDrive"
 description: "A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive."
 meta_description: "A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive."
 url: https://chriskyfung.github.io
