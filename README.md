@@ -86,6 +86,10 @@ For Build 2020.06.05, a new function called `test_pipeline()` has been added to 
 
 ## History
 
+🚧 **AN IMPORTANT UPDATE ON 2021-09-12** 🚧
+
+([#17](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/17)) Google Drive Drive will apply a security update on September 13, 2021. Please update your Apps Script code to avoid failing access to Google Drive files.
+
 🚧 **AN IMPORTANT UPDATE ON 2020-12-09** 🚧
 
 ([#11](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/11)) Instagram changed code around noon, 7 Dec, UTC. Please update to Build 2020.12.09.
