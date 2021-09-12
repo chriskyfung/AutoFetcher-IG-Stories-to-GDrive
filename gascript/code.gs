@@ -194,44 +194,6 @@ function test_pipeline(){
 }
 
 /**
- * DEPRECATED
- * Update the SVG file of "Test Status" badge to "Failed" via Drive API v3
- */
-function updateBadgeToFailStatus() {
-  if (statusBadge_id != '') {
-    var fileDescr = Drive.Files.get(statusBadge_id).getDescription();
-    if (fileDescr != 'test-failed') {
-      var newBadge = UrlFetchApp.fetch("https://img.shields.io/badge/ig%20fetch%20test-failed-red");
-      var badgeBlob = newBadge.getBlob();
-      var file_meta = {
-        mimeType: 'image/svg+xml',
-        description: 'test-failed'
-      };
-      var updatedFile = Drive.Files.update(file_meta, statusBadge_id,badgeBlob);
-    };
-  };
-}
-
-/**
- * DEPRECATED
- * Update the SVG file of "Test Status" badge to "Passed" via Drive API v3
- */
-function updateBadgeToSucessStatus() {
-  if (statusBadge_id != '') {    
-    var fileDescr = Drive.Files.get(statusBadge_id).getDescription();
-    if (fileDescr != 'test-passed') {
-      var newBadge = UrlFetchApp.fetch("https://img.shields.io/badge/ig%20fetch%20test-passed-brightgreen");
-      var badgeBlob = newBadge.getBlob();
-      var file_meta = {
-        mimeType: 'image/svg+xml',
-        description: 'test-passed'
-      };
-      var updatedFile = Drive.Files.update(file_meta, statusBadge_id,badgeBlob);
-    };
-  };
-}
-
-/**
  * Update the SVG file of "Test Status" badge to "Failed" using Class DriveApp.
  * @param {string} status - The arguement to determine the badge color and the text to display in the badge.
  * @returns {string|null}  The URL that can be used to download the file. Otherwise, returns null.
@@ -243,25 +205,6 @@ function setTestStatusBadge(status='failed') {
     return DriveApp.getFileByIdAndResourceKey(statusBadge_id, file.getResourceKey()).setContent(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="ig fetch test: ${status}}"><title>ig fetch test: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">ig fetch test</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">ig fetch test</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`).setDescription(`test-${status}`).getDownloadUrl();
   }
   return null;
-}
-
-/**
- * DEPRECATED
- * Update the SVG file of "Test Date" badge via Drive API v3
- */
-function updateLastTestedBadge() {
-  if (lastTestedBadge_id != '') {
-    var formattedDate = Utilities.formatDate(new Date(), "GMT", "MMM dd, YYYY");
-    var webSafeFormattedDate = formattedDate.replace(/\s/g, '%20').replace(/,/g, '%2C');
-    Logger.log(formattedDate) ;
-    var newBadge = UrlFetchApp.fetch("https://img.shields.io/badge/last%20tested-" + webSafeFormattedDate + "-orange");
-    var badgeBlob = newBadge.getBlob();
-    var file_meta = {
-      mimeType: 'image/svg+xml',
-      description: 'last test badge'
-    };
-    var updatedFile = Drive.Files.update(file_meta, lastTestedBadge_id,badgeBlob);
-  };
 }
 
 /**
