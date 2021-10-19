@@ -10,7 +10,7 @@
  * Last modified  : 2021-09-12
  */
 
- /**
+/**
  * Test getting the URLs of media files in the data retrieved from Instagram's API using fetch_ig_stories() and parseDownloadUrl().
  * @param {Object} targetIgUser - A JSON object contains the name and id of an Instagram account, e.g. { "name": "john", "id": "1234567890" }.
  * @returns {number} The number of URLs obtained.
