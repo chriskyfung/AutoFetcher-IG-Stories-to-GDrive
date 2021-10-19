@@ -1,0 +1,43 @@
+{
+  "name": "autofetcher-ig-stories-to-gdrive",
+  "version": "0.19.0",
+  "description": "A Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
+  "main": "gascript/code.gs",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "login": "./node_modules/.bin/clasp login",
+    "logout": "./node_modules/.bin/clasp logout",
+    "pull": "./node_modules/.bin/clasp pull",
+    "push": "./node_modules/.bin/clasp push",
+    "status": "./node_modules/.bin/clasp status",
+    "open": "./node_modules/.bin/clasp open",
+    "deployments": "./node_modules/.bin/clasp deployments",
+    "versions": "./node_modules/.bin/clasp versions",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "logs": "./node_modules/.bin/clasp logs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive.git"
+  },
+  "keywords": [
+    "instagram",
+    "google-drive",
+    "google-apps-script",
+    "instagram-story",
+    "instagram-stories",
+    "instagram-bot",
+    "instagram-downloader"
+  ],
+  "author": "Chris K.Y. Fung",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues"
+  },
+  "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
+  "devDependencies": {
+    "@google/clasp": "^2.4.1"
+  }
+}
