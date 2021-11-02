@@ -15,8 +15,11 @@
     "open": "./node_modules/.bin/clasp open",
     "deployments": "./node_modules/.bin/clasp deployments",
     "versions": "./node_modules/.bin/clasp versions",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "logs": "./node_modules/.bin/clasp logs"
+    "logs": "./node_modules/.bin/clasp logs",
+    "lint": "npm run eslint && npm run prettier",
+    "eslint": "eslint --ext .js --fix .",
+    "prettier": "prettier **/*.js --write --ignore-path .eslintignore",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -38,6 +41,10 @@
   },
   "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
   "devDependencies": {
-    "@google/clasp": "^2.4.1"
+    "@google/clasp": "^2.4.1",
+    "eslint": "^8.1.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-googleappsscript": "^1.0.4",
+    "prettier": "^2.4.1"
   }
 }
