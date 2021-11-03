@@ -38,7 +38,7 @@ function insertNewLog(datetime, username, url, filetype) {
   // Insert a blank row in a sheet below the header.
   logsSheet.insertRows(2);
   // Write the log data to the new row.
-  const secondRow = logsSheet.getRange(2, 1, 1, logsSheet.getLastColumn());
+  const secondRow = logsSheet.getRange(2, 1, 1, 4);
   secondRow.setValues([[datetime, username, url, filetype]]);
 }
 
@@ -57,7 +57,7 @@ function loadRecentLogs() {
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
   // Get the data the log sheet and assign them to `previousLogs`.
   previousLogs =
-      logsSheet.getRange(2, 1, toRow - 1, logsSheet.getLastColumn()).getValues();
+      logsSheet.getRange(2, 1, toRow - 1, 4).getValues();
 }
 
 /**
