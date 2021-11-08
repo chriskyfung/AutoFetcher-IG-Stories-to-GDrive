@@ -29,7 +29,7 @@ import {loadSettings, dest, badgeFileIds, sheetNames} from './init';
  * Obtain the file IDs and store them in the "Settings" page of the bounded
  * Google Sheet file.
  */
-function createBadages() {
+export function createBadages() {
   loadSettings();
   // Get the sheet stored the settings of Instagram Stories Fetcher
   const spreadsheet = SpreadsheetApp.getActive();
