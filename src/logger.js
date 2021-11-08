@@ -1,4 +1,5 @@
 /**
+ * logger.js
  * Copyright (c) 2021
  *
  * This file contains the Google Apps Script to read/write logs in the Google
@@ -20,18 +21,20 @@
  * presented to users will reflect this limited scope.
  */
 
+import {sheetNames} from './init';
+
 let previousLogs;
 
 /**
  * Insert and record the date time, username, media URL and file type to be
  * downloaded to a new row at the start of the Google Sheet file that the
  * Apps Script is bounded to.
- * @param {string} datetime A date time in string format.
- * @param {string} username An Instagram username
- * @param {string} url A media URL
- * @param {string} filetype The extension of the media file
+ * @param {String} datetime A date time in string format.
+ * @param {String} username An Instagram username
+ * @param {String} url A media URL
+ * @param {String} filetype The extension of the media file
  */
-function insertNewLog(datetime, username, url, filetype) {
+export function insertNewLog(datetime, username, url, filetype) {
   // Get the sheet to store the log data.
   const spreadsheet = SpreadsheetApp.getActive();
   const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
@@ -47,13 +50,15 @@ function insertNewLog(datetime, username, url, filetype) {
  * Apps Script is bounded to, and temporarily store them to the global variable
  * called `previousLogs` in form of an Object[][].
  */
-function loadRecentLogs() {
+export function loadRecentLogs() {
   // Get the sheet that stores the log data.
   const spreadsheet = SpreadsheetApp.getActive();
   const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
   const lastRow = logsSheet.getLastRow();
   const twoDaysAgo = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
-  const firstOccurance = logsSheet.createTextFinder(twoDaysAgo.toLocaleDateString()).findNext();
+  const firstOccurance = logsSheet
+      .createTextFinder(twoDaysAgo.toLocaleDateString())
+      .findNext();
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
   // Get the data the log sheet and assign them to `previousLogs`.
   previousLogs =
@@ -62,9 +67,9 @@ function loadRecentLogs() {
 
 /**
  * Check whether a file is downloaded by looking up its identifier in log data.
- * @param {string} searchTerm The pattern to search for, e.g. a media URL.
+ * @param {String} searchTerm The pattern to search for, e.g. a media URL.
  * @return {boolean} Whether the search pattern is found in the log data.
  */
-function isDownloaded(searchTerm) {
+export function isDownloaded(searchTerm) {
   return previousLogs.flat().some((x) => x.includes(searchTerm));
 }

@@ -24,7 +24,7 @@ function getFilenameFromURL(url) {
   return null;
 }
 
-function uploadToDrive(url, folderid, filename) {
+export function uploadToDrive(url, folderid, filename) {
   let msg = '';
   let response;
 

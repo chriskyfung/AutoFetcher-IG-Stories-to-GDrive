@@ -1,4 +1,5 @@
 /**
+ * fetcher.js 
  * Copyright (c) 2018-2021
  *
  * This file contains the Google Apps Script to fetch and upload the media
@@ -11,21 +12,25 @@
  * Last modified  : 2021-09-12
  */
 
+import {loadSettings, dest, igParams, isDebug, isSettingsLoaded} from './init';
+import {insertNewLog, loadRecentLogs, isDownloaded} from './logger';
+import {uploadToDrive} from './url_to_drive';
+
 /**
  * Compose the URL and the query string to the Instagram's API endpoint.
- * @param {string} igUserID The ID of the target Instagram user to fetch.
+ * @param {String} igUserID The ID of the target Instagram user to fetch.
  * @return {string} The request URL.
  */
-function getQuery(igUserID) {
+export function getQuery(igUserID) {
   return `https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=${igUserID}`;
 }
 
 /**
  * Fetch data from the Instagram's API with a custom header.
- * @param {string} query The URL and the query string to the API endpoint.
+ * @param {String} query The URL and the query string to the API endpoint.
  * @return {Object} The content of an HTTP response encoded as a string.
  */
-function getInstagramData(query) {
+export function getInstagramData(query) {
   const params = {
     headers: {
       'accept': '*/*',
@@ -60,8 +65,26 @@ function getInstagramData(query) {
  */
 function parseDownloadUrl(data) {
   return data.reels_media[0]?.items.map((item) =>
-    (item.video_versions || item.image_versions2.candidates)[0].url
-    ) || [];
+    (item.video_versions || item.image_versions2.candidates)[0].url) || [];
+}
+
+/**
+ * Test getting the URLs of media files in the data retrieved from Instagram's
+ * API using getInstagramData() and parseDownloadUrl().
+ * @param {Object} targetIgUser - A JSON object contains the name and id of an
+ *  Instagram account, e.g. { "name": "john", "id": "1234567890" }.
+ * @return {number} The number of URLs obtained.
+ */
+export function tryGetStories(targetIgUser) {
+  if (!isSettingsLoaded) {
+    loadSettings();
+  }
+  const queryUrl = getQuery(targetIgUser.id);
+  const html = getInstagramData(queryUrl);
+
+  const urls = parseDownloadUrl(html, true);
+  console.log('Number of URL(s) from @' + targetIgUser.id + ': ' + urls.length);
+  return urls.length;
 }
 
 /**
@@ -76,7 +99,7 @@ function parseDownloadUrl(data) {
  *                        { "name": "john", "id": "1234567890" }.
  * @return {string} The log messages.
  */
-function fetch(target) {
+export function fetch(target) {
   // Execute loadSettings() if the settings has not been loaded yet.
   if (!isSettingsLoaded) {
     loadSettings();
@@ -105,7 +128,7 @@ function fetch(target) {
             currentDatatime.toLocaleString(), // Datatime string
             target.name, // IG username
             url, // Full URL
-            pathname.split('.').pop() // File extension
+            pathname.split('.').pop(), // File extension
         );
       }
     });

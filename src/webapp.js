@@ -1,4 +1,5 @@
 /**
+ * webapp.js
  * Copyright (c) 2018-2021
  *
  * This file contains the Google Apps Script for deploying a web app that
@@ -10,6 +11,8 @@
  * Created at     : 2018-01-29
  * Last modified  : 2021-11-02
  */
+
+import {fetch} from './fetcher';
 
 /**
  * Global variables
@@ -29,11 +32,14 @@ const AUTH_PASSWORD = PropertiesService
  *  an Instagram account.
  * @return {string} The log messages.
  */
-function doGet(e) {
+export function doGet(e) {
+  if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
+    console.error(
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties');
+  }
   let usr = '';
   let pwd = '';
   let target = '';
-
   // parse the username, password, and targeted Instagrm account information
   try {
     usr = e.parameter.usr.trim();
@@ -49,29 +55,36 @@ function doGet(e) {
   // password, target parameters.
   // Send the textual log or error message as the HTML response.
   let msg = '';
-  if (usr == AUTH_USERNAME && pwd == AUTH_PASSWORD && target != '') {
+  if (usr === AUTH_USERNAME && pwd === AUTH_PASSWORD && target != '') {
     msg = fetch(target);
-    msg = ContentService.createTextOutput(msg);
   } else {
-    msg = ContentService.createTextOutput(
-        'Invalid username and password or targetID!'
-    );
-    console.log(msg);
+    msg = 'Invalid username and password or targetID!';
+    console.warn(msg);
   }
+  ContentService.createTextOutput(msg);
   return msg;
 }
 
 /**
  * Test doGet() with targeting NASA instagram stories
  */
-function try_get() {
+export function try_get() {
+  if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
+    console.error(
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties');
+  }
+  const igUserSampleSet = [
+    {"name": "bbcnews", "id": "16278726"},
+    {"name": "cnn", "id": "217723373"},
+    {"name": "medium", "id": "1112881921"},
+    {"name": "nasa", "id": "52881715"}
+  ];
   const e = {
     parameter: {
       usr: AUTH_USERNAME,
       pwd: AUTH_PASSWORD,
-      target: {name: 'nasa', id: '528817151'},
-      // "target" : { "name": "medium", "id":"1112881921"}
+      target: igUserSampleSet[0],
     },
   };
-  doGet(e);
+  console.log(doGet(e));
 }

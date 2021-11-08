@@ -1,4 +1,5 @@
 /**
+ * init.js 
  * Copyright (c) 2021
  *
  * This file contains the Google Apps Script to initialize the Instagram
@@ -25,31 +26,31 @@
  */
 
 // The destination where the downloaded files will be stored.
-const dest = {
+export const dest = {
   folderId: null, // Google Drive Folder ID
   folderObj: null, // A DriveApp Folder class object.
 };
 // The file IDs associated to the project badge files
-const badgeFileIds = {
+export const badgeFileIds = {
   lastTestedDate: '',
   lastTestedStatus: '',
 };
 // Header params to access Instagram
-const igParams = {
+export const igParams = {
   X_IG_APP_ID: null,
   X_IG_WWW_CLAIM: null,
   COOKIE: null,
 };
 // User Perferences
-let errorReportEmail;
-const isDebug = false;
+export let errorReportEmail;
+export const isDebug = false;
 
-// Flags
-let isSettingsLoaded = false; // store whether loadSettings() has executed.
+// A flag to store whether loadSettings() has executed.
+export let isSettingsLoaded = false;
 
-const sheetNames = {
+export const sheetNames = {
   logs: 'Logs',
-  scheduler: 'Scheduler',
+  subscriptions: 'Subscriptions',
   settings: 'Settings',
 };
 
@@ -58,7 +59,7 @@ const sheetNames = {
  * that the Apps Script is bounded to, and assign them to the global variables:
  * - badgeFileIds.
  */
-function loadSettings() {
+export function loadSettings() {
   const spreadsheet = SpreadsheetApp.getActive();
   const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
   // Set values to the `dest` object.
@@ -68,7 +69,6 @@ function loadSettings() {
   } catch (err) {
     dest.folderObj = DriveApp.getRootFolder();
   }
-  console.info(dest.folderObj.getName());
   // Set values to the `badgeFileIds` object.
   badgeFileIds.lastTestedDate = settingsSheet
       .getRange('dateBadgeId')
