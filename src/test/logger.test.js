@@ -1,5 +1,6 @@
 
 /**
+ * logger.test.js
  * Copyright (c) 2021
  *
  * This file contains the tests of the functions in the ../src/logger.js file.
@@ -21,6 +22,8 @@
  * presented to users will reflect this limited scope.
  */
 
+import {insertNewLog, loadRecentLogs, isDownloaded} from '../logger';
+
 /**
  * A test function for the insertNewLog() function.
  */
@@ -30,7 +33,7 @@ function testInsertNewLog_() {
       currentDatatime.toLocaleString(),
       'bbcnews',
       'https://example.com/1234567890.mp4',
-      'mp4'
+      'mp4',
   );
 }
 
@@ -41,7 +44,7 @@ function testIsDownloaded_() {
   loadRecentLogs();
   console.log(
       isDownloaded(
-          'https://'
-      )
+          'https://',
+      ),
   );
 }

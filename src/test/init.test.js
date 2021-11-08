@@ -1,4 +1,5 @@
 /**
+ * init.test.js
  * Copyright (c) 2021
  *
  * This file contains the tests of the functions in the ../src/init.js file.
@@ -8,6 +9,8 @@
  * Created at     : 2021-11-01
  * Last modified  : 2021-11-02
  */
+
+import {loadSettings} from '../init';
 
 /**
  * A test function for the loadSettings() function.
