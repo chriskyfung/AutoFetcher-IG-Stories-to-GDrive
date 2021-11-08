@@ -77,11 +77,24 @@ export function loadSettings() {
       .getRange('statusBadgeId')
       .getDisplayValue();
   // Set values to the `igParams` object.
-  igParams.X_IG_APP_ID =
-    settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
-  igParams.X_IG_WWW_CLAIM =
-      settingsSheet.getRange('X_IG_WWW_CLAIM').getDisplayValue();
-  igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
+  try {
+    igParams.X_IG_APP_ID =
+      settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
+    if (igParams.X_IG_APP_ID == '') {
+      throw new Error('Missing x-ig-app-id')
+    };
+    igParams.X_IG_WWW_CLAIM =
+        settingsSheet.getRange('X_IG_WWW_CLAIM').getDisplayValue();
+    if (igParams.X_IG_WWW_CLAIM == '') {
+      throw new Error('Missing x-ig-www-claim')
+    };
+    igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
+    if (igParams.COOKIE == '') {
+      throw new Error('Missing cookie')
+    };
+  } catch (err) {
+    console.error(err);
+  }
   // Set the global variable for user preferences
   errorReportEmail =
       settingsSheet.getRange('errorReportEmail').getDisplayValue();
