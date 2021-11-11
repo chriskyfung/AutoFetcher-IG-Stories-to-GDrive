@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "google",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "camelcase": ["warn", {
+      "properties": "always"
+      }],
+    "max-len": ["warn", {
+      "ignoreTemplateLiterals": true
+      }]
+  }
+}

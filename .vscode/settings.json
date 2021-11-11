@@ -10,5 +10,9 @@
       "fileMatch": [".clasp.json"],
       "url": "http://json.schemastore.org/clasp"
     }
-  ]
+  ],
+  "markdownlint.config": {
+    "MD007": false,
+    "MD029": false
+  }
 }

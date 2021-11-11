@@ -2,7 +2,7 @@
   "name": "autofetcher-ig-stories-to-gdrive",
   "version": "0.19.0",
   "description": "A Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
-  "main": "gascript/code.gs",
+  "main": "src/main.js",
   "directories": {
     "doc": "docs"
   },
@@ -11,12 +11,17 @@
     "logout": "./node_modules/.bin/clasp logout",
     "pull": "./node_modules/.bin/clasp pull",
     "push": "./node_modules/.bin/clasp push",
+    "push:watch": "./node_modules/.bin/clasp push -w",
     "status": "./node_modules/.bin/clasp status",
     "open": "./node_modules/.bin/clasp open",
     "deployments": "./node_modules/.bin/clasp deployments",
     "versions": "./node_modules/.bin/clasp versions",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "logs": "./node_modules/.bin/clasp logs"
+    "logs": "./node_modules/.bin/clasp logs",
+    "lint": "npm run eslint && npm run prettier",
+    "eslint": "eslint --ext .js --fix .",
+    "prettier": "prettier **/*.js --write --ignore-path .eslintignore",
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -38,6 +43,21 @@
   },
   "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
   "devDependencies": {
-    "@google/clasp": "^2.4.1"
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@google/clasp": "^2.4.1",
+    "@rollup/plugin-multi-entry": "^4.1.0",
+    "@types/google-apps-script": "^1.0.38",
+    "babel-loader": "^8.2.3",
+    "eslint": "^8.1.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-googleappsscript": "^1.0.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
+    "rollup": "^2.59.0"
+  },
+  "dependencies": {
+    "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
   }
 }
