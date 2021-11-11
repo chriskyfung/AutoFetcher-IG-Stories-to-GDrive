@@ -11,7 +11,7 @@
  */
 
 import {errorReportEmail} from '../init';
-import {setTestDateBadge, setTestStatusBadge} from '../badge';
+import {setTestDateBadge, setHealthStatusBadge} from '../badge';
 import {tryGetStories, fetch} from '../fetcher';
 
 const igUserSampleSet = [
@@ -37,25 +37,18 @@ export function fetchTest(sampleIndex = 0) {
  * @return {boolean} True if any URLs were obtained, false otherwise.
  */
 export function test_pipeline() {
-  setTestDateBadge();
-  if (
-    igUserSampleSet.every((sample) => {
-      return tryGetStories(sample) === 0;
-    })
-  ) {
-    if (errorReportEmail != '') {
-      MailApp.sendEmail(
-          errorReportEmail,
-          'Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter',
-          'Get none urls from the test accounts.\n' +
-          'Please verify the service websites and check update on https://bit.ly/2zQLd6p.',
-      );
-    }
-    Logger.log('Failed to fetch data from the test accounts!!!');
-    setTestStatusBadge((status = 'failed'));
-    return false;
+  const healthy = igUserSampleSet.some((sample) => {
+    return tryGetStories(sample) >= 1;
+  })
+  if (!healthy && errorReportEmail != '') {
+    MailApp.sendEmail(
+        errorReportEmail,
+        'Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter',
+        'Get none urls from the test accounts.\n' +
+        'Please verify the service websites and check update on https://bit.ly/2zQLd6p.',
+    );
   }
-  Logger.log('Successfully fetch data from the test accounts!');
-  setTestStatusBadge((status = 'passed'));
-  return true;
+  setTestDateBadge();
+  setHealthStatusBadge(healthy);
+  return healthy;
 }

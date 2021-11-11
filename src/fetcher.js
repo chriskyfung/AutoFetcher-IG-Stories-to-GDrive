@@ -83,7 +83,7 @@ export function tryGetStories(targetIgUser) {
   const html = getInstagramData(queryUrl);
 
   const urls = parseDownloadUrl(html, true);
-  console.log('Number of URL(s) from @' + targetIgUser.id + ': ' + urls.length);
+  console.log('Number of downloadable media files from @' + targetIgUser.name + ': ' + urls.length);
   return urls.length;
 }
 
