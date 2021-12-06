@@ -34,15 +34,15 @@ let previousLogs;
  * @param {String} url A media URL
  * @param {String} filetype The extension of the media file
  */
-export function insertNewLog(datetime, username, url, filetype) {
+export function insertNewLog(datetime, username, url, filetype, filename) {
   // Get the sheet to store the log data.
   const spreadsheet = SpreadsheetApp.getActive();
   const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
   // Insert a blank row in a sheet below the header.
   logsSheet.insertRows(2);
   // Write the log data to the new row.
-  const secondRow = logsSheet.getRange(2, 1, 1, 4);
-  secondRow.setValues([[datetime, username, url, filetype]]);
+  const secondRow = logsSheet.getRange(2, 1, 1, 5);
+  secondRow.setValues([[datetime, username, url, filetype, filename]]);
 }
 
 /**

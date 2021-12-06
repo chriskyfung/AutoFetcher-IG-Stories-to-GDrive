@@ -5,6 +5,13 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 [![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
 ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
 
+✨ **NEW FEATURES RELEASED ON 2021-12-06** ✨
+
+- Save the filename of downloaded files in Column E on log sheet page.
+- Show the thumbnail preview and open the file on Drive by hovering and clicking on a hyperlinked filename.
+
+  ![Thumbnail preview shown while hovering a saved filename in Column E on log sheet page](/docs/images/hyperlink-to-drive-file_optimized.png)
+
 ## How to Use
 
 Starting from Build 2021.11.10, the Apps Script has been redesigned to work with a Google Sheet file as a user interface.

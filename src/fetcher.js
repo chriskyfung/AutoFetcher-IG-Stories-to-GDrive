@@ -129,6 +129,7 @@ export function fetch(target) {
             target.name, // IG username
             url, // Full URL
             pathname.split('.').pop(), // File extension
+            createViewFileFormula(pathname.split('/').pop(), dest.folderId),
         );
       }
     });
@@ -136,4 +137,19 @@ export function fetch(target) {
     msg += 'No media file available.\n';
   }
   return msg;
+}
+
+/**
+ * Compile a formula to allow clicking the filename to view the file from Drive
+ * @param {string} filename 
+ * @param {string} folderId 
+ * @return {string}
+ */
+function createViewFileFormula(filename, folderId) {
+  const folder = folderId ? DriveApp.getFolderById(folderId) : DriveApp.getRootFolder();
+  const files = folder.getFilesByName(filename);
+  while (files.hasNext()) {
+    const file = files.next();
+    return `=HYPERLINK("${file.getUrl()}", "${filename}")`;
+  }
 }
