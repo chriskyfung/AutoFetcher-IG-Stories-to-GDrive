@@ -12,6 +12,9 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 
   ![Thumbnail preview shown while hovering a saved filename in Column E on log sheet page](/docs/images/hyperlink-to-drive-file_optimized.png)
 
+- Delete multiple items and their corresponding files from Drive by selecting the checkboxes in Column F and then clicking on "Delete Selected" of log sheet page.
+
+  ![Delete selected items from spreadsheet](/docs/images/delete_selected_optimized.png)
 ## How to Use
 
 Starting from Build 2021.11.10, the Apps Script has been redesigned to work with a Google Sheet file as a user interface.

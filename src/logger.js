@@ -23,6 +23,9 @@
 
 import {sheetNames} from './init';
 
+const numOfColumns = 5;
+const columnFilename = 5;
+const columnSelected = numOfColumns + 1;
 let previousLogs;
 
 /**
@@ -32,17 +35,20 @@ let previousLogs;
  * @param {String} datetime A date time in string format.
  * @param {String} username An Instagram username
  * @param {String} url A media URL
- * @param {String} filetype The extension of the media file
+ * @param {String} filetype The extension of the downloaded file
+ * @param {String} filename The filename of the downloaded file
  */
 export function insertNewLog(datetime, username, url, filetype, filename) {
   // Get the sheet to store the log data.
-  const spreadsheet = SpreadsheetApp.getActive();
-  const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp
+    .getActive()
+    .getSheetByName(sheetNames['logs']);
   // Insert a blank row in a sheet below the header.
   logsSheet.insertRows(2);
   // Write the log data to the new row.
-  const secondRow = logsSheet.getRange(2, 1, 1, 5);
-  secondRow.setValues([[datetime, username, url, filetype, filename]]);
+  logsSheet.getRange(2, 1, 1, numOfColumns)
+    .setValues([[datetime, username, url, filetype, filename]]);
+  logsSheet.getRange(2, columnSelected).insertCheckboxes();
 }
 
 /**
@@ -52,8 +58,9 @@ export function insertNewLog(datetime, username, url, filetype, filename) {
  */
 export function loadRecentLogs() {
   // Get the sheet that stores the log data.
-  const spreadsheet = SpreadsheetApp.getActive();
-  const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp
+    .getActive()
+    .getSheetByName(sheetNames['logs']);
   const lastRow = logsSheet.getLastRow();
   const twoDaysAgo = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
   const firstOccurance = logsSheet
@@ -62,7 +69,7 @@ export function loadRecentLogs() {
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
   // Get the data the log sheet and assign them to `previousLogs`.
   previousLogs =
-      logsSheet.getRange(2, 1, toRow - 1, 4).getValues();
+      logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
 }
 
 /**
@@ -72,4 +79,41 @@ export function loadRecentLogs() {
  */
 export function isDownloaded(searchTerm) {
   return previousLogs.flat().some((x) => x.includes(searchTerm));
+}
+
+/**
+ * onEdit event handler
+ * @param {Object} e An event object
+ */
+export function deleteSelected() {
+  const logsSheet = SpreadsheetApp
+    .getActive()
+    .getSheetByName(sheetNames['logs']);
+  const lastRow = logsSheet.getLastRow();
+  const itemsToDelete = [];
+  for (let row = 2; row <= lastRow; row++) {
+    if (logsSheet.getRange(row, columnSelected).isChecked()) {
+      const formula = logsSheet.getRange(row, columnFilename).getFormula();
+      itemsToDelete.push(
+        {
+          row: row,
+          fileId: formula.split('https://drive.google.com/file/d/')
+            .pop()
+            .split('/view?')
+            .shift()
+        }
+      );
+    }
+  }
+  const msg = Browser.msgBox(
+    'Delete Seleted Items',
+    `Are you sure you want to delete these ${itemsToDelete.length} items and their files from your Drive?`,
+    Browser.Buttons.YES_NO
+  );
+  if (msg === 'yes') {
+    itemsToDelete.forEach((item, index) => {
+      DriveApp.getFileById(item.fileId).setTrashed(true);
+      logsSheet.deleteRow(item.row - index);
+    });
+  }
 }
