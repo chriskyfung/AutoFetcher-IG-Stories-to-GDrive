@@ -1,0 +1,79 @@
+remote_theme: chriskyfung/amp-affiliately-jekyll-theme
+repository: chriskyfung/AutoFetcher-IG-Stories-to-GDrive
+
+name: "Chris KY FUNG's Page"
+title: "AutoFetcher IG Stories to GDrive"
+description: "A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive."
+url: https://chriskyfung.github.io
+baseurl: '/AutoFetcher-IG-Stories-to-GDrive'
+favicon: 'assets/images/favicon_96x96.png'
+logo: 'assets/images/logo-plainSVG.svg'
+timezone: 'Asia/Hong_Kong'
+
+sidebar:
+  featured: false
+  recent_posts: false
+  ads: true
+  related_sites: true
+
+# AddThis Inline Share Buttons
+addthis: 
+  pid: ra-5d01c83d522ad580 # Addthis profile id
+  wid: 7kfz # Addthis widget id
+
+# Disqus Comments
+amp_disqus: 
+  shortname: 'chriskyfung' # Disqus shortname
+  url: 'https://chriskyfung.gitlab.io/disqus-amp/' #baseurl of your AMP disqus iframe element
+  height: 580
+
+# Google Custom Search Engine ID
+cse_id: 011006674894885990812:tjln7k0nyjx 
+
+# Analytics
+google_analytics: 'UA-72575541-9' # Google Analytics Tracking ID
+gtm: 'GTM-WQMQK3X' # Google Tag Manager ID
+
+# Google Ads
+adsense: 
+  client_id: 'ca-pub-4819282024314540' # Google Adsense client ID
+  ad_slot:
+    before_content: 2454411055 # Ad Slot that places before content
+    sidebar: 1391498756 # Ad Slot that places to sidebar
+
+# Soical Buttons
+facebook_id: chriskyfung
+pinterest_id: chriskyfung
+github_id : chriskyfung
+medium_id: chriskyfung
+
+# Buy Me a Coffee
+buymeacoffee: chriskyfung
+
+# Copyright Start Year
+copyright: 
+  prefix: 
+  ownership: Chris KY FUNG
+  link: https://chriskyfung.github.io/
+
+defaults:
+  - 
+    scope:
+      path: ""
+    values:
+      layout: "default"
+
+authors:
+  chris:
+    name: Chris KY Fung
+    display_name: Chris F.
+    gravatar: abd876486b2caa54b43bf64a5a86f620
+    email: 
+    web: https://en.gravatar.com/chrisfungky
+    facebook: https://www.facebook.com/chriskyfung/
+    description: "Author of this blog, M.Phil."
+
+plugins:
+  - github-pages
+  - jekyll-seo-tag
+
