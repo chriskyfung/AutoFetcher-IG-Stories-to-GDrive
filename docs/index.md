@@ -212,11 +212,11 @@ Now you can test your web app deployment by passing a URL with query strings lik
 - Save the filename of downloaded files in Column E on log sheet page.
 - Show the thumbnail preview and open the file on Drive by hovering and clicking on a hyperlinked filename.
 
-  ![Thumbnail preview shown while hovering a saved filename in Column E on log sheet page](/images/hyperlink-to-drive-file_optimized.png)
+   {% include picture.html source="raw" img="/images/hyperlink-to-drive-file_optimized.png" width="430" height="319" alt="Thumbnail preview shown while hovering a saved filename in Column E on log sheet page" %}
 
 - Delete multiple items and their corresponding files from Drive by selecting the checkboxes in Column F and then clicking on "Delete Selected" of log sheet page.
 
-  ![Delete selected items from spreadsheet](/images/delete_selected_optimized.png)
+  {% include picture.html source="raw" img="/images/delete_selected_optimized.png" width="260" height="188" alt="Delete selected items from spreadsheet" %}
 
 {:style="background:gold;margin-bottom:0;padding:1rem"}
 🚧 **AN IMPORTANT UPDATE ON 2021-09-12** 🚧
