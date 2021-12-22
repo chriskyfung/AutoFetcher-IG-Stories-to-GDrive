@@ -26,7 +26,7 @@ import {sheetNames} from './init';
 const numOfColumns = 5;
 const columnFilename = 5;
 const columnSelected = numOfColumns + 1;
-let previousLogs;
+let previousLogs = [];
 
 /**
  * Insert and record the date time, username, media URL and file type to be
@@ -62,14 +62,16 @@ export function loadRecentLogs() {
     .getActive()
     .getSheetByName(sheetNames['logs']);
   const lastRow = logsSheet.getLastRow();
-  const twoDaysAgo = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
-  const firstOccurance = logsSheet
-      .createTextFinder(twoDaysAgo.toLocaleDateString())
-      .findNext();
-  const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
-  // Get the data the log sheet and assign them to `previousLogs`.
-  previousLogs =
-      logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
+  if (lastRow >=2) {
+    const twoDaysAgo = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
+    const firstOccurance = logsSheet
+        .createTextFinder(twoDaysAgo.toLocaleDateString())
+        .findNext();
+    const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
+    // Get the data the log sheet and assign them to `previousLogs`.
+    previousLogs =
+        logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
+  }
 }
 
 /**
