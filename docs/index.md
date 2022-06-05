@@ -17,6 +17,7 @@ css:
         table ul { margin-top: 0; }
         tr:nth-child(odd) { backgroud-color: #e3edf3; }
         th, td { padding: .5em; vertical-align: top; }
+        .faq>li>:first-child { background-color:bisque; padding: 1rem 0 1rem 2rem; margin-left: -1.5rem; }
 image:
     path: /images/instagram-to-drive_730x365_o55.jpg
     height: 365
@@ -250,11 +251,16 @@ The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the d
 
 ## F.A.Q.
 
-{:style="background-color:bisque;padding-top:1rem;padding-bottom:1rem;"}
+{:.faq}
 1. Receiving an error message <span>'Exception: Request failed for https://i.instagram.com returned code 400.'</span>{:style="color:red;"}
 
    {:style="font-style:italic;"}
    It happens when your account has not been logged in via the Instagram website for a long time. Instagram will suspend your access token to prevent your account from being hacked. You can fix this issue by logging in again on <instagram.com> and verify your account.
+
+2. Receiving an error message <span>'Exception: Unexpected error while getting the method or property getFolderById on object DriveApp.'</span>{:style="color:red;"}
+
+   {:style="font-style:italic;"}
+   It happens if you put a incorrect `Folder ID` in the Settings.
 
 ## Get Help
 
