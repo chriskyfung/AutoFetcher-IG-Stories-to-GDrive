@@ -9,6 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
+ * Last updated at : 2022-06-07
  */
 
 /**
@@ -81,19 +82,19 @@ export function loadSettings() {
     igParams.X_IG_APP_ID =
       settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
     if (igParams.X_IG_APP_ID == '') {
-      throw new Error('Missing x-ig-app-id')
+      throw new Error('Missing x-ig-app-id in the Settings')
     };
     igParams.X_IG_WWW_CLAIM =
         settingsSheet.getRange('X_IG_WWW_CLAIM').getDisplayValue();
     if (igParams.X_IG_WWW_CLAIM == '') {
-      throw new Error('Missing x-ig-www-claim')
+      throw new Error('Missing x-ig-www-claim in the Settings')
     };
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {
-      throw new Error('Missing cookie')
+      throw new Error('Missing cookie in the Settings')
     };
   } catch (err) {
-    console.error(err);
+    throw err;
   }
   // Set the global variable for user preferences
   errorReportEmail =

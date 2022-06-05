@@ -18,6 +18,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
+ * Last updated at : 2022-06-07
  */
 
 /**
@@ -90,19 +91,19 @@ function loadSettings() {
     igParams.X_IG_APP_ID =
       settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
     if (igParams.X_IG_APP_ID == '') {
-      throw new Error('Missing x-ig-app-id')
+      throw new Error('Missing x-ig-app-id in the Settings')
     };
     igParams.X_IG_WWW_CLAIM =
         settingsSheet.getRange('X_IG_WWW_CLAIM').getDisplayValue();
     if (igParams.X_IG_WWW_CLAIM == '') {
-      throw new Error('Missing x-ig-www-claim')
+      throw new Error('Missing x-ig-www-claim in the Settings')
     };
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {
-      throw new Error('Missing cookie')
+      throw new Error('Missing cookie in the Settings')
     };
   } catch (err) {
-    console.error(err);
+    throw err;
   }
   // Set the global variable for user preferences
   exports.errorReportEmail =
@@ -121,7 +122,7 @@ function loadSettings() {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last modified  : 2021-12-02
+ * Last updated at : 2022-06-07
  */
 
 const numOfColumns = 5;
@@ -179,7 +180,7 @@ function loadRecentLogs() {
  * @return {boolean} Whether the search pattern is found in the log data.
  */
 function isDownloaded(searchTerm) {
-  return previousLogs.flat().some((x) => x.includes(searchTerm));
+  return previousLogs.flat().some((x) => Array.isArray(x) ? x.includes(searchTerm) : false);
 }
 
 /**

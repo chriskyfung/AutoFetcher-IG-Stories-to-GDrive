@@ -8,7 +8,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last modified  : 2021-12-02
+ * Last updated at : 2022-06-07
  */
 
 /**
@@ -78,7 +78,7 @@ export function loadRecentLogs() {
  * @return {boolean} Whether the search pattern is found in the log data.
  */
 export function isDownloaded(searchTerm) {
-  return previousLogs.flat().some((x) => x.includes(searchTerm));
+  return previousLogs.flat().some((x) => Array.isArray(x) ? x.includes(searchTerm) : false);
 }
 
 /**
