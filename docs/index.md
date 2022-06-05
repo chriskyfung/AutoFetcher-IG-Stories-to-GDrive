@@ -248,6 +248,14 @@ The version Build 2020.05.14 works again as storydownloader.net resumed their se
 {:style="background:lightyellow;padding:1rem"}
 The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
 
+## F.A.Q.
+
+{:style="background-color:bisque;padding-top:1rem;padding-bottom:1rem;"}
+1. Receiving an error message <span>'Exception: Request failed for https://i.instagram.com returned code 400.'</span>{:style="color:red;"}
+
+   {:style="font-style:italic;"}
+   It happens when your account has not been logged in via the Instagram website for a long time. Instagram will suspend your access token to prevent your account from being hacked. You can fix this issue by logging in again on <instagram.com> and verify your account.
+
 ## Get Help
 
 <i class="fas fa-comment-dots"></i> [Discussions]({{ site.github.repository_url }}/discussions) \| <i class="fas fa-bug"></i> [Bug Reporting]({{ site.github.issues_url }})
