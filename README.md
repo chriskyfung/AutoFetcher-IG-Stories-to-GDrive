@@ -5,17 +5,10 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 [![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
 ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
 
-✨ **NEW FEATURES RELEASED ON 2021-12-06** ✨
+🚧 **IMPORTANT UPDATE ON 2022-08-23** 🚧
 
-- Save the filename of downloaded files in Column E on log sheet page.
-- Show the thumbnail preview and open the file on Drive by hovering and clicking on a hyperlinked filename.
+The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.
 
-  ![Thumbnail preview shown while hovering a saved filename in Column E on log sheet page](/docs/images/hyperlink-to-drive-file_optimized.png)
-
-- Delete multiple items and their corresponding files from Drive by selecting the checkboxes in Column F and then clicking on "Delete Selected" of log sheet page.
-
-  ![Delete selected items from spreadsheet](/docs/images/delete_selected_optimized.png)
-  
 ## How to Use
 
 Starting from Build 2021.11.10, the Apps Script has been redesigned to work with a Google Sheet file as a user interface.
@@ -23,7 +16,7 @@ Starting from Build 2021.11.10, the Apps Script has been redesigned to work with
 Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
 
 <div style="padding-left: 1.5em">
-  <a href="https://docs.google.com/spreadsheets/d/1VucEhAUn-mq2Z38QrVGa9GdFrmHY4UCPMCi6mrWRnQI/copy">
+  <a href="https://docs.google.com/spreadsheets/d/1tCKvdaKAb2M77C9nu53XV4Y7bIRBHcuM-TK3oMPpyM0/copy">
     <img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" height="28" alt="">
   </a>
 </div>
@@ -56,6 +49,12 @@ Google Drive
 
 Instagram
 
+- x-asbd-id 🆕
+  : The value of `x-asbd-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+
+- x-csrftoken 🆕
+  : The value of `x-csrftoken` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+
 - x-ig-app-id
   : The value of `x-ig-app-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
 
@@ -80,7 +79,7 @@ Health Monitoring
   - Email To
     : The email address to receive an error message when the execution of `test_pipeline()` returns a "failed" status.
 
-### How to find the values of `x-ig-app-id`, `x-ig-www-claim`, and `cookie`
+### How to find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id`, `x-ig-www-claim`, and `cookie`
 
 1. Visit `www.instagram.com` and log in to your account using a desktop browser, such as Chrome or Firefox.
 2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
@@ -89,7 +88,7 @@ Health Monitoring
 5. While the stories are playing on the screen, new items named `?reel_ids=...` will be iteratively added to the list of request items.
 6. Click on one of the fetched items and explore its Headers.
 7. Scroll to the **Request Header** section, grab the value of your **cookie** as in the picture below. ![Find Instagram cookie using Chrome DevTools](/docs/images/find-your-instagram-cookie-with-devtools.png)
-8. Also, copy the values of `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
+8. Also, copy the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
 
 ## Set Up Subscriptions
 
@@ -183,6 +182,17 @@ Now you can test your web app deployment by passing a URL with query strings lik
 4. Do not use our script or shared library if you have any worries about any potential security issues with them.
 
 ## History
+
+✨ **NEW FEATURES RELEASED ON 2021-12-06** ✨
+
+- Save the filename of downloaded files in Column E on log sheet page.
+- Show the thumbnail preview and open the file on Drive by hovering and clicking on a hyperlinked filename.
+
+  ![Thumbnail preview shown while hovering a saved filename in Column E on log sheet page](/docs/images/hyperlink-to-drive-file_optimized.png)
+
+- Delete multiple items and their corresponding files from Drive by selecting the checkboxes in Column F and then clicking on "Delete Selected" of log sheet page.
+
+  ![Delete selected items from spreadsheet](/docs/images/delete_selected_optimized.png)
 
 🌟🚀 **MAJOR UPGRADE ON 2021-11-08** 🚀🌟
 

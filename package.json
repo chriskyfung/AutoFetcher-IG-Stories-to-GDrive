@@ -1,7 +1,7 @@
 {
   "name": "autofetcher-ig-stories-to-gdrive",
-  "version": "0.20.2",
-  "description": "A Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
+  "version": "4.0.0",
+  "description": "Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
   "main": "src/main.js",
   "directories": {
     "doc": "docs"

@@ -9,7 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-06-07
+ * Last updated at : 2022-08-23
  */
 
 /**
@@ -38,6 +38,8 @@ export const badgeFileIds = {
 };
 // Header params to access Instagram
 export const igParams = {
+  X_ASBD_ID: null,
+  X_CSRFTOKEN: null,
   X_IG_APP_ID: null,
   X_IG_WWW_CLAIM: null,
   COOKIE: null,
@@ -79,6 +81,16 @@ export function loadSettings() {
       .getDisplayValue();
   // Set values to the `igParams` object.
   try {
+    igParams.X_ASBD_ID =
+      settingsSheet.getRange('X_ASBD_ID').getDisplayValue();
+    if (igParams.X_ASBD_ID == '') {
+      throw new Error('Missing x-asbd-id in the Settings')
+    };
+    igParams.X_CSRFTOKEN =
+      settingsSheet.getRange('X_CSRFTOKEN').getDisplayValue();
+    if (igParams.X_CSRFTOKEN == '') {
+      throw new Error('Missing x-csrftoken in the Settings')
+    };
     igParams.X_IG_APP_ID =
       settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
     if (igParams.X_IG_APP_ID == '') {

@@ -43,7 +43,7 @@ Starting from Build 2021.11.10, the Apps Script has been redesigned to work with
 Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
 
 <div style="padding-left:1.5em;margin-bottom:1.5em">
-  <a href="https://docs.google.com/spreadsheets/d/1VucEhAUn-mq2Z38QrVGa9GdFrmHY4UCPMCi6mrWRnQI/copy">
+  <a href="https://docs.google.com/spreadsheets/d/1tCKvdaKAb2M77C9nu53XV4Y7bIRBHcuM-TK3oMPpyM0/copy">
     <amp-img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" width="288" height="56" layout="fixed" alt=""></amp-img>
   </a>
 </div>
@@ -76,6 +76,12 @@ You can use the Google Sheet file and bound our script to it in the following wa
 
 - Instagram
 
+   - x-asbd-id 🆕
+  : The value of `x-asbd-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+
+   - x-csrftoken 🆕
+   : The value of `x-csrftoken` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+
    - x-ig-app-id
    : The value of `x-ig-app-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
 
@@ -100,7 +106,7 @@ You can use the Google Sheet file and bound our script to it in the following wa
       - Email To
          : The email address to receive an error message when the execution of `test_pipeline()` returns a "failed" status.
 
-### How to find the values of `x-ig-app-id`, `x-ig-www-claim`, and `cookie`
+### How to find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id`, `x-ig-www-claim`, and `cookie`
 
 1. Visit `www.instagram.com` and log in to your account using a desktop browser, such as Chrome or Firefox.
 2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
@@ -112,7 +118,7 @@ You can use the Google Sheet file and bound our script to it in the following wa
 
    {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" %}
 
-8. Also, copy the values of `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
+8. Also, copy the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
 
 ## Set Up Subscriptions
 
@@ -206,6 +212,11 @@ Now you can test your web app deployment by passing a URL with query strings lik
 4. Do not use our script or shared library if you have any worries about any potential security issues with them.
 
 ## History
+
+{:style="background:gold;margin-bottom:0;padding:1rem"}
+🚧 **AN IMPORTANT UPDATE ON 2021-09-12** 🚧
+
+The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.
 
 {:style="background:skyblue;margin-bottom:0;padding:1rem"}
 ✨ **NEW FEATURES RELEASED ON 2021-12-06** ✨

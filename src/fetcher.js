@@ -9,7 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2021-09-12
+ * Last modified  : 2022-08-23
  */
 
 import {loadSettings, dest, igParams, isDebug, isSettingsLoaded} from './init';
@@ -38,9 +38,14 @@ export function getInstagramData(query) {
         `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
       'cache-control': 'no-cache',
       'pragma': 'no-cache',
+      'sec-ch-ua': '\"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"',
+      'sec-ch-ua-mobile': '?0',
+      'sec-ch-ua-platform': '\"Windows\"',
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-site',
+      'x-asbd-id': igParams.X_ASBD_ID,
+      'x-csrftoken': igParams.X_CSRFTOKEN,
       'x-ig-app-id': igParams.X_IG_APP_ID,
       'x-ig-www-claim': igParams.X_IG_WWW_CLAIM,
       'cookie': igParams.COOKIE,
@@ -51,11 +56,23 @@ export function getInstagramData(query) {
     method: 'GET',
     mode: 'cors',
   };
-  const response = UrlFetchApp.fetch(query, params).getContentText();
+  let response;
+  try {
+    response = UrlFetchApp.fetch(query, params).getContentText();
+  } catch (err) {
+    const errorMessage = err.message + ' (error code: 0xf1)';
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  };
   if (isDebug) {
     console.log(response);
-  }
-  return JSON.parse(response);
+  };
+  try {
+    return JSON.parse(response);
+  } catch (err) {
+    console.error('Failed to parse response (error code: 0xf2):\n' + response);
+    throw new Error('Failed to parse response (error code: 0xf2)');
+  };  
 }
 
 /**
