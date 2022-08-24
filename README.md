@@ -16,7 +16,7 @@ Starting from Build 2021.11.10, the Apps Script has been redesigned to work with
 Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
 
 <div style="padding-left: 1.5em">
-  <a href="https://docs.google.com/spreadsheets/d/1tCKvdaKAb2M77C9nu53XV4Y7bIRBHcuM-TK3oMPpyM0/copy">
+  <a href="https://docs.google.com/spreadsheets/d/1C3o6AkN2QzzITbKg_1Blzz8H9faVQQ6sHOzLxjWQ6P4/copy">
     <img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" height="28" alt="">
   </a>
 </div>
