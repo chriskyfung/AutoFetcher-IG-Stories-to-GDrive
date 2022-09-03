@@ -8,7 +8,7 @@ const IGSF = Object.create(null);
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
- * init.js 
+ * init.js
  * Copyright (c) 2021
  *
  * This file contains the Google Apps Script to initialize the Instagram
@@ -83,136 +83,48 @@ function loadSettings() {
   }
   // Set values to the `badgeFileIds` object.
   badgeFileIds.lastTestedDate = settingsSheet
-      .getRange('dateBadgeId')
-      .getDisplayValue();
+    .getRange('dateBadgeId')
+    .getDisplayValue();
   badgeFileIds.lastTestedStatus = settingsSheet
-      .getRange('statusBadgeId')
-      .getDisplayValue();
+    .getRange('statusBadgeId')
+    .getDisplayValue();
   // Set values to the `igParams` object.
   try {
-    igParams.X_ASBD_ID =
-      settingsSheet.getRange('X_ASBD_ID').getDisplayValue();
+    igParams.X_ASBD_ID = settingsSheet.getRange('X_ASBD_ID').getDisplayValue();
     if (igParams.X_ASBD_ID == '') {
-      throw new Error('Missing x-asbd-id in the Settings')
-    };
-    igParams.X_CSRFTOKEN =
-      settingsSheet.getRange('X_CSRFTOKEN').getDisplayValue();
+      throw new Error('Missing x-asbd-id in the Settings');
+    }
+    igParams.X_CSRFTOKEN = settingsSheet
+      .getRange('X_CSRFTOKEN')
+      .getDisplayValue();
     if (igParams.X_CSRFTOKEN == '') {
-      throw new Error('Missing x-csrftoken in the Settings')
-    };
-    igParams.X_IG_APP_ID =
-      settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
+      throw new Error('Missing x-csrftoken in the Settings');
+    }
+    igParams.X_IG_APP_ID = settingsSheet
+      .getRange('X_IG_APP_ID')
+      .getDisplayValue();
     if (igParams.X_IG_APP_ID == '') {
-      throw new Error('Missing x-ig-app-id in the Settings')
-    };
-    igParams.X_IG_WWW_CLAIM =
-        settingsSheet.getRange('X_IG_WWW_CLAIM').getDisplayValue();
+      throw new Error('Missing x-ig-app-id in the Settings');
+    }
+    igParams.X_IG_WWW_CLAIM = settingsSheet
+      .getRange('X_IG_WWW_CLAIM')
+      .getDisplayValue();
     if (igParams.X_IG_WWW_CLAIM == '') {
-      throw new Error('Missing x-ig-www-claim in the Settings')
-    };
+      throw new Error('Missing x-ig-www-claim in the Settings');
+    }
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {
-      throw new Error('Missing cookie in the Settings')
-    };
+      throw new Error('Missing cookie in the Settings');
+    }
   } catch (err) {
     throw err;
   }
   // Set the global variable for user preferences
-  exports.errorReportEmail =
-      settingsSheet.getRange('errorReportEmail').getDisplayValue();
+  exports.errorReportEmail = settingsSheet
+    .getRange('errorReportEmail')
+    .getDisplayValue();
   // Set the `isSettingsLoaded` flag to be true.
   exports.isSettingsLoaded = true;
-}
-
-/**
- * badge.js
- * Copyright (c) 2020-2021
- *
- * This file contains the code to create and update SVG badges,
- * such as "last-tested-date.svg" and a "last-tested-status.svg".
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2020-10-08
- * Last modified  : 2021-11-02
- */
-
-/**
- * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
- * in the destination folder of your Google Drive using DriveApp service.
- * Obtain the file IDs and store them in the "Settings" page of the bounded
- * Google Sheet file.
- */
-function createBadages() {
-  loadSettings();
-  // Get the sheet stored the settings of Instagram Stories Fetcher
-  const spreadsheet = SpreadsheetApp.getActive();
-  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
-  // Create blank SVG files in the destination folder, and store their file IDs
-  // in the global variable `badgeFileIds`.
-  badgeFileIds.lastTestedDate = dest.folderObj
-      .createFile('last-tested-date.svg', '', 'image/svg+xml')
-      .getId();
-  badgeFileIds.lastTestedStatus = dest.folderObj
-      .createFile('last-tested-status.svg', '', 'image/svg+xml')
-      .getId();
-  // Fill in the file IDs to the Google Sheet.
-  settingsSheet
-      .getRange('dateBadgeId')
-      .setValue(badgeFileIds.lastTestedDate);
-  settingsSheet
-      .getRange('statusBadgeId')
-      .setValue(badgeFileIds.lastTestedStatus);
-  // Fill the blank SVG files with default contents.
-  setTestDateBadge();
-  setHealthStatusBadge();
-}
-
-/**
- * Update the "last-tested-date.svg" file using DriveApp service.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setTestDateBadge() {
-  if (badgeFileIds.lastTestedDate != '') {
-    const formattedDate = Utilities.formatDate(
-        new Date(),
-        'GMT',
-        'MMM dd, YYYY',
-    );
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
-    return DriveApp.getFileByIdAndResourceKey(
-        badgeFileIds.lastTestedDate,
-        file.getResourceKey(),
-    ).setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`,
-    ).getDownloadUrl();
-  }
-  return null;
-}
-
-/**
- * Update the "last-tested-status.svg" file using DriveApp service.
- * @param {boolean} healthy The arguement to determine the badge color and the
- *                 text to display in the badge. Default value is 'failed'.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setHealthStatusBadge(healthy) {
-  if (badgeFileIds.lastTestedStatus != '') {
-    const [color, status] =
-        healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
-    return DriveApp.getFileByIdAndResourceKey(
-        badgeFileIds.lastTestedStatus,
-        file.getResourceKey(),
-    ).setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`,
-    ).setDescription(
-        `test-${healthy}`,
-    ).getDownloadUrl();
-  }
-  return null;
 }
 
 /**
@@ -245,13 +157,14 @@ let previousLogs;
  */
 function insertNewLog(datetime, username, url, filetype, filename) {
   // Get the sheet to store the log data.
-  const logsSheet = SpreadsheetApp
-    .getActive()
-    .getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
   // Insert a blank row in a sheet below the header.
   logsSheet.insertRows(2);
   // Write the log data to the new row.
-  logsSheet.getRange(2, 1, 1, numOfColumns)
+  logsSheet
+    .getRange(2, 1, 1, numOfColumns)
     .setValues([[datetime, username, url, filetype, filename]]);
   logsSheet.getRange(2, columnSelected).insertCheckboxes();
 }
@@ -263,18 +176,17 @@ function insertNewLog(datetime, username, url, filetype, filename) {
  */
 function loadRecentLogs() {
   // Get the sheet that stores the log data.
-  const logsSheet = SpreadsheetApp
-    .getActive()
-    .getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
   const lastRow = logsSheet.getLastRow();
-  const twoDaysAgo = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
+  const twoDaysAgo = new Date(new Date().getTime() - 48 * 60 * 60 * 1000);
   const firstOccurance = logsSheet
-      .createTextFinder(twoDaysAgo.toLocaleDateString())
-      .findNext();
+    .createTextFinder(twoDaysAgo.toLocaleDateString())
+    .findNext();
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
   // Get the data the log sheet and assign them to `previousLogs`.
-  previousLogs =
-      logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
+  previousLogs = logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
 }
 
 /**
@@ -283,7 +195,9 @@ function loadRecentLogs() {
  * @return {boolean} Whether the search pattern is found in the log data.
  */
 function isDownloaded(searchTerm) {
-  return previousLogs.flat().some((x) => Array.isArray(x) ? x.includes(searchTerm) : false);
+  return Array.isArray(previousLogs)
+    ? previousLogs.flat().some((x) => x.includes(searchTerm))
+    : false;
 }
 
 /**
@@ -291,23 +205,22 @@ function isDownloaded(searchTerm) {
  * @param {Object} e An event object
  */
 function deleteSelected() {
-  const logsSheet = SpreadsheetApp
-    .getActive()
-    .getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
   const lastRow = logsSheet.getLastRow();
   const itemsToDelete = [];
   for (let row = 2; row <= lastRow; row++) {
     if (logsSheet.getRange(row, columnSelected).isChecked()) {
       const formula = logsSheet.getRange(row, columnFilename).getFormula();
-      itemsToDelete.push(
-        {
-          row: row,
-          fileId: formula.split('https://drive.google.com/file/d/')
-            .pop()
-            .split('/view?')
-            .shift()
-        }
-      );
+      itemsToDelete.push({
+        row: row,
+        fileId: formula
+          .split('https://drive.google.com/file/d/')
+          .pop()
+          .split('/view?')
+          .shift(),
+      });
     }
   }
   const msg = Browser.msgBox(
@@ -321,6 +234,98 @@ function deleteSelected() {
       logsSheet.deleteRow(item.row - index);
     });
   }
+}
+
+/**
+ * badge.js
+ * Copyright (c) 2020-2021
+ *
+ * This file contains the code to create and update SVG badges,
+ * such as "last-tested-date.svg" and a "last-tested-status.svg".
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2020-10-08
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
+ * in the destination folder of your Google Drive using DriveApp service.
+ * Obtain the file IDs and store them in the "Settings" page of the bounded
+ * Google Sheet file.
+ */
+function createBadages() {
+  loadSettings();
+  // Get the sheet stored the settings of Instagram Stories Fetcher
+  const spreadsheet = SpreadsheetApp.getActive();
+  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
+  // Create blank SVG files in the destination folder, and store their file IDs
+  // in the global variable `badgeFileIds`.
+  badgeFileIds.lastTestedDate = dest.folderObj
+    .createFile('last-tested-date.svg', '', 'image/svg+xml')
+    .getId();
+  badgeFileIds.lastTestedStatus = dest.folderObj
+    .createFile('last-tested-status.svg', '', 'image/svg+xml')
+    .getId();
+  // Fill in the file IDs to the Google Sheet.
+  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
+  settingsSheet
+    .getRange('statusBadgeId')
+    .setValue(badgeFileIds.lastTestedStatus);
+  // Fill the blank SVG files with default contents.
+  setTestDateBadge();
+  setHealthStatusBadge();
+}
+
+/**
+ * Update the "last-tested-date.svg" file using DriveApp service.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setTestDateBadge() {
+  if (badgeFileIds.lastTestedDate != '') {
+    const formattedDate = Utilities.formatDate(
+      new Date(),
+      'GMT',
+      'MMM dd, YYYY'
+    );
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedDate,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
+      )
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
+ * Update the "last-tested-status.svg" file using DriveApp service.
+ * @param {boolean} healthy The arguement to determine the badge color and the
+ *                 text to display in the badge. Default value is 'failed'.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setHealthStatusBadge(healthy) {
+  if (badgeFileIds.lastTestedStatus != '') {
+    const [color, status] =
+      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedStatus,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
+      )
+      .setDescription(`test-${healthy}`)
+      .getDownloadUrl();
+  }
+  return null;
 }
 
 // url_to_drive.gs
@@ -423,7 +428,7 @@ function uploadToDrive(url, folderid, filename) {
 }
 
 /**
- * fetcher.js 
+ * fetcher.js
  * Copyright (c) 2018-2021
  *
  * This file contains the Google Apps Script to fetch and upload the media
@@ -453,14 +458,14 @@ function getQuery(igUserID) {
 function getInstagramData(query) {
   const params = {
     headers: {
-      'accept': '*/*',
-      'accept-language':
-        `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
+      accept: '*/*',
+      'accept-language': `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
       'cache-control': 'no-cache',
-      'pragma': 'no-cache',
-      'sec-ch-ua': '\"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"',
+      pragma: 'no-cache',
+      'sec-ch-ua':
+        '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
       'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '\"Windows\"',
+      'sec-ch-ua-platform': '"Windows"',
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-site',
@@ -468,7 +473,7 @@ function getInstagramData(query) {
       'x-csrftoken': igParams.X_CSRFTOKEN,
       'x-ig-app-id': igParams.X_IG_APP_ID,
       'x-ig-www-claim': igParams.X_IG_WWW_CLAIM,
-      'cookie': igParams.COOKIE,
+      cookie: igParams.COOKIE,
     },
     referrer: 'https://www.instagram.com/',
     referrerPolicy: 'strict-origin-when-cross-origin',
@@ -483,12 +488,14 @@ function getInstagramData(query) {
     const errorMessage = err.message + ' (error code: 0xf1)';
     console.error(errorMessage);
     throw new Error(errorMessage);
-  }  try {
+  }
+  try {
     return JSON.parse(response);
   } catch (err) {
     console.error('Failed to parse response (error code: 0xf2):\n' + response);
     throw new Error('Failed to parse response (error code: 0xf2)');
-  }}
+  }
+}
 
 /**
  * Resolve the URLs of downloadable media files from a textual HTTP response.
@@ -496,8 +503,11 @@ function getInstagramData(query) {
  * @return {string[]} The URLs of downloadable media files.
  */
 function parseDownloadUrl(data) {
-  return data.reels_media[0]?.items.map((item) =>
-    (item.video_versions || item.image_versions2.candidates)[0].url) || [];
+  return (
+    data.reels_media[0]?.items.map(
+      (item) => (item.video_versions || item.image_versions2.candidates)[0].url
+    ) || []
+  );
 }
 
 /**
@@ -515,7 +525,12 @@ function tryGetStories(targetIgUser) {
   const html = getInstagramData(queryUrl);
 
   const urls = parseDownloadUrl(html);
-  console.log('Number of downloadable media files from @' + targetIgUser.name + ': ' + urls.length);
+  console.log(
+    'Number of downloadable media files from @' +
+      targetIgUser.name +
+      ': ' +
+      urls.length
+  );
   return urls.length;
 }
 
@@ -557,11 +572,11 @@ function fetch(target) {
         msg += uploadToDrive(url, dest.folderId, '');
         const currentDatatime = new Date();
         insertNewLog(
-            currentDatatime.toLocaleString(), // Datatime string
-            target.name, // IG username
-            url, // Full URL
-            pathname.split('.').pop(), // File extension
-            createViewFileFormula(pathname.split('/').pop(), dest.folderId),
+          currentDatatime.toLocaleString(), // Datatime string
+          target.name, // IG username
+          url, // Full URL
+          pathname.split('.').pop(), // File extension
+          createViewFileFormula(pathname.split('/').pop(), dest.folderId)
         );
       }
     });
@@ -573,17 +588,51 @@ function fetch(target) {
 
 /**
  * Compile a formula to allow clicking the filename to view the file from Drive
- * @param {string} filename 
- * @param {string} folderId 
+ * @param {string} filename
+ * @param {string} folderId
  * @return {string}
  */
 function createViewFileFormula(filename, folderId) {
-  const folder = folderId ? DriveApp.getFolderById(folderId) : DriveApp.getRootFolder();
+  const folder = folderId
+    ? DriveApp.getFolderById(folderId)
+    : DriveApp.getRootFolder();
   const files = folder.getFilesByName(filename);
   while (files.hasNext()) {
     const file = files.next();
     return `=HYPERLINK("${file.getUrl()}", "${filename}")`;
   }
+}
+
+/**
+ * subscriber.js
+ * Copyright (c) 2021
+ *
+ * This file contains the Google Apps Script to read/write logs in the Google
+ * Sheet that the Apps Script is bounded to.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2021-11-02
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Get the listing from the Google Sheet that the Apps Script is bounded to,
+ * and then fetch Instagram Stories for each item.
+ */
+function batchFetch() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const subscriptionsSheet = spreadsheet.getSheetByName(
+    sheetNames['subscriptions']
+  );
+  const data = subscriptionsSheet
+    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
+    .getValues();
+  data.forEach((row) => {
+    console.log(`fetching ${row[0]}...`);
+    const msg = fetch({ id: row[1], name: row[0] });
+    console.log(msg);
+  });
 }
 
 /**
@@ -604,12 +653,10 @@ function createViewFileFormula(filename, folderId) {
  * Global variables
  */
 
-const AUTH_USERNAME = PropertiesService
-    .getUserProperties()
-    .getProperty('AUTH_USERNAME');
-const AUTH_PASSWORD = PropertiesService
-    .getUserProperties()
-    .getProperty('AUTH_PASSWORD');
+const AUTH_USERNAME =
+  PropertiesService.getUserProperties().getProperty('AUTH_USERNAME');
+const AUTH_PASSWORD =
+  PropertiesService.getUserProperties().getProperty('AUTH_PASSWORD');
 
 /**
  * Handle all HTTP GET requests made to the web app URL.
@@ -621,7 +668,8 @@ const AUTH_PASSWORD = PropertiesService
 function doGet(e) {
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
-      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties');
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
+    );
   }
   let usr = '';
   let pwd = '';
@@ -631,9 +679,9 @@ function doGet(e) {
     usr = e.parameter.usr.trim();
     pwd = e.parameter.pwd.trim();
     target =
-      typeof e.parameter.target === 'string' ?
-        JSON.parse(e.parameter.target) :
-        e.parameter.target;
+      typeof e.parameter.target === 'string'
+        ? JSON.parse(e.parameter.target)
+        : e.parameter.target;
   } catch (err) {
     console.error(err);
   }
@@ -657,13 +705,14 @@ function doGet(e) {
 function try_get() {
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
-      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties');
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
+    );
   }
   const igUserSampleSet = [
-    {"name": "bbcnews", "id": "16278726"},
-    {"name": "cnn", "id": "217723373"},
-    {"name": "medium", "id": "1112881921"},
-    {"name": "nasa", "id": "52881715"}
+    { name: 'bbcnews', id: '16278726' },
+    { name: 'cnn', id: '217723373' },
+    { name: 'medium', id: '1112881921' },
+    { name: 'nasa', id: '52881715' },
   ];
   const e = {
     parameter: {
@@ -673,36 +722,6 @@ function try_get() {
     },
   };
   console.log(doGet(e));
-}
-
-/**
- * subscriber.js
- * Copyright (c) 2021
- *
- * This file contains the Google Apps Script to read/write logs in the Google
- * Sheet that the Apps Script is bounded to.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2021-11-02
- * Last modified  : 2021-11-02
- */
-
-/**
- * Get the listing from the Google Sheet that the Apps Script is bounded to,
- * and then fetch Instagram Stories for each item.
- */
-function batchFetch() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  const subscriptionsSheet = spreadsheet.getSheetByName(sheetNames['subscriptions']);
-  const data = subscriptionsSheet
-      .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3 )
-      .getValues();
-  data.forEach((row) => {
-    console.log(`fetching ${row[0]}...`);
-    const msg = fetch({id: row[1], name: row[0]});
-    console.log(msg);
-  });
 }
 
 /**
