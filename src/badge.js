@@ -21,7 +21,7 @@
  * presented to users will reflect this limited scope.
  */
 
-import {loadSettings, dest, badgeFileIds, sheetNames} from './init';
+import { loadSettings, dest, badgeFileIds, sheetNames } from './init';
 
 /**
  * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
@@ -37,18 +37,16 @@ export function createBadages() {
   // Create blank SVG files in the destination folder, and store their file IDs
   // in the global variable `badgeFileIds`.
   badgeFileIds.lastTestedDate = dest.folderObj
-      .createFile('last-tested-date.svg', '', 'image/svg+xml')
-      .getId();
+    .createFile('last-tested-date.svg', '', 'image/svg+xml')
+    .getId();
   badgeFileIds.lastTestedStatus = dest.folderObj
-      .createFile('last-tested-status.svg', '', 'image/svg+xml')
-      .getId();
+    .createFile('last-tested-status.svg', '', 'image/svg+xml')
+    .getId();
   // Fill in the file IDs to the Google Sheet.
+  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
   settingsSheet
-      .getRange('dateBadgeId')
-      .setValue(badgeFileIds.lastTestedDate);
-  settingsSheet
-      .getRange('statusBadgeId')
-      .setValue(badgeFileIds.lastTestedStatus);
+    .getRange('statusBadgeId')
+    .setValue(badgeFileIds.lastTestedStatus);
   // Fill the blank SVG files with default contents.
   setTestDateBadge();
   setHealthStatusBadge();
@@ -62,17 +60,19 @@ export function createBadages() {
 export function setTestDateBadge() {
   if (badgeFileIds.lastTestedDate != '') {
     const formattedDate = Utilities.formatDate(
-        new Date(),
-        'GMT',
-        'MMM dd, YYYY',
+      new Date(),
+      'GMT',
+      'MMM dd, YYYY'
     );
     const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
     return DriveApp.getFileByIdAndResourceKey(
-        badgeFileIds.lastTestedDate,
-        file.getResourceKey(),
-    ).setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`,
-    ).getDownloadUrl();
+      badgeFileIds.lastTestedDate,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
+      )
+      .getDownloadUrl();
   }
   return null;
 }
@@ -87,16 +87,17 @@ export function setTestDateBadge() {
 export function setHealthStatusBadge(healthy) {
   if (badgeFileIds.lastTestedStatus != '') {
     const [color, status] =
-        healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
+      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
     const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
     return DriveApp.getFileByIdAndResourceKey(
-        badgeFileIds.lastTestedStatus,
-        file.getResourceKey(),
-    ).setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`,
-    ).setDescription(
-        `test-${healthy}`,
-    ).getDownloadUrl();
+      badgeFileIds.lastTestedStatus,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
+      )
+      .setDescription(`test-${healthy}`)
+      .getDownloadUrl();
   }
   return null;
 }

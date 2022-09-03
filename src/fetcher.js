@@ -1,5 +1,5 @@
 /**
- * fetcher.js 
+ * fetcher.js
  * Copyright (c) 2018-2021
  *
  * This file contains the Google Apps Script to fetch and upload the media
@@ -12,9 +12,15 @@
  * Last modified  : 2022-08-23
  */
 
-import {loadSettings, dest, igParams, isDebug, isSettingsLoaded} from './init';
-import {insertNewLog, loadRecentLogs, isDownloaded} from './logger';
-import {uploadToDrive} from './url_to_drive';
+import {
+  loadSettings,
+  dest,
+  igParams,
+  isDebug,
+  isSettingsLoaded,
+} from './init';
+import { insertNewLog, loadRecentLogs, isDownloaded } from './logger';
+import { uploadToDrive } from './url_to_drive';
 
 /**
  * Compose the URL and the query string to the Instagram's API endpoint.
@@ -33,14 +39,14 @@ export function getQuery(igUserID) {
 export function getInstagramData(query) {
   const params = {
     headers: {
-      'accept': '*/*',
-      'accept-language':
-        `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
+      accept: '*/*',
+      'accept-language': `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
       'cache-control': 'no-cache',
-      'pragma': 'no-cache',
-      'sec-ch-ua': '\"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"',
+      pragma: 'no-cache',
+      'sec-ch-ua':
+        '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
       'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '\"Windows\"',
+      'sec-ch-ua-platform': '"Windows"',
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-site',
@@ -48,7 +54,7 @@ export function getInstagramData(query) {
       'x-csrftoken': igParams.X_CSRFTOKEN,
       'x-ig-app-id': igParams.X_IG_APP_ID,
       'x-ig-www-claim': igParams.X_IG_WWW_CLAIM,
-      'cookie': igParams.COOKIE,
+      cookie: igParams.COOKIE,
     },
     referrer: 'https://www.instagram.com/',
     referrerPolicy: 'strict-origin-when-cross-origin',
@@ -63,16 +69,16 @@ export function getInstagramData(query) {
     const errorMessage = err.message + ' (error code: 0xf1)';
     console.error(errorMessage);
     throw new Error(errorMessage);
-  };
+  }
   if (isDebug) {
     console.log(response);
-  };
+  }
   try {
     return JSON.parse(response);
   } catch (err) {
     console.error('Failed to parse response (error code: 0xf2):\n' + response);
     throw new Error('Failed to parse response (error code: 0xf2)');
-  };  
+  }
 }
 
 /**
@@ -81,8 +87,11 @@ export function getInstagramData(query) {
  * @return {string[]} The URLs of downloadable media files.
  */
 function parseDownloadUrl(data) {
-  return data.reels_media[0]?.items.map((item) =>
-    (item.video_versions || item.image_versions2.candidates)[0].url) || [];
+  return (
+    data.reels_media[0]?.items.map(
+      (item) => (item.video_versions || item.image_versions2.candidates)[0].url
+    ) || []
+  );
 }
 
 /**
@@ -100,7 +109,12 @@ export function tryGetStories(targetIgUser) {
   const html = getInstagramData(queryUrl);
 
   const urls = parseDownloadUrl(html, true);
-  console.log('Number of downloadable media files from @' + targetIgUser.name + ': ' + urls.length);
+  console.log(
+    'Number of downloadable media files from @' +
+      targetIgUser.name +
+      ': ' +
+      urls.length
+  );
   return urls.length;
 }
 
@@ -142,11 +156,11 @@ export function fetch(target) {
         msg += uploadToDrive(url, dest.folderId, '');
         const currentDatatime = new Date();
         insertNewLog(
-            currentDatatime.toLocaleString(), // Datatime string
-            target.name, // IG username
-            url, // Full URL
-            pathname.split('.').pop(), // File extension
-            createViewFileFormula(pathname.split('/').pop(), dest.folderId),
+          currentDatatime.toLocaleString(), // Datatime string
+          target.name, // IG username
+          url, // Full URL
+          pathname.split('.').pop(), // File extension
+          createViewFileFormula(pathname.split('/').pop(), dest.folderId)
         );
       }
     });
@@ -158,12 +172,14 @@ export function fetch(target) {
 
 /**
  * Compile a formula to allow clicking the filename to view the file from Drive
- * @param {string} filename 
- * @param {string} folderId 
+ * @param {string} filename
+ * @param {string} folderId
  * @return {string}
  */
 function createViewFileFormula(filename, folderId) {
-  const folder = folderId ? DriveApp.getFolderById(folderId) : DriveApp.getRootFolder();
+  const folder = folderId
+    ? DriveApp.getFolderById(folderId)
+    : DriveApp.getRootFolder();
   const files = folder.getFilesByName(filename);
   while (files.hasNext()) {
     const file = files.next();

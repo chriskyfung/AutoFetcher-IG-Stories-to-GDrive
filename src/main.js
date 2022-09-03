@@ -7,4 +7,4 @@ import './fetcher';
 import './webapp';
 import './subscriber';
 import './badge';
-import './test/fetcher.test'
+import './test/fetcher.test';
