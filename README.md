@@ -5,6 +5,12 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 [![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
 ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
 
+🚧 **NEW RELEASE ON 2022-09-04** 🚧
+
+Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
+
+Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V5.
+
 🚧 **IMPORTANT UPDATE ON 2022-08-23** 🚧
 
 The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.

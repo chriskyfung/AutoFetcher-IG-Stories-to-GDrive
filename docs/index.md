@@ -213,9 +213,17 @@ Now you can test your web app deployment by passing a URL with query strings lik
 
 ## History
 
+{:style="background:limegreen;margin-bottom:0;padding:1rem"}
+🚧 **NEW RELEASE ON 2022-09-04** 🚧
+
+Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
+
+Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V5.
+
 {:style="background:gold;margin-bottom:0;padding:1rem"}
 🚧 **AN IMPORTANT UPDATE ON 2021-09-12** 🚧
 
+{:style="background:lightyellow;padding:1rem"}
 The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.
 
 {:style="background:skyblue;margin-bottom:0;padding:1rem"}
