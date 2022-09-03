@@ -12,18 +12,16 @@
  * Last modified  : 2021-11-02
  */
 
-import {fetch} from './fetcher';
+import { fetch } from './fetcher';
 
 /**
  * Global variables
  */
 
-const AUTH_USERNAME = PropertiesService
-    .getUserProperties()
-    .getProperty('AUTH_USERNAME');
-const AUTH_PASSWORD = PropertiesService
-    .getUserProperties()
-    .getProperty('AUTH_PASSWORD');
+const AUTH_USERNAME =
+  PropertiesService.getUserProperties().getProperty('AUTH_USERNAME');
+const AUTH_PASSWORD =
+  PropertiesService.getUserProperties().getProperty('AUTH_PASSWORD');
 
 /**
  * Handle all HTTP GET requests made to the web app URL.
@@ -35,7 +33,8 @@ const AUTH_PASSWORD = PropertiesService
 export function doGet(e) {
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
-      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties');
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
+    );
   }
   let usr = '';
   let pwd = '';
@@ -45,9 +44,9 @@ export function doGet(e) {
     usr = e.parameter.usr.trim();
     pwd = e.parameter.pwd.trim();
     target =
-      typeof e.parameter.target === 'string' ?
-        JSON.parse(e.parameter.target) :
-        e.parameter.target;
+      typeof e.parameter.target === 'string'
+        ? JSON.parse(e.parameter.target)
+        : e.parameter.target;
   } catch (err) {
     console.error(err);
   }
@@ -71,13 +70,14 @@ export function doGet(e) {
 export function try_get() {
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
-      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties');
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
+    );
   }
   const igUserSampleSet = [
-    {"name": "bbcnews", "id": "16278726"},
-    {"name": "cnn", "id": "217723373"},
-    {"name": "medium", "id": "1112881921"},
-    {"name": "nasa", "id": "52881715"}
+    { name: 'bbcnews', id: '16278726' },
+    { name: 'cnn', id: '217723373' },
+    { name: 'medium', id: '1112881921' },
+    { name: 'nasa', id: '52881715' },
   ];
   const e = {
     parameter: {

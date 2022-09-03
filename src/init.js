@@ -1,5 +1,5 @@
 /**
- * init.js 
+ * init.js
  * Copyright (c) 2021
  *
  * This file contains the Google Apps Script to initialize the Instagram
@@ -74,43 +74,46 @@ export function loadSettings() {
   }
   // Set values to the `badgeFileIds` object.
   badgeFileIds.lastTestedDate = settingsSheet
-      .getRange('dateBadgeId')
-      .getDisplayValue();
+    .getRange('dateBadgeId')
+    .getDisplayValue();
   badgeFileIds.lastTestedStatus = settingsSheet
-      .getRange('statusBadgeId')
-      .getDisplayValue();
+    .getRange('statusBadgeId')
+    .getDisplayValue();
   // Set values to the `igParams` object.
   try {
-    igParams.X_ASBD_ID =
-      settingsSheet.getRange('X_ASBD_ID').getDisplayValue();
+    igParams.X_ASBD_ID = settingsSheet.getRange('X_ASBD_ID').getDisplayValue();
     if (igParams.X_ASBD_ID == '') {
-      throw new Error('Missing x-asbd-id in the Settings')
-    };
-    igParams.X_CSRFTOKEN =
-      settingsSheet.getRange('X_CSRFTOKEN').getDisplayValue();
+      throw new Error('Missing x-asbd-id in the Settings');
+    }
+    igParams.X_CSRFTOKEN = settingsSheet
+      .getRange('X_CSRFTOKEN')
+      .getDisplayValue();
     if (igParams.X_CSRFTOKEN == '') {
-      throw new Error('Missing x-csrftoken in the Settings')
-    };
-    igParams.X_IG_APP_ID =
-      settingsSheet.getRange('X_IG_APP_ID').getDisplayValue();
+      throw new Error('Missing x-csrftoken in the Settings');
+    }
+    igParams.X_IG_APP_ID = settingsSheet
+      .getRange('X_IG_APP_ID')
+      .getDisplayValue();
     if (igParams.X_IG_APP_ID == '') {
-      throw new Error('Missing x-ig-app-id in the Settings')
-    };
-    igParams.X_IG_WWW_CLAIM =
-        settingsSheet.getRange('X_IG_WWW_CLAIM').getDisplayValue();
+      throw new Error('Missing x-ig-app-id in the Settings');
+    }
+    igParams.X_IG_WWW_CLAIM = settingsSheet
+      .getRange('X_IG_WWW_CLAIM')
+      .getDisplayValue();
     if (igParams.X_IG_WWW_CLAIM == '') {
-      throw new Error('Missing x-ig-www-claim in the Settings')
-    };
+      throw new Error('Missing x-ig-www-claim in the Settings');
+    }
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {
-      throw new Error('Missing cookie in the Settings')
-    };
+      throw new Error('Missing cookie in the Settings');
+    }
   } catch (err) {
     throw err;
   }
   // Set the global variable for user preferences
-  errorReportEmail =
-      settingsSheet.getRange('errorReportEmail').getDisplayValue();
+  errorReportEmail = settingsSheet
+    .getRange('errorReportEmail')
+    .getDisplayValue();
   // Set the `isSettingsLoaded` flag to be true.
   isSettingsLoaded = true;
 }

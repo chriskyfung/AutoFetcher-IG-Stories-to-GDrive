@@ -11,8 +11,8 @@
  * Last modified  : 2021-11-02
  */
 
-import {sheetNames} from './init';
-import {fetch} from './fetcher';
+import { sheetNames } from './init';
+import { fetch } from './fetcher';
 
 /**
  * Get the listing from the Google Sheet that the Apps Script is bounded to,
@@ -20,13 +20,15 @@ import {fetch} from './fetcher';
  */
 export function batchFetch() {
   const spreadsheet = SpreadsheetApp.getActive();
-  const subscriptionsSheet = spreadsheet.getSheetByName(sheetNames['subscriptions']);
+  const subscriptionsSheet = spreadsheet.getSheetByName(
+    sheetNames['subscriptions']
+  );
   const data = subscriptionsSheet
-      .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3 )
-      .getValues();
+    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
+    .getValues();
   data.forEach((row) => {
     console.log(`fetching ${row[0]}...`);
-    const msg = fetch({id: row[1], name: row[0]});
+    const msg = fetch({ id: row[1], name: row[0] });
     console.log(msg);
   });
 }
