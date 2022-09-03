@@ -21,7 +21,7 @@
  * presented to users will reflect this limited scope.
  */
 
-import {sheetNames} from './init';
+import { sheetNames } from './init';
 
 const numOfColumns = 5;
 const columnFilename = 5;
@@ -40,13 +40,14 @@ let previousLogs;
  */
 export function insertNewLog(datetime, username, url, filetype, filename) {
   // Get the sheet to store the log data.
-  const logsSheet = SpreadsheetApp
-    .getActive()
-    .getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
   // Insert a blank row in a sheet below the header.
   logsSheet.insertRows(2);
   // Write the log data to the new row.
-  logsSheet.getRange(2, 1, 1, numOfColumns)
+  logsSheet
+    .getRange(2, 1, 1, numOfColumns)
     .setValues([[datetime, username, url, filetype, filename]]);
   logsSheet.getRange(2, columnSelected).insertCheckboxes();
 }
@@ -58,18 +59,17 @@ export function insertNewLog(datetime, username, url, filetype, filename) {
  */
 export function loadRecentLogs() {
   // Get the sheet that stores the log data.
-  const logsSheet = SpreadsheetApp
-    .getActive()
-    .getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
   const lastRow = logsSheet.getLastRow();
-  const twoDaysAgo = new Date(new Date().getTime() - (48 * 60 * 60 * 1000));
+  const twoDaysAgo = new Date(new Date().getTime() - 48 * 60 * 60 * 1000);
   const firstOccurance = logsSheet
-      .createTextFinder(twoDaysAgo.toLocaleDateString())
-      .findNext();
+    .createTextFinder(twoDaysAgo.toLocaleDateString())
+    .findNext();
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
   // Get the data the log sheet and assign them to `previousLogs`.
-  previousLogs =
-      logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
+  previousLogs = logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
 }
 
 /**
@@ -78,7 +78,9 @@ export function loadRecentLogs() {
  * @return {boolean} Whether the search pattern is found in the log data.
  */
 export function isDownloaded(searchTerm) {
-  return previousLogs.flat().some((x) => Array.isArray(x) ? x.includes(searchTerm) : false);
+  return Array.isArray(previousLogs)
+    ? previousLogs.flat().some((x) => x.includes(searchTerm))
+    : false;
 }
 
 /**
@@ -86,23 +88,22 @@ export function isDownloaded(searchTerm) {
  * @param {Object} e An event object
  */
 export function deleteSelected() {
-  const logsSheet = SpreadsheetApp
-    .getActive()
-    .getSheetByName(sheetNames['logs']);
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
   const lastRow = logsSheet.getLastRow();
   const itemsToDelete = [];
   for (let row = 2; row <= lastRow; row++) {
     if (logsSheet.getRange(row, columnSelected).isChecked()) {
       const formula = logsSheet.getRange(row, columnFilename).getFormula();
-      itemsToDelete.push(
-        {
-          row: row,
-          fileId: formula.split('https://drive.google.com/file/d/')
-            .pop()
-            .split('/view?')
-            .shift()
-        }
-      );
+      itemsToDelete.push({
+        row: row,
+        fileId: formula
+          .split('https://drive.google.com/file/d/')
+          .pop()
+          .split('/view?')
+          .shift(),
+      });
     }
   }
   const msg = Browser.msgBox(
