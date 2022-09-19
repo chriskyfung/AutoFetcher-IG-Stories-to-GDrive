@@ -1,6 +1,6 @@
 {
   "name": "autofetcher-ig-stories-to-gdrive",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
   "main": "src/main.js",
   "directories": {
@@ -19,7 +19,7 @@
     "logs": "./node_modules/.bin/clasp logs",
     "lint": "npm run eslint && npm run prettier",
     "eslint": "eslint --ext .js --fix .",
-    "prettier": "prettier **/*.js --write --ignore-path .eslintignore",
+    "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs) --write --ignore-path .eslintignore",
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
