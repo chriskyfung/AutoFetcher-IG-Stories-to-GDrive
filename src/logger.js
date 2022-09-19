@@ -8,7 +8,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-09-19
+ * Last updated at : 2022-09-20
  */
 
 /**
@@ -55,7 +55,7 @@ export function insertNewLog(datetime, username, url, filetype, filename) {
 /**
  * Load the logs within the last 2 days from the Google Sheet file that the
  * Apps Script is bounded to, and temporarily store them to the global variable
- * called `previousLogs` in form of an Object[][].
+ * called `previousLogs` in form of a Range object.
  */
 export function loadRecentLogs() {
   // Get the sheet that stores the log data.
@@ -68,8 +68,9 @@ export function loadRecentLogs() {
     .createTextFinder(twoDaysAgo.toLocaleDateString())
     .findNext();
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
+  const numOfRows = toRow - 1 || 1;
   // Get the data the log sheet and assign them to `previousLogs`.
-  previousLogs = logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
+  previousLogs = logsSheet.getRange(2, 1, numOfRows, numOfColumns);
 }
 
 /**
@@ -78,10 +79,10 @@ export function loadRecentLogs() {
  * @return {boolean} Whether the search pattern is found in the log data.
  */
 export function isDownloaded(searchTerm) {
-  const flattened = previousLogs.flat();
-  return Array.isArray(flattened)
-    ? flattened.some((x) => x.includes(searchTerm))
-    : false;
+  return (
+    previousLogs.createTextFinder(searchTerm).matchCase(true).findNext() !==
+    null
+  );
 }
 
 /**
