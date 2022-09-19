@@ -40,10 +40,10 @@ export function getInstagramData(query) {
   const params = {
     headers: {
       accept: '*/*',
-      'accept-language': `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
+      'accept-language': `zh-HK,zh-TW;q=0.9,zh;q=0.8,en;q=0.7,en-HK;q=0.6,ja-JP;q=0.5,ja;q=0.4,en-US;q=0.3`,
       'cache-control': 'no-cache',
-      pragma: 'no-cache',
-      'sec-ch-ua':
+      'pragma': 'no-cache',
+      'sec-ch-ua': 
         '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
@@ -54,6 +54,7 @@ export function getInstagramData(query) {
       'x-csrftoken': igParams.X_CSRFTOKEN,
       'x-ig-app-id': igParams.X_IG_APP_ID,
       'x-ig-www-claim': igParams.X_IG_WWW_CLAIM,
+      'x-instagram-ajax': igParams.X_INSTAGRAM_AJAX,
       cookie: igParams.COOKIE,
     },
     referrer: 'https://www.instagram.com/',

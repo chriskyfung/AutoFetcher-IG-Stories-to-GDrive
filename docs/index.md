@@ -43,7 +43,7 @@ Starting from Build 2021.11.10, the Apps Script has been redesigned to work with
 Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
 
 <div style="padding-left:1.5em;margin-bottom:1.5em">
-  <a href="https://docs.google.com/spreadsheets/d/1C3o6AkN2QzzITbKg_1Blzz8H9faVQQ6sHOzLxjWQ6P4/copy">
+  <a href="https://docs.google.com/spreadsheets/d/1jdbrn0okirXaMbbrm7Gj0N3LEsH-Fp6bzgAn3N72w5Y/copy">
     <amp-img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" width="288" height="56" layout="fixed" alt=""></amp-img>
   </a>
 </div>
@@ -87,6 +87,9 @@ You can use the Google Sheet file and bound our script to it in the following wa
 
    - x-ig-www-claim
    : The value of `x-ig-www-claim` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+
+   - x-instagram-ajax 🆕🆕
+   : The value of `x-instagram-ajax` request-header field sends when you browse `www.instagram.com` with logging in to an account.
 
    - cookie
    : The value of `cookie` request-header field sends when you browse `www.instagram.com` with logging in to an account.

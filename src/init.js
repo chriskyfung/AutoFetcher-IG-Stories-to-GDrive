@@ -42,6 +42,7 @@ export const igParams = {
   X_CSRFTOKEN: null,
   X_IG_APP_ID: null,
   X_IG_WWW_CLAIM: null,
+  X_INSTAGRAM_AJAX: null,
   COOKIE: null,
 };
 // User Perferences
@@ -102,6 +103,12 @@ export function loadSettings() {
       .getDisplayValue();
     if (igParams.X_IG_WWW_CLAIM == '') {
       throw new Error('Missing x-ig-www-claim in the Settings');
+    }
+    igParams.X_INSTAGRAM_AJAX = settingsSheet
+      .getRange('X_INSTAGRAM_AJAX')
+      .getDisplayValue();
+    if (igParams.X_INSTAGRAM_AJAX == '') {
+      throw new Error('Missing x-instagram-ajax in the Settings');
     }
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {
