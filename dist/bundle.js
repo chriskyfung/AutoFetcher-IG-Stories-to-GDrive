@@ -51,6 +51,7 @@ const igParams = {
   X_CSRFTOKEN: null,
   X_IG_APP_ID: null,
   X_IG_WWW_CLAIM: null,
+  X_INSTAGRAM_AJAX: null,
   COOKIE: null,
 };
 // User Perferences
@@ -112,6 +113,12 @@ function loadSettings() {
     if (igParams.X_IG_WWW_CLAIM == '') {
       throw new Error('Missing x-ig-www-claim in the Settings');
     }
+    igParams.X_INSTAGRAM_AJAX = settingsSheet
+      .getRange('X_INSTAGRAM_AJAX')
+      .getDisplayValue();
+    if (igParams.X_INSTAGRAM_AJAX == '') {
+      throw new Error('Missing x-instagram-ajax in the Settings');
+    }
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {
       throw new Error('Missing cookie in the Settings');
@@ -137,7 +144,7 @@ function loadSettings() {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-06-07
+ * Last updated at : 2022-09-20
  */
 
 const numOfColumns = 5;
@@ -172,7 +179,7 @@ function insertNewLog(datetime, username, url, filetype, filename) {
 /**
  * Load the logs within the last 2 days from the Google Sheet file that the
  * Apps Script is bounded to, and temporarily store them to the global variable
- * called `previousLogs` in form of an Object[][].
+ * called `previousLogs` in form of a Range object.
  */
 function loadRecentLogs() {
   // Get the sheet that stores the log data.
@@ -185,8 +192,9 @@ function loadRecentLogs() {
     .createTextFinder(twoDaysAgo.toLocaleDateString())
     .findNext();
   const toRow = firstOccurance?.getRow() || (lastRow <= 300 ? lastRow : 301);
+  const numOfRows = toRow - 1 || 1;
   // Get the data the log sheet and assign them to `previousLogs`.
-  previousLogs = logsSheet.getRange(2, 1, toRow - 1, numOfColumns).getValues();
+  previousLogs = logsSheet.getRange(2, 1, numOfRows, numOfColumns);
 }
 
 /**
@@ -195,9 +203,10 @@ function loadRecentLogs() {
  * @return {boolean} Whether the search pattern is found in the log data.
  */
 function isDownloaded(searchTerm) {
-  return Array.isArray(previousLogs)
-    ? previousLogs.flat().some((x) => x.includes(searchTerm))
-    : false;
+  return (
+    previousLogs.createTextFinder(searchTerm).matchCase(true).findNext() !==
+    null
+  );
 }
 
 /**
@@ -459,10 +468,10 @@ function getInstagramData(query) {
   const params = {
     headers: {
       accept: '*/*',
-      'accept-language': `zh-HK,zh;q=0.9,en-HK;q=0.8,en;q=0.7,ja-JP;q=0.6,ja;q=0.5,en-US;q=0.4,zh-TW;q=0.3`,
+      'accept-language': `zh-HK,zh-TW;q=0.9,zh;q=0.8,en;q=0.7,en-HK;q=0.6,ja-JP;q=0.5,ja;q=0.4,en-US;q=0.3`,
       'cache-control': 'no-cache',
-      pragma: 'no-cache',
-      'sec-ch-ua':
+      'pragma': 'no-cache',
+      'sec-ch-ua': 
         '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
@@ -473,6 +482,7 @@ function getInstagramData(query) {
       'x-csrftoken': igParams.X_CSRFTOKEN,
       'x-ig-app-id': igParams.X_IG_APP_ID,
       'x-ig-www-claim': igParams.X_IG_WWW_CLAIM,
+      'x-instagram-ajax': igParams.X_INSTAGRAM_AJAX,
       cookie: igParams.COOKIE,
     },
     referrer: 'https://www.instagram.com/',
