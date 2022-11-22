@@ -45,7 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
-    "@google/clasp": "^2.4.1",
+    "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^4.1.0",
     "@types/google-apps-script": "^1.0.47",
     "eslint": "^8.17.0",

@@ -1,0 +1,4 @@
+{
+  "scriptId":"YOUR_APPS_SCRIPT_ID",
+  "rootDir":"./dist"
+}
