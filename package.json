@@ -43,7 +43,7 @@
     "logs": "./node_modules/.bin/clasp logs",
     "lint": "npm run eslint && npm run prettier",
     "eslint": "eslint --ext .js --fix .",
-    "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs) --write --ignore-path .eslintignore",
+    "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs -r && echo package.json) --write --ignore-path .eslintignore",
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^6.0.0",
-    "@types/google-apps-script": "^1.0.47",
+    "@types/google-apps-script": "^1.0.56",
     "eslint": "^8.28.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",

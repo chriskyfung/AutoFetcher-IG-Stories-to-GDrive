@@ -12,7 +12,6 @@
 name: "CodeQL"
 
 on:
-  push:
   pull_request:
 
 jobs:
