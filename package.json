@@ -2,10 +2,33 @@
   "name": "autofetcher-ig-stories-to-gdrive",
   "version": "4.1.1",
   "description": "Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
-  "main": "src/main.js",
+  "license": "AGPL-3.0",
+  "author": "Chris K.Y. Fung",
+  "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues"
+  },
+  "keywords": [
+    "instagram",
+    "google-drive",
+    "google-apps-script",
+    "instagram-story",
+    "instagram-stories",
+    "instagram-bot",
+    "instagram-downloader"
+  ],
   "directories": {
     "doc": "docs"
   },
+  "engines": {
+    "node": ">=14.18.0",
+    "npm": ">=6.14.15"
+  },
+  "main": "src/main.js",
   "scripts": {
     "login": "./node_modules/.bin/clasp login",
     "logout": "./node_modules/.bin/clasp logout",
@@ -23,28 +46,10 @@
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive.git"
+  "dependencies": {
+    "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
   },
-  "keywords": [
-    "instagram",
-    "google-drive",
-    "google-apps-script",
-    "instagram-story",
-    "instagram-stories",
-    "instagram-bot",
-    "instagram-downloader"
-  ],
-  "author": "Chris K.Y. Fung",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues"
-  },
-  "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
   "devDependencies": {
-    "@babel/core": "^7.18.2",
-    "@babel/preset-env": "^7.18.2",
     "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^4.1.0",
     "@types/google-apps-script": "^1.0.47",
@@ -55,12 +60,5 @@
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
     "rollup": "^2.75.5"
-  },
-  "dependencies": {
-    "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
-  },
-  "engines": {
-    "node": ">=14.18.0",
-    "npm": ">=6.14.15"
   }
 }
