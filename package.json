@@ -1,11 +1,35 @@
 {
   "name": "autofetcher-ig-stories-to-gdrive",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
-  "main": "src/main.js",
+  "license": "AGPL-3.0",
+  "author": "Chris K.Y. Fung",
+  "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues"
+  },
+  "keywords": [
+    "instagram",
+    "google-drive",
+    "google-apps-script",
+    "instagram-story",
+    "instagram-stories",
+    "instagram-bot",
+    "instagram-downloader"
+  ],
   "directories": {
     "doc": "docs"
   },
+  "engines": {
+    "node": ">=14.18.0",
+    "npm": ">=6.14.15"
+  },
+  "type": "module",
+  "main": "src/main.js",
   "scripts": {
     "login": "./node_modules/.bin/clasp login",
     "logout": "./node_modules/.bin/clasp logout",
@@ -19,45 +43,23 @@
     "logs": "./node_modules/.bin/clasp logs",
     "lint": "npm run eslint && npm run prettier",
     "eslint": "eslint --ext .js --fix .",
-    "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs) --write --ignore-path .eslintignore",
+    "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs -r && echo package.json) --write --ignore-path .eslintignore",
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive.git"
+  "dependencies": {
+    "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
   },
-  "keywords": [
-    "instagram",
-    "google-drive",
-    "google-apps-script",
-    "instagram-story",
-    "instagram-stories",
-    "instagram-bot",
-    "instagram-downloader"
-  ],
-  "author": "Chris K.Y. Fung",
-  "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues"
-  },
-  "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
   "devDependencies": {
-    "@babel/core": "^7.18.2",
-    "@babel/preset-env": "^7.18.2",
-    "@google/clasp": "^2.4.1",
-    "@rollup/plugin-multi-entry": "^4.1.0",
-    "@types/google-apps-script": "^1.0.47",
-    "babel-loader": "^8.2.5",
-    "eslint": "^8.17.0",
+    "@google/clasp": "^2.4.2",
+    "@rollup/plugin-multi-entry": "^6.0.0",
+    "@types/google-apps-script": "^1.0.56",
+    "eslint": "^8.28.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-googleappsscript": "^1.0.4",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
-    "rollup": "^2.75.5"
-  },
-  "dependencies": {
-    "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
+    "rollup": "^3.4.0"
   }
 }

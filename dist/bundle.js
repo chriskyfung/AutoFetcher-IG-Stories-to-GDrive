@@ -1,11 +1,21 @@
-/* Bundle as defined from all files in src/modules/*.js */
+/**
+ * Bundle as defined from all files in src/modules/*.js
+ * Copyright (c) 2022
+ * 
+ * A Google Apps Script for deploying a web application that automatically 
+ * fetches the latest available IG Stories of a target Instagram user to your 
+ * Google Drive.
+ * 
+ * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
+ * 
+ * Build at: Tue, 22 Nov 2022 15:52:00 GMT
+ */
+
 const IGSF = Object.create(null);
 
 'use strict';
 
 (function (exports, window) {
-
-Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
  * init.js
@@ -447,7 +457,7 @@ function uploadToDrive(url, folderid, filename) {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2022-08-23
+ * Last modified  : 2022-11-22
  */
 
 /**
@@ -470,8 +480,8 @@ function getInstagramData(query) {
       accept: '*/*',
       'accept-language': `zh-HK,zh-TW;q=0.9,zh;q=0.8,en;q=0.7,en-HK;q=0.6,ja-JP;q=0.5,ja;q=0.4,en-US;q=0.3`,
       'cache-control': 'no-cache',
-      'pragma': 'no-cache',
-      'sec-ch-ua': 
+      pragma: 'no-cache',
+      'sec-ch-ua':
         '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
@@ -614,38 +624,6 @@ function createViewFileFormula(filename, folderId) {
 }
 
 /**
- * subscriber.js
- * Copyright (c) 2021
- *
- * This file contains the Google Apps Script to read/write logs in the Google
- * Sheet that the Apps Script is bounded to.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2021-11-02
- * Last modified  : 2021-11-02
- */
-
-/**
- * Get the listing from the Google Sheet that the Apps Script is bounded to,
- * and then fetch Instagram Stories for each item.
- */
-function batchFetch() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  const subscriptionsSheet = spreadsheet.getSheetByName(
-    sheetNames['subscriptions']
-  );
-  const data = subscriptionsSheet
-    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
-    .getValues();
-  data.forEach((row) => {
-    console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0] });
-    console.log(msg);
-  });
-}
-
-/**
  * webapp.js
  * Copyright (c) 2018-2021
  *
@@ -656,7 +634,7 @@ function batchFetch() {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2021-11-02
+ * Last modified  : 2022-11-22
  */
 
 /**
@@ -713,6 +691,7 @@ function doGet(e) {
  * Test doGet() with targeting NASA instagram stories
  */
 function try_get() {
+  /* eslint camelcase: "off" */
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
       'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
@@ -735,22 +714,54 @@ function try_get() {
 }
 
 /**
+ * subscriber.js
  * Copyright (c) 2021
  *
- * This file contains the code to test fetching Instagram stories using the Apps Script.
+ * This file contains the Google Apps Script to read/write logs in the Google
+ * Sheet that the Apps Script is bounded to.
  *
- * @summary short description for the file
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
- * Created at     : 2021-09-12
+ * Created at     : 2021-11-02
  * Last modified  : 2021-11-02
  */
 
+/**
+ * Get the listing from the Google Sheet that the Apps Script is bounded to,
+ * and then fetch Instagram Stories for each item.
+ */
+function batchFetch() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const subscriptionsSheet = spreadsheet.getSheetByName(
+    sheetNames['subscriptions']
+  );
+  const data = subscriptionsSheet
+    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
+    .getValues();
+  data.forEach((row) => {
+    console.log(`fetching ${row[0]}...`);
+    const msg = fetch({ id: row[1], name: row[0] });
+    console.log(msg);
+  });
+}
+
+/**
+ * Copyright (c) 2021-2022
+ *
+ * This file contains the code to test fetching Instagram stories using
+ * the Apps Script.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2021-09-12
+ * Last modified  : 2022-11-22
+ */
+
 const igUserSampleSet = [
-  {name: 'bbcnews', id: '16278726'},
-  {name: 'cnn', id: '217723373'},
-  {name: 'medium', id: '1112881921'},
-  {name: 'nasa', id: '528817151'}
+  { name: 'bbcnews', id: '16278726' },
+  { name: 'cnn', id: '217723373' },
+  { name: 'medium', id: '1112881921' },
+  { name: 'nasa', id: '528817151' },
 ];
 
 /**
@@ -769,15 +780,17 @@ function fetchTest(sampleIndex = 0) {
  * @return {boolean} True if any URLs were obtained, false otherwise.
  */
 function test_pipeline() {
+  /* eslint camelcase: "off" */
   const healthy = igUserSampleSet.some((sample) => {
     return tryGetStories(sample) >= 1;
   });
   if (!healthy && exports.errorReportEmail != '') {
     MailApp.sendEmail(
-        exports.errorReportEmail,
-        'Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter',
-        'Get none urls from the test accounts.\n' +
-        'Please verify the service websites and check update on https://bit.ly/2zQLd6p.',
+      exports.errorReportEmail,
+      'Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter',
+      'Get none urls from the test accounts.\n' +
+        'Please verify the service websites and ' +
+        'check update on https://bit.ly/2zQLd6p.'
     );
   }
   setTestDateBadge();

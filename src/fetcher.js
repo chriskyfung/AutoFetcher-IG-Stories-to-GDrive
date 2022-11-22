@@ -9,7 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2022-08-23
+ * Last modified  : 2022-11-22
  */
 
 import {
@@ -42,8 +42,8 @@ export function getInstagramData(query) {
       accept: '*/*',
       'accept-language': `zh-HK,zh-TW;q=0.9,zh;q=0.8,en;q=0.7,en-HK;q=0.6,ja-JP;q=0.5,ja;q=0.4,en-US;q=0.3`,
       'cache-control': 'no-cache',
-      'pragma': 'no-cache',
-      'sec-ch-ua': 
+      pragma: 'no-cache',
+      'sec-ch-ua':
         '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
