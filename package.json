@@ -1,6 +1,6 @@
 {
   "name": "autofetcher-ig-stories-to-gdrive",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
   "main": "src/main.js",
   "directories": {
@@ -48,7 +48,6 @@
     "@google/clasp": "^2.4.1",
     "@rollup/plugin-multi-entry": "^4.1.0",
     "@types/google-apps-script": "^1.0.47",
-    "babel-loader": "^8.2.5",
     "eslint": "^8.17.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
@@ -59,5 +58,9 @@
   },
   "dependencies": {
     "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
+  },
+  "engines": {
+    "node": ">=14.18.0",
+    "npm": ">=6.14.15"
   }
 }

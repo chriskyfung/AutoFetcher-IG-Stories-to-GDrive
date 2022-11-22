@@ -9,7 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2021-11-02
+ * Last modified  : 2022-11-22
  */
 
 import { fetch } from './fetcher';
@@ -68,6 +68,7 @@ export function doGet(e) {
  * Test doGet() with targeting NASA instagram stories
  */
 export function try_get() {
+  /* eslint camelcase: "off" */
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
       'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'

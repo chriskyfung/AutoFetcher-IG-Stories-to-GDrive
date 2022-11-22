@@ -1,5 +1,12 @@
-/* Bundle as defined from all files in src/modules/*.js */
+/**
+ * Bundle as defined from all files in src/modules/*.js
+ *
+ * Copyright (c) 2022 | Build At: Tue, 22 Nov 2022 10:38:35 GMT
+ *
+ */
+
 const IGSF = Object.create(null);
+
 
 'use strict';
 
@@ -243,98 +250,6 @@ function deleteSelected() {
       logsSheet.deleteRow(item.row - index);
     });
   }
-}
-
-/**
- * badge.js
- * Copyright (c) 2020-2021
- *
- * This file contains the code to create and update SVG badges,
- * such as "last-tested-date.svg" and a "last-tested-status.svg".
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2020-10-08
- * Last modified  : 2021-11-02
- */
-
-/**
- * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
- * in the destination folder of your Google Drive using DriveApp service.
- * Obtain the file IDs and store them in the "Settings" page of the bounded
- * Google Sheet file.
- */
-function createBadages() {
-  loadSettings();
-  // Get the sheet stored the settings of Instagram Stories Fetcher
-  const spreadsheet = SpreadsheetApp.getActive();
-  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
-  // Create blank SVG files in the destination folder, and store their file IDs
-  // in the global variable `badgeFileIds`.
-  badgeFileIds.lastTestedDate = dest.folderObj
-    .createFile('last-tested-date.svg', '', 'image/svg+xml')
-    .getId();
-  badgeFileIds.lastTestedStatus = dest.folderObj
-    .createFile('last-tested-status.svg', '', 'image/svg+xml')
-    .getId();
-  // Fill in the file IDs to the Google Sheet.
-  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
-  settingsSheet
-    .getRange('statusBadgeId')
-    .setValue(badgeFileIds.lastTestedStatus);
-  // Fill the blank SVG files with default contents.
-  setTestDateBadge();
-  setHealthStatusBadge();
-}
-
-/**
- * Update the "last-tested-date.svg" file using DriveApp service.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setTestDateBadge() {
-  if (badgeFileIds.lastTestedDate != '') {
-    const formattedDate = Utilities.formatDate(
-      new Date(),
-      'GMT',
-      'MMM dd, YYYY'
-    );
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
-    return DriveApp.getFileByIdAndResourceKey(
-      badgeFileIds.lastTestedDate,
-      file.getResourceKey()
-    )
-      .setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
-      )
-      .getDownloadUrl();
-  }
-  return null;
-}
-
-/**
- * Update the "last-tested-status.svg" file using DriveApp service.
- * @param {boolean} healthy The arguement to determine the badge color and the
- *                 text to display in the badge. Default value is 'failed'.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setHealthStatusBadge(healthy) {
-  if (badgeFileIds.lastTestedStatus != '') {
-    const [color, status] =
-      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
-    return DriveApp.getFileByIdAndResourceKey(
-      badgeFileIds.lastTestedStatus,
-      file.getResourceKey()
-    )
-      .setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
-      )
-      .setDescription(`test-${healthy}`)
-      .getDownloadUrl();
-  }
-  return null;
 }
 
 // url_to_drive.gs
@@ -646,6 +561,98 @@ function batchFetch() {
 }
 
 /**
+ * badge.js
+ * Copyright (c) 2020-2021
+ *
+ * This file contains the code to create and update SVG badges,
+ * such as "last-tested-date.svg" and a "last-tested-status.svg".
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2020-10-08
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
+ * in the destination folder of your Google Drive using DriveApp service.
+ * Obtain the file IDs and store them in the "Settings" page of the bounded
+ * Google Sheet file.
+ */
+function createBadages() {
+  loadSettings();
+  // Get the sheet stored the settings of Instagram Stories Fetcher
+  const spreadsheet = SpreadsheetApp.getActive();
+  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
+  // Create blank SVG files in the destination folder, and store their file IDs
+  // in the global variable `badgeFileIds`.
+  badgeFileIds.lastTestedDate = dest.folderObj
+    .createFile('last-tested-date.svg', '', 'image/svg+xml')
+    .getId();
+  badgeFileIds.lastTestedStatus = dest.folderObj
+    .createFile('last-tested-status.svg', '', 'image/svg+xml')
+    .getId();
+  // Fill in the file IDs to the Google Sheet.
+  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
+  settingsSheet
+    .getRange('statusBadgeId')
+    .setValue(badgeFileIds.lastTestedStatus);
+  // Fill the blank SVG files with default contents.
+  setTestDateBadge();
+  setHealthStatusBadge();
+}
+
+/**
+ * Update the "last-tested-date.svg" file using DriveApp service.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setTestDateBadge() {
+  if (badgeFileIds.lastTestedDate != '') {
+    const formattedDate = Utilities.formatDate(
+      new Date(),
+      'GMT',
+      'MMM dd, YYYY'
+    );
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedDate,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
+      )
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
+ * Update the "last-tested-status.svg" file using DriveApp service.
+ * @param {boolean} healthy The arguement to determine the badge color and the
+ *                 text to display in the badge. Default value is 'failed'.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setHealthStatusBadge(healthy) {
+  if (badgeFileIds.lastTestedStatus != '') {
+    const [color, status] =
+      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedStatus,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
+      )
+      .setDescription(`test-${healthy}`)
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
  * webapp.js
  * Copyright (c) 2018-2021
  *
@@ -656,7 +663,7 @@ function batchFetch() {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2021-11-02
+ * Last modified  : 2022-11-22
  */
 
 /**
@@ -713,6 +720,7 @@ function doGet(e) {
  * Test doGet() with targeting NASA instagram stories
  */
 function try_get() {
+  /* eslint camelcase: "off" */
   if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
     console.error(
       'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
@@ -735,22 +743,22 @@ function try_get() {
 }
 
 /**
- * Copyright (c) 2021
+ * Copyright (c) 2021-2022
  *
- * This file contains the code to test fetching Instagram stories using the Apps Script.
+ * This file contains the code to test fetching Instagram stories using
+ * the Apps Script.
  *
- * @summary short description for the file
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-09-12
- * Last modified  : 2021-11-02
+ * Last modified  : 2022-11-22
  */
 
 const igUserSampleSet = [
-  {name: 'bbcnews', id: '16278726'},
-  {name: 'cnn', id: '217723373'},
-  {name: 'medium', id: '1112881921'},
-  {name: 'nasa', id: '528817151'}
+  { name: 'bbcnews', id: '16278726' },
+  { name: 'cnn', id: '217723373' },
+  { name: 'medium', id: '1112881921' },
+  { name: 'nasa', id: '528817151' },
 ];
 
 /**
@@ -769,15 +777,17 @@ function fetchTest(sampleIndex = 0) {
  * @return {boolean} True if any URLs were obtained, false otherwise.
  */
 function test_pipeline() {
+  /* eslint camelcase: "off" */
   const healthy = igUserSampleSet.some((sample) => {
     return tryGetStories(sample) >= 1;
   });
   if (!healthy && exports.errorReportEmail != '') {
     MailApp.sendEmail(
-        exports.errorReportEmail,
-        'Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter',
-        'Get none urls from the test accounts.\n' +
-        'Please verify the service websites and check update on https://bit.ly/2zQLd6p.',
+      exports.errorReportEmail,
+      'Google Apps Script [AutoFetcher-IG-Stories-to-GDrive] Crash reporter',
+      'Get none urls from the test accounts.\n' +
+        'Please verify the service websites and ' +
+        'check update on https://bit.ly/2zQLd6p.'
     );
   }
   setTestDateBadge();
