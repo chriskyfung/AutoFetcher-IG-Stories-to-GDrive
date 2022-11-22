@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Tue, 22 Nov 2022 11:39:44 GMT
+ * Build at: Tue, 22 Nov 2022 14:56:20 GMT
  */
 
 const IGSF = Object.create(null);
@@ -16,8 +16,6 @@ const IGSF = Object.create(null);
 'use strict';
 
 (function (exports, window) {
-
-Object.defineProperty(exports, '__esModule', { value: true });
 
 /**
  * init.js
