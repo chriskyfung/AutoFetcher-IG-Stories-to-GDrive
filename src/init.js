@@ -1,6 +1,6 @@
 /**
  * init.js
- * Copyright (c) 2021
+ * Copyright (c) 2021-2023
  *
  * This file contains the Google Apps Script to initialize the Instagram
  * stories fetcher, including the functions to load settings from the bounded
@@ -9,7 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-08-23
+ * Last updated at : 2023-02-14
  */
 
 /**
@@ -42,7 +42,6 @@ export const igParams = {
   X_CSRFTOKEN: null,
   X_IG_APP_ID: null,
   X_IG_WWW_CLAIM: null,
-  X_INSTAGRAM_AJAX: null,
   COOKIE: null,
 };
 // User Perferences
@@ -103,12 +102,6 @@ export function loadSettings() {
       .getDisplayValue();
     if (igParams.X_IG_WWW_CLAIM == '') {
       throw new Error('Missing x-ig-www-claim in the Settings');
-    }
-    igParams.X_INSTAGRAM_AJAX = settingsSheet
-      .getRange('X_INSTAGRAM_AJAX')
-      .getDisplayValue();
-    if (igParams.X_INSTAGRAM_AJAX == '') {
-      throw new Error('Missing x-instagram-ajax in the Settings');
     }
     igParams.COOKIE = settingsSheet.getRange('COOKIE').getDisplayValue();
     if (igParams.COOKIE == '') {

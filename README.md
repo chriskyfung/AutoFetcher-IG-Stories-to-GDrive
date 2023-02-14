@@ -5,15 +5,11 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 [![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
 ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
 
-🚧 **NEW RELEASE ON 2022-09-04** 🚧
+🆕 NEW RELEASE ON 2023-02-14 🆕
 
-Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
+🧹 **Deprecated `x-instagram-ajax` from the *Settings***.
 
-Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V5.
-
-🚧 **IMPORTANT UPDATE ON 2022-08-23** 🚧
-
-The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.
+Please update the Library Version to the latest in your Google Script or make a new copy of the [Google Sheet template named with V7](https://docs.google.com/spreadsheets/d/1td-CfE5NWHtKSeAMo32rPYQOZC5ydX9BXnXtumzYnL8/copy).
 
 ## How to Use
 
@@ -22,7 +18,7 @@ Starting from Build 2021.11.10, the Apps Script has been redesigned to work with
 Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
 
 <div style="padding-left: 1.5em">
-  <a href="https://docs.google.com/spreadsheets/d/1jdbrn0okirXaMbbrm7Gj0N3LEsH-Fp6bzgAn3N72w5Y/copy">
+  <a href="https://docs.google.com/spreadsheets/d/1td-CfE5NWHtKSeAMo32rPYQOZC5ydX9BXnXtumzYnL8/copy">
     <img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" height="28" alt="">
   </a>
 </div>
@@ -67,8 +63,8 @@ Instagram
 - x-ig-www-claim
   : The value of `x-ig-www-claim` request-header field sends when you browse `www.instagram.com` with logging in to an account.
 
-- x-instagram-ajax 🆕🆕
-  : The value of `x-instagram-ajax` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+- x-instagram-ajax ⛔
+  : This field has been deprecated from Build 2023.02.14 (= Library v7).
 
 - cookie
   : The value of `cookie` request-header field sends when you browse `www.instagram.com` with logging in to an account.
@@ -191,6 +187,16 @@ Now you can test your web app deployment by passing a URL with query strings lik
 4. Do not use our script or shared library if you have any worries about any potential security issues with them.
 
 ## History
+
+🚧 **NEW RELEASE ON 2022-09-04** 🚧
+
+Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
+
+Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V5.
+
+🚧 **IMPORTANT UPDATE ON 2022-08-23** 🚧
+
+The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.
 
 ✨ **NEW FEATURES RELEASED ON 2021-12-06** ✨
 

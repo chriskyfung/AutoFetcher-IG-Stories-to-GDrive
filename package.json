@@ -1,9 +1,9 @@
 {
   "name": "autofetcher-ig-stories-to-gdrive",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "Google Apps Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive.",
   "license": "AGPL-3.0",
-  "author": "Chris K.Y. Fung",
+  "author": "Chris K.Y. Fung (https://github.com/chriskyfung)",
   "homepage": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive#readme",
   "repository": {
     "type": "git",
@@ -12,6 +12,16 @@
   "bugs": {
     "url": "https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/chriskyfung"
+    },
+    {
+      "type": "buymeacoffee",
+      "url": "https://www.buymeacoffee.com/chrisfungky"
+    }
+  ],
   "keywords": [
     "instagram",
     "google-drive",
