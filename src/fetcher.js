@@ -1,6 +1,6 @@
 /**
  * fetcher.js
- * Copyright (c) 2018-2021
+ * Copyright (c) 2018-2023
  *
  * This file contains the Google Apps Script to fetch and upload the media
  * files from the latest available Stories of a Instagram user to your Google
@@ -9,7 +9,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2018-01-29
- * Last modified  : 2022-11-22
+ * Last modified  : 2023-02-14
  */
 
 import {
@@ -42,20 +42,25 @@ export function getInstagramData(query) {
       accept: '*/*',
       'accept-language': `zh-HK,zh-TW;q=0.9,zh;q=0.8,en;q=0.7,en-HK;q=0.6,ja-JP;q=0.5,ja;q=0.4,en-US;q=0.3`,
       'cache-control': 'no-cache',
+      cookie: igParams.COOKIE,
+      dnt: 1,
       pragma: 'no-cache',
+      'sec-ch--prefers-color-scheme': 'light',
       'sec-ch-ua':
-        '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
+        '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Windows"',
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'same-site',
+      'sec-fetch-site': 'same-origin',
+      'user-agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+      'viewport-width': '960',
       'x-asbd-id': igParams.X_ASBD_ID,
       'x-csrftoken': igParams.X_CSRFTOKEN,
       'x-ig-app-id': igParams.X_IG_APP_ID,
       'x-ig-www-claim': igParams.X_IG_WWW_CLAIM,
-      'x-instagram-ajax': igParams.X_INSTAGRAM_AJAX,
-      cookie: igParams.COOKIE,
+      'x-requested-with': 'XMLHttpRequest',
     },
     referrer: 'https://www.instagram.com/',
     referrerPolicy: 'strict-origin-when-cross-origin',

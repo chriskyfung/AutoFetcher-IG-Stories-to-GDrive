@@ -43,7 +43,7 @@ Starting from Build 2021.11.10, the Apps Script has been redesigned to work with
 Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
 
 <div style="padding-left:1.5em;margin-bottom:1.5em">
-  <a href="https://docs.google.com/spreadsheets/d/1jdbrn0okirXaMbbrm7Gj0N3LEsH-Fp6bzgAn3N72w5Y/copy">
+  <a href="https://docs.google.com/spreadsheets/d/1td-CfE5NWHtKSeAMo32rPYQOZC5ydX9BXnXtumzYnL8/copy">
     <amp-img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" width="288" height="56" layout="fixed" alt=""></amp-img>
   </a>
 </div>
@@ -88,8 +88,8 @@ You can use the Google Sheet file and bound our script to it in the following wa
    - x-ig-www-claim
    : The value of `x-ig-www-claim` request-header field sends when you browse `www.instagram.com` with logging in to an account.
 
-   - x-instagram-ajax 🆕🆕
-   : The value of `x-instagram-ajax` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+   - x-instagram-ajax ⛔
+  : This field has been deprecated from Build 2023.02.14 (= Library v7).
 
    - cookie
    : The value of `cookie` request-header field sends when you browse `www.instagram.com` with logging in to an account.
@@ -277,7 +277,7 @@ The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the d
 1. Receiving an error message <span>'Exception: Request failed for https://i.instagram.com returned code 400.'</span>{:style="color:red;"}
 
    {:style="font-style:italic;"}
-   It happens when your account has not been logged in via the Instagram website for a long time. Instagram will suspend your access token to prevent your account from being hacked. You can fix this issue by logging in again on _instagram.com_ and verify your account.
+   It happens when your account has not been logged in via the Instagram website for a long time. Instagram will suspend your access token to prevent your account from being hacked. You can fix this issue by opening _instagram.com_ to re-login and verify your account using a web browser.
 
 2. Receiving an error message <span>'Exception: Unexpected error while getting the method or property getFolderById on object DriveApp.'</span>{:style="color:red;"}
 
