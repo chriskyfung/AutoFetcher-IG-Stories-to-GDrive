@@ -1,13 +1,13 @@
 /**
  * Bundle as defined from all files in src/modules/*.js
  * Copyright (c) 2022
- * 
- * A Google Apps Script for deploying a web application that automatically 
- * fetches the latest available IG Stories of a target Instagram user to your 
+ *
+ * A Google Apps Script for deploying a web application that automatically
+ * fetches the latest available IG Stories of a target Instagram user to your
  * Google Drive.
- * 
+ *
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
- * 
+ *
  * Build at: Tue, 14 Feb 2023 15:01:52 GMT
  */
 
@@ -440,7 +440,7 @@ function parseDownloadUrl(data) {
  * Test getting the URLs of media files in the data retrieved from Instagram's
  * API using getInstagramData() and parseDownloadUrl().
  * @param {Object} targetIgUser - A JSON object contains the name and id of an
- *  Instagram account, e.g. { "name": "john", "id": "1234567890" }.
+ *  Instagram account, e.g. { "name": "john", "id": "1234567890", "destination": "1vm...sIS" }.
  * @return {number} The number of URLs obtained.
  */
 function tryGetStories(targetIgUser) {
@@ -495,7 +495,13 @@ function fetch(target) {
         msg += 'Already been uploaded.\n';
       } else {
         // Upload fresh media file to the destination Google Drive folder
-        msg += uploadToDrive(url, dest.folderId, '');
+        let destinationFolder = ''
+        if (target.destination == '') {
+          destinationFolder = dest.folderId
+        } else {
+          destinationFolder = target.destination
+        }
+        msg += uploadToDrive(url, destinationFolder, '');
         const currentDatatime = new Date();
         insertNewLog(
           currentDatatime.toLocaleString(), // Datatime string
@@ -646,7 +652,7 @@ function batchFetch() {
     .getValues();
   data.forEach((row) => {
     console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0] });
+    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
     console.log(msg);
   });
 }
