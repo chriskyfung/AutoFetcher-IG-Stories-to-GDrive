@@ -104,7 +104,7 @@ function parseDownloadUrl(data) {
  * Test getting the URLs of media files in the data retrieved from Instagram's
  * API using getInstagramData() and parseDownloadUrl().
  * @param {Object} targetIgUser - A JSON object contains the name and id of an
- *  Instagram account, e.g. { "name": "john", "id": "1234567890" }.
+ *  Instagram account, e.g. { "name": "john", "id": "1234567890", "destination": "1vm...sIS" }.
  * @return {number} The number of URLs obtained.
  */
 export function tryGetStories(targetIgUser) {
@@ -159,7 +159,13 @@ export function fetch(target) {
         msg += 'Already been uploaded.\n';
       } else {
         // Upload fresh media file to the destination Google Drive folder
-        msg += uploadToDrive(url, dest.folderId, '');
+        let destinationFolder = ''
+        if (target.destination == '') {
+          destinationFolder = dest.folderId
+        } else {
+          destinationFolder = target.destination
+        }
+        msg += uploadToDrive(url, destinationFolder, '');
         const currentDatatime = new Date();
         insertNewLog(
           currentDatatime.toLocaleString(), // Datatime string

@@ -28,7 +28,7 @@ export function batchFetch() {
     .getValues();
   data.forEach((row) => {
     console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0] });
+    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
     console.log(msg);
   });
 }
