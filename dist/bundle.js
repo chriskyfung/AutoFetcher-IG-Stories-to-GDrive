@@ -508,7 +508,7 @@ function fetch(target) {
           target.name, // IG username
           url, // Full URL
           pathname.split('.').pop(), // File extension
-          createViewFileFormula(pathname.split('/').pop(), dest.folderId)
+          createViewFileFormula(pathname.split('/').pop(), destinationFolder)
         );
       }
     });
