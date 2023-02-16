@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Tue, 14 Feb 2023 15:01:52 GMT
+ * Build at: Thu, 16 Feb 2023 06:25:23 GMT
  */
 
 const IGSF = Object.create(null);
@@ -16,6 +16,105 @@ const IGSF = Object.create(null);
 'use strict';
 
 (function (exports, window) {
+
+// url_to_drive.gs
+// Google Apps Script
+// Allows uploading a URL directly to Google Drive.
+//
+// Live link:
+// https://script.google.com/macros/s/AKfycbzvhbHS4hnWPVBDHjQzZHA0qWq0GR-6hY7TbYsNto6hZ0MeAFZt/exec
+//
+// Source-code:
+// https://gist.github.com/denilsonsa/8134679
+// https://script.google.com/d/1Ye-OEn1bDPcmeKSe4gb0YSK83RPMc4sZJt79SRt-GRY653gm2qVUptoE/edit
+//
+// Other solutions written by other people:
+// https://ifttt.com/channels/google_drive/actions/78
+// https://sites.google.com/site/fileurltodrive/
+// Note: I wrote this script without looking at the source-code of other solutions.
+
+function getFilenameFromURL(url) {
+  //                  (host-ish)/(path-ish/)(filename)
+  const re = /^https?:\/\/([^\/]+)\/([^?]*\/)?([^\/?]+)/;
+  const match = re.exec(url);
+  if (match) {
+    return unescape(match[3]);
+  }
+  return null;
+}
+
+function uploadToDrive(url, folderid, filename) {
+  let msg = '';
+  let response;
+
+  try {
+    response = UrlFetchApp.fetch(url, {
+      // muteHttpExceptions: true,
+      // validateHttpsCertificates: false,
+      followRedirects: true, // Default is true anyway.
+    });
+  } catch (e) {
+    return e.toString();
+  }
+
+  if (response.getResponseCode() === 200) {
+    if (!filename) {
+      // TODO: try content-disposition.
+      filename = getFilenameFromURL(url);
+    }
+
+    if (!filename) {
+      msg += 'Aborting: Filename not detected. Please supply a filename.\n';
+    } else {
+      let folder = DriveApp.getRootFolder();
+      if (folderid) {
+        folder = DriveApp.getFolderById(folderid);
+      }
+
+      const haBDs = DriveApp.getFilesByName(filename);
+
+      // Does not exist
+      if (haBDs.hasNext()) {
+        return (msg += 'WARNING: Filename has already existed.');
+      }
+
+      const blob = response.getBlob();
+      const file = folder.createFile(blob);
+      file.setName(filename);
+      file.setDescription('Downloaded from ' + url);
+
+      const headers = response.getHeaders();
+      let content_length = NaN;
+      for (const key in headers) {
+        if (key.toLowerCase() == 'Content-Length'.toLowerCase()) {
+          content_length = parseInt(headers[key], 10);
+          break;
+        }
+      }
+
+      const blob_length = blob.getBytes().length;
+      msg += 'Saved "' + filename + '" (' + blob_length + ' bytes)';
+      if (!isNaN(content_length)) {
+        if (blob_length < content_length) {
+          msg += ' WARNING: truncated from ' + content_length + ' bytes.';
+        } else if (blob_length > content_length) {
+          msg +=
+            ' WARNING: size is greater than expected ' +
+            content_length +
+            ' bytes from Content-Length header.';
+        }
+      }
+      msg += '\nto folder "' + folder.getName() + '".\n';
+    }
+  } else {
+    msg += 'Response code: ' + response.getResponseCode() + '\n';
+  }
+
+  // Debug: printing response headers.
+  // msg += JSON.stringify(response.getHeaders(), undefined, 2) + '\n';
+
+  return msg;
+}
 
 /**
  * init.js
@@ -138,6 +237,98 @@ function loadSettings() {
 }
 
 /**
+ * badge.js
+ * Copyright (c) 2020-2021
+ *
+ * This file contains the code to create and update SVG badges,
+ * such as "last-tested-date.svg" and a "last-tested-status.svg".
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2020-10-08
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
+ * in the destination folder of your Google Drive using DriveApp service.
+ * Obtain the file IDs and store them in the "Settings" page of the bounded
+ * Google Sheet file.
+ */
+function createBadages() {
+  loadSettings();
+  // Get the sheet stored the settings of Instagram Stories Fetcher
+  const spreadsheet = SpreadsheetApp.getActive();
+  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
+  // Create blank SVG files in the destination folder, and store their file IDs
+  // in the global variable `badgeFileIds`.
+  badgeFileIds.lastTestedDate = dest.folderObj
+    .createFile('last-tested-date.svg', '', 'image/svg+xml')
+    .getId();
+  badgeFileIds.lastTestedStatus = dest.folderObj
+    .createFile('last-tested-status.svg', '', 'image/svg+xml')
+    .getId();
+  // Fill in the file IDs to the Google Sheet.
+  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
+  settingsSheet
+    .getRange('statusBadgeId')
+    .setValue(badgeFileIds.lastTestedStatus);
+  // Fill the blank SVG files with default contents.
+  setTestDateBadge();
+  setHealthStatusBadge();
+}
+
+/**
+ * Update the "last-tested-date.svg" file using DriveApp service.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setTestDateBadge() {
+  if (badgeFileIds.lastTestedDate != '') {
+    const formattedDate = Utilities.formatDate(
+      new Date(),
+      'GMT',
+      'MMM dd, YYYY'
+    );
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedDate,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
+      )
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
+ * Update the "last-tested-status.svg" file using DriveApp service.
+ * @param {boolean} healthy The arguement to determine the badge color and the
+ *                 text to display in the badge. Default value is 'failed'.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setHealthStatusBadge(healthy) {
+  if (badgeFileIds.lastTestedStatus != '') {
+    const [color, status] =
+      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedStatus,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
+      )
+      .setDescription(`test-${healthy}`)
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
  * logger.js
  * Copyright (c) 2021
  *
@@ -248,105 +439,6 @@ function deleteSelected() {
   }
 }
 
-// url_to_drive.gs
-// Google Apps Script
-// Allows uploading a URL directly to Google Drive.
-//
-// Live link:
-// https://script.google.com/macros/s/AKfycbzvhbHS4hnWPVBDHjQzZHA0qWq0GR-6hY7TbYsNto6hZ0MeAFZt/exec
-//
-// Source-code:
-// https://gist.github.com/denilsonsa/8134679
-// https://script.google.com/d/1Ye-OEn1bDPcmeKSe4gb0YSK83RPMc4sZJt79SRt-GRY653gm2qVUptoE/edit
-//
-// Other solutions written by other people:
-// https://ifttt.com/channels/google_drive/actions/78
-// https://sites.google.com/site/fileurltodrive/
-// Note: I wrote this script without looking at the source-code of other solutions.
-
-function getFilenameFromURL(url) {
-  //                  (host-ish)/(path-ish/)(filename)
-  const re = /^https?:\/\/([^\/]+)\/([^?]*\/)?([^\/?]+)/;
-  const match = re.exec(url);
-  if (match) {
-    return unescape(match[3]);
-  }
-  return null;
-}
-
-function uploadToDrive(url, folderid, filename) {
-  let msg = '';
-  let response;
-
-  try {
-    response = UrlFetchApp.fetch(url, {
-      // muteHttpExceptions: true,
-      // validateHttpsCertificates: false,
-      followRedirects: true, // Default is true anyway.
-    });
-  } catch (e) {
-    return e.toString();
-  }
-
-  if (response.getResponseCode() === 200) {
-    if (!filename) {
-      // TODO: try content-disposition.
-      filename = getFilenameFromURL(url);
-    }
-
-    if (!filename) {
-      msg += 'Aborting: Filename not detected. Please supply a filename.\n';
-    } else {
-      let folder = DriveApp.getRootFolder();
-      if (folderid) {
-        folder = DriveApp.getFolderById(folderid);
-      }
-
-      const haBDs = DriveApp.getFilesByName(filename);
-
-      // Does not exist
-      if (haBDs.hasNext()) {
-        return (msg += 'WARNING: Filename has already existed.');
-      }
-
-      const blob = response.getBlob();
-      const file = folder.createFile(blob);
-      file.setName(filename);
-      file.setDescription('Downloaded from ' + url);
-
-      const headers = response.getHeaders();
-      let content_length = NaN;
-      for (const key in headers) {
-        if (key.toLowerCase() == 'Content-Length'.toLowerCase()) {
-          content_length = parseInt(headers[key], 10);
-          break;
-        }
-      }
-
-      const blob_length = blob.getBytes().length;
-      msg += 'Saved "' + filename + '" (' + blob_length + ' bytes)';
-      if (!isNaN(content_length)) {
-        if (blob_length < content_length) {
-          msg += ' WARNING: truncated from ' + content_length + ' bytes.';
-        } else if (blob_length > content_length) {
-          msg +=
-            ' WARNING: size is greater than expected ' +
-            content_length +
-            ' bytes from Content-Length header.';
-        }
-      }
-      msg += '\nto folder "' + folder.getName() + '".\n';
-    }
-  } else {
-    msg += 'Response code: ' + response.getResponseCode() + '\n';
-  }
-
-  // Debug: printing response headers.
-  // msg += JSON.stringify(response.getHeaders(), undefined, 2) + '\n';
-
-  return msg;
-}
-
 /**
  * fetcher.js
  * Copyright (c) 2018-2023
@@ -440,7 +532,7 @@ function parseDownloadUrl(data) {
  * Test getting the URLs of media files in the data retrieved from Instagram's
  * API using getInstagramData() and parseDownloadUrl().
  * @param {Object} targetIgUser - A JSON object contains the name and id of an
- *  Instagram account, e.g. { "name": "john", "id": "1234567890" }.
+ *  Instagram account, e.g. { "name": "john", "id": "1234567890", "destination": "1vm...sIS" }.
  * @return {number} The number of URLs obtained.
  */
 function tryGetStories(targetIgUser) {
@@ -495,14 +587,20 @@ function fetch(target) {
         msg += 'Already been uploaded.\n';
       } else {
         // Upload fresh media file to the destination Google Drive folder
-        msg += uploadToDrive(url, dest.folderId, '');
+        let destinationFolder = '';
+        if (target.destination == '') {
+          destinationFolder = dest.folderId;
+        } else {
+          destinationFolder = target.destination;
+        }
+        msg += uploadToDrive(url, destinationFolder, '');
         const currentDatatime = new Date();
         insertNewLog(
           currentDatatime.toLocaleString(), // Datatime string
           target.name, // IG username
           url, // Full URL
           pathname.split('.').pop(), // File extension
-          createViewFileFormula(pathname.split('/').pop(), dest.folderId)
+          createViewFileFormula(pathname.split('/').pop(), destinationFolder)
         );
       }
     });
@@ -646,101 +744,9 @@ function batchFetch() {
     .getValues();
   data.forEach((row) => {
     console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0] });
+    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
     console.log(msg);
   });
-}
-
-/**
- * badge.js
- * Copyright (c) 2020-2021
- *
- * This file contains the code to create and update SVG badges,
- * such as "last-tested-date.svg" and a "last-tested-status.svg".
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2020-10-08
- * Last modified  : 2021-11-02
- */
-
-/**
- * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
- * in the destination folder of your Google Drive using DriveApp service.
- * Obtain the file IDs and store them in the "Settings" page of the bounded
- * Google Sheet file.
- */
-function createBadages() {
-  loadSettings();
-  // Get the sheet stored the settings of Instagram Stories Fetcher
-  const spreadsheet = SpreadsheetApp.getActive();
-  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
-  // Create blank SVG files in the destination folder, and store their file IDs
-  // in the global variable `badgeFileIds`.
-  badgeFileIds.lastTestedDate = dest.folderObj
-    .createFile('last-tested-date.svg', '', 'image/svg+xml')
-    .getId();
-  badgeFileIds.lastTestedStatus = dest.folderObj
-    .createFile('last-tested-status.svg', '', 'image/svg+xml')
-    .getId();
-  // Fill in the file IDs to the Google Sheet.
-  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
-  settingsSheet
-    .getRange('statusBadgeId')
-    .setValue(badgeFileIds.lastTestedStatus);
-  // Fill the blank SVG files with default contents.
-  setTestDateBadge();
-  setHealthStatusBadge();
-}
-
-/**
- * Update the "last-tested-date.svg" file using DriveApp service.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setTestDateBadge() {
-  if (badgeFileIds.lastTestedDate != '') {
-    const formattedDate = Utilities.formatDate(
-      new Date(),
-      'GMT',
-      'MMM dd, YYYY'
-    );
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
-    return DriveApp.getFileByIdAndResourceKey(
-      badgeFileIds.lastTestedDate,
-      file.getResourceKey()
-    )
-      .setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
-      )
-      .getDownloadUrl();
-  }
-  return null;
-}
-
-/**
- * Update the "last-tested-status.svg" file using DriveApp service.
- * @param {boolean} healthy The arguement to determine the badge color and the
- *                 text to display in the badge. Default value is 'failed'.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setHealthStatusBadge(healthy) {
-  if (badgeFileIds.lastTestedStatus != '') {
-    const [color, status] =
-      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
-    return DriveApp.getFileByIdAndResourceKey(
-      badgeFileIds.lastTestedStatus,
-      file.getResourceKey()
-    )
-      .setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
-      )
-      .setDescription(`test-${healthy}`)
-      .getDownloadUrl();
-  }
-  return null;
 }
 
 /**

@@ -5,11 +5,15 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 [![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
 ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
 
-🆕 NEW RELEASE ON 2023-02-14 🆕
+🆕 NEW RELEASE ON 2023-02-16 🆕
 
-🧹 **Deprecated `x-instagram-ajax` from the *Settings***.
+Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤ We can now save different downloaded IG users' files to seperate Google Drive folders 📁.
 
-Please update the Library Version to the latest in your Google Script or make a new copy of the [Google Sheet template named with V7](https://docs.google.com/spreadsheets/d/1td-CfE5NWHtKSeAMo32rPYQOZC5ydX9BXnXtumzYnL8/copy).
+Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V8 or later.
+
+🪂 MINOR UPDATE ON 2023-02-14 🪂
+
+🧹 **Deprecated `x-instagram-ajax` from the _Settings_**. (_* Update Library to V7 or later_)
 
 ## How to Use
 
@@ -191,8 +195,6 @@ Now you can test your web app deployment by passing a URL with query strings lik
 🚧 **NEW RELEASE ON 2022-09-04** 🚧
 
 Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
-
-Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V5.
 
 🚧 **IMPORTANT UPDATE ON 2022-08-23** 🚧
 
