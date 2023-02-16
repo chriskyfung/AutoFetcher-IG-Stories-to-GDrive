@@ -216,12 +216,22 @@ Now you can test your web app deployment by passing a URL with query strings lik
 
 ## History
 
+{:style="background:skyblue;margin-bottom:0;padding:1rem"}
+✨ **NEW FEATURE RELEASED ON 2023-02-16** ✨
+
+📁 Save downloaded files to seperate folders based on their IG username
+
 {:style="background:limegreen;margin-bottom:0;padding:1rem"}
-🚧 **NEW RELEASE ON 2022-09-04** 🚧
+🚧 **MINOR UPDATE ON 2023-02-14** 🚧
+
+🧹 **Deprecated `x-instagram-ajax` from the _Settings_**.
+
+Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V7 or later.
+
+{:style="background:limegreen;margin-bottom:0;padding:1rem"}
+🚧 **RELEASE ON 2022-09-04** 🚧
 
 Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
-
-Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V5.
 
 {:style="background:gold;margin-bottom:0;padding:1rem"}
 🚧 **AN IMPORTANT UPDATE ON 2021-09-12** 🚧
