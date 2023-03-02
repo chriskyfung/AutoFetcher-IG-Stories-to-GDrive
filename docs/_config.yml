@@ -10,6 +10,11 @@ favicon: 'assets/images/favicon_96x96.png'
 logo: 'assets/images/logo-plainSVG.svg'
 timezone: 'Asia/Hong_Kong'
 
+# Navigation features
+nav:
+  buttons:
+    gh_sponsors: true # Show GitHub Sponsors button
+
 sidebar:
   featured: false
   recent_posts: false
@@ -32,20 +37,24 @@ cse_id: 011006674894885990812:tjln7k0nyjx
 
 # Analytics
 google_analytics: 'UA-72575541-9' # Google Analytics Tracking ID
+ga4: 'G-HP4LN87NJE' # Google Analytics 4 Measurement ID
 gtm: 'GTM-WQMQK3X' # Google Tag Manager ID
 
 # Google Ads
+adstyle: true
 adsense: 
   client_id: 'ca-pub-4819282024314540' # Google Adsense client ID
+  auto_ads: true
   ad_slot:
-    before_content: 2454411055 # Ad Slot that places before content
+    # before_content: 2454411055 # Ad Slot that places before content
     sidebar: 1391498756 # Ad Slot that places to sidebar
 
 # Soical Buttons
-facebook_id: chriskyfung
-pinterest_id: chriskyfung
-github_id : chriskyfung
-medium_id: chriskyfung
+social:
+  facebook: chriskyfung
+  pinterest: chriskyfung
+  github : chriskyfung
+  medium: chriskyfung
 
 # Buy Me a Coffee
 buymeacoffee: chriskyfung
