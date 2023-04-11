@@ -596,7 +596,7 @@ function fetch(target) {
         msg += uploadToDrive(url, destinationFolder, '');
         const currentDatatime = new Date();
         insertNewLog(
-          currentDatatime.toLocaleString('sv-SE', { timeZone: 'UTC' }) + '(UTC)', // Datatime string
+          currentDatatime.toLocaleString('sv-SE', { timeZone: 'UTC' }) + ' (UTC)', // Datatime string
           target.name, // IG username
           url, // Full URL
           pathname.split('.').pop(), // File extension
