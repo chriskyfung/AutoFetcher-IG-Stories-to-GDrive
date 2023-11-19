@@ -5,6 +5,8 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 [![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
 ![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
 
+## Highlights
+
 🆕 NEW RELEASE ON 2023-02-16 🆕
 
 Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤ We can now save different downloaded IG users' files to seperate Google Drive folders 📁.
@@ -14,6 +16,34 @@ Please update the Library Version to the latest in your Google Script or make a 
 🪂 MINOR UPDATE ON 2023-02-14 🪂
 
 🧹 **Deprecated `x-instagram-ajax` from the _Settings_**. (_* Update Library to V7 or later_)
+
+### Table of Contents
+
+1. [Introduction](#introduction)
+2. [How to Use](#how-to-use)
+3. [Configuration Settings](#configuration-settings)
+4. [Set Up Subscriptions](#set-up-subscriptions)
+5. [Set Up Health Monitoring (Optional)](#set-up-health-monitoring-optional)
+6. [Deploy As Web App (Optional)](#deploy-as-web-app-optional)
+7. [About Privacy](#about-privacy)
+8. [Relesae Notes](#release-notes)
+9. [Contributing](#like-my-stuff)
+10. [License](#license)
+
+
+## Introduction
+
+**AutoFetcher-IG-Stories-to-GDrive** is a Google Apps Script that automatically fetches the latest available Instagram stories of a target user to your Google Drive. The script is designed to work with a **Google Sheet** file as a user interface. The spreadsheet contains three sheets: **Subscriptions**, **Logs**, and **Settings**.
+
+- **Subscriptions**: A table for you to list the Instagram users and their IDs that you want to subscribe to.
+- **Logs**: A log sheet of file download activities.
+- **Settings**: A tabular form for you to fill in the values of options and parameters for running the script.
+
+You can use the Google Sheet file and bound our script to it in the following ways:
+
+- **Use our shared library**: Simply use the copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template. No coding is required, and it’s an easy way to upgrade to a new version.
+- **Inject our code into your project**: Modify the script bounded to your Google Sheet file by copying the source code in /dist/bundle.js to a .gs file and following the example below to call the functions from the IGSF object. This method is suitable for standalone deployment.
+- **Deploy a new library**: Create a new Apps Script project, copy the source code in /dist/bundle.js to it, and deploy the project as a library for other scripts. This method is suitable for reusable code across projects.
 
 ## How to Use
 
@@ -162,7 +192,7 @@ You can set up a periodic health check with the following steps:
 
 5. Share the SVG files to view publicly and copy their Download URLs if you want to display them on a website or monitoring page.
 
-## Deploy As a Web App (Optional)
+## Deploy As Web App (Optional)
 
 You can [publish the script as a web app](https://developers.google.com/apps-script/guides/web) and trigger the script with HTTP GET requests.
 
@@ -190,7 +220,7 @@ Now you can test your web app deployment by passing a URL with query strings lik
 3. Self-hosting the code as a standalone project if you want better protection of your data.
 4. Do not use our script or shared library if you have any worries about any potential security issues with them.
 
-## History
+## Release Notes
 
 🚧 **NEW RELEASE ON 2022-09-04** 🚧
 
