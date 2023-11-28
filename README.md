@@ -222,50 +222,7 @@ Now you can test your web app deployment by passing a URL with query strings lik
 
 ## Release Notes
 
-🚧 **NEW RELEASE ON 2022-09-04** 🚧
-
-Fixed the bug that caused ([duplicated log entries](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53)).
-
-🚧 **IMPORTANT UPDATE ON 2022-08-23** 🚧
-
-The previous builds no longer work from Aug 16,2022 due to Instagram code changes. An **ASBD identifier** and a **CSRF token** are now required for authentication to access the Instagram endpoint. Please update to Build 2022.08.23, and make a copy of the new Google Sheet.
-
-✨ **NEW FEATURES RELEASED ON 2021-12-06** ✨
-
-- Save the filename of downloaded files in Column E on log sheet page.
-- Show the thumbnail preview and open the file on Drive by hovering and clicking on a hyperlinked filename.
-
-  ![Thumbnail preview shown while hovering a saved filename in Column E on log sheet page](/docs/images/hyperlink-to-drive-file_optimized.png)
-
-- Delete multiple items and their corresponding files from Drive by selecting the checkboxes in Column F and then clicking on "Delete Selected" of log sheet page.
-
-  ![Delete selected items from spreadsheet](/docs/images/delete_selected_optimized.png)
-
-🌟🚀 **MAJOR UPGRADE ON 2021-11-08** 🚀🌟
-
-Integration of Google Sheet was made to provide a user-friendly GUI for configurations and loggings.
-The new version allows you to set up your subscriptions and user settings easily and systematically, rather than hard coding them in the Apps Script.
-Logs will also store in the same Google Sheet file instead of saving separately in multiple Google Doc files.
-
-🚧 **IMPORTANT UPDATE ON 2021-09-12** 🚧
-
-([#17](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/17)) Google Drive Drive will apply a security update on September 13, 2021. Please update your Apps Script code to avoid failing access to Google Drive files.
-
-🚧 **IMPORTANT UPDATE ON 2020-12-09** 🚧
-
-([#11](https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/11)) Instagram changed code around noon, 7 Dec, UTC. Please update to Build 2020.12.09.
-
-🆕 **REMOVE THIRD-PARTY DEPENDENCIES in Build 2020.06.05** 🆕
-
-Starting from Build 2020.06.05, all story data and files will be fetched directly from Instagram.com.
-
-🔔 **LAST UPDATE ON 2020-06-05** 🔔
-
-The version Build 2020.05.14 works again as storydownloader.net resumed its service on 2020-06-05.
-
-🚧 **IMPORTANT UPDATE ON 2020-06-02** 🚧
-
-The version Build 2020.05.14 failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version Build 2020.06.02.
+To see the full list of changes made in each release, please refer to the [CHANGELOG.md](/CHANGELOG.md) file.
 
 ## Like my stuff?
 
