@@ -9,9 +9,9 @@ A Google Apps Script to automatically fetch the latest available IG Stories of a
 
 🆕 NEW RELEASE ON 2023-02-16 🆕
 
-Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤ We can now save different downloaded IG users' files to seperate Google Drive folders 📁.
+Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤ We can now save downloaded files from different IG users to separate Google Drive folders 📁.
 
-Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V8 or later.
+Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named V8 or later.
 
 🪂 MINOR UPDATE ON 2023-02-14 🪂
 
@@ -26,10 +26,9 @@ Please update the Library Version to the latest in your Google Script or make a 
 5. [Set Up Health Monitoring (Optional)](#set-up-health-monitoring-optional)
 6. [Deploy As Web App (Optional)](#deploy-as-web-app-optional)
 7. [About Privacy](#about-privacy)
-8. [Relesae Notes](#release-notes)
+8. [Release Notes](#release-notes)
 9. [Contributing](#like-my-stuff)
 10. [License](#license)
-
 
 ## Introduction
 
@@ -39,9 +38,9 @@ Please update the Library Version to the latest in your Google Script or make a 
 - **Logs**: A log sheet of file download activities.
 - **Settings**: A tabular form for you to fill in the values of options and parameters for running the script.
 
-You can use the Google Sheet file and bound our script to it in the following ways:
+You can use the Google Sheet file and bind our script to it in the following ways:
 
-- **Use our shared library**: Simply use the copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template. No coding is required, and it’s an easy way to upgrade to a new version.
+- **Use our shared library**: Simply use a copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template. No coding is required, and it’s an easy way to upgrade to a new version.
 - **Inject our code into your project**: Modify the script bounded to your Google Sheet file by copying the source code in /dist/bundle.js to a .gs file and following the example below to call the functions from the IGSF object. This method is suitable for standalone deployment.
 - **Deploy a new library**: Create a new Apps Script project, copy the source code in /dist/bundle.js to it, and deploy the project as a library for other scripts. This method is suitable for reusable code across projects.
 
@@ -68,7 +67,7 @@ The spreadsheet contains the following three sheets:
 **Settings**
 : A tabular form for you to fill in the values of options and parameters for running the script.
 
-You can use the Google Sheet file and bound our script to it in the following ways:
+You can use the Google Sheet file and bind our script to it in the following ways:
 
 | Method                                                                                                        | Descriptions                                                                                                                                                                                      | Remarks                                                                                        |
 | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -124,9 +123,9 @@ Health Monitoring
 2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
 3. Open the **Network** tab, then enter `?reel_ids=` in the filter.
 4. Go back to the Instagram page and click on an IG story.
-5. While the stories are playing on the screen, new items named `?reel_ids=...` will be iteratively added to the list of request items.
+5. While the stories are playing on the screen, new items named `?reel_ids=...` will be iteratively added to the list of requested items.
 6. Click on one of the fetched items and explore its Headers.
-7. Scroll to the **Request Header** section, grab the value of your **cookie** as in the picture below. ![Find Instagram cookie using Chrome DevTools](/docs/images/find-your-instagram-cookie-with-devtools.png)
+7. Scroll to the **Request Header** section, and grab the value of your **cookie** as in the picture below. Find Instagram cookies using Chrome DevTools](/docs/images/find-your-instagram-cookie-with-devtools.png)
 8. Also, copy the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
 
 ## Set Up Subscriptions
@@ -146,15 +145,15 @@ You can manually create a trigger with the following steps:
 1. Open an Apps Script Editor from your Google Sheet file.
 2. At the left, click **Triggers** ⏰.
 3. At the bottom right, click **Add Trigger**.
-4. In the dialog, choose `run` as the function to run and configure an appropriate time interval (6 - 12 hours) to run periodically, as the example below.
+4. In the dialog, choose `run` as the function to run and configure an appropriate time interval (6 - 12 hours) to run periodically, as in the example below.
 
    ![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
 
 ## Set Up Health Monitoring (Optional)
 
-Instagram changes its API endpoint and data structure occasionally without any announcements. Therefore, you may want to set up a health monitoring to check if the script requests and handles the Instagram API data properly.
+Instagram changes its API endpoint and data structure occasionally without any announcements. Therefore, you may want to set up health monitoring to check if the script requests and handles the Instagram API data properly.
 
-`test_pipeline()` is a function to perform a health check, trigger badge updates, and error report emails. The health check is considered passing if it detects a presence of stories from the following Instagram accounts,
+`test_pipeline()` is a function to perform a health check, trigger badge updates, and error report emails. The health check is considered passing if it detects the presence of stories from the following Instagram accounts,
 
 - bbcnews,
 - cnn,
@@ -184,7 +183,7 @@ You can set up a periodic health check with the following steps:
 
 1. Open the page "Settings" in your Google Sheet file.
 2. Click the <kbd>+ Create badges</kbd> button to execute `createBadges()`.
-3. Open your Google Drive, you should see the two badge files, `last-tested-date.svg` and `last-tested-status.svg`, are created in the destination folder.
+3. Open your Google Drive, you should see the two badge files, `last-tested-date.svg` and `last-tested-status.svg`, created in the destination folder.
 
    ![Status Badges](/docs/images/status-badges.png)
 
@@ -209,7 +208,7 @@ function setUserProperties() {
 }
 ```
 
-Run `setUserProperties()` once to store your username and password as secret  properties. After that, this code is no longer necessary and you can remove it.
+Run `setUserProperties()` once to store your username and password as secret properties. After that, this code is no longer necessary and you can remove it.
 
 Now you can test your web app deployment by passing a URL with query strings like this, `https://script.google.com/<YOUR_APP_PATH>/exec?usr=<AUTH_USERNAME>&pwd=<AUTH_PASSWORD>&target={"name":"bbcnews","id":"16278726"}`.
 
@@ -226,7 +225,7 @@ To see the full list of changes made in each release, please refer to the [CHANG
 
 ## Like my stuff?
 
-Would you like to buy me a coffee? I would really appreciate it if you could support me for the development.
+Would you like to buy me a coffee? I would really appreciate it if you could support me in the development.
 
 <a href="https://www.buymeacoffee.com/chrisfungky"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" target="_blank"></a>
 
