@@ -69,18 +69,26 @@ export function getInstagramData(query) {
   try {
     response = UrlFetchApp.fetch(query, params).getContentText();
   } catch (err) {
-    const errorMessage = err.message + ' (error code: 0xf1)';
+    const errorMessage = err.message + ' (code: 0xf1)';
     console.error(errorMessage);
     throw new Error(errorMessage);
   }
   if (isDebug) {
     console.log(response);
   }
+  if (response.startsWith('<!DOCTYPE html>')) {
+    const errorMessage = response.includes('not-logged-in')
+      ? 'Unable to log into Instagram (code: 0xf3)'
+      : 'Instagram API retured response in HTML not JSON (code: 0xf4)';
+    console.error(`${errorMessage}:\n${response}`);
+    throw new Error(errorMessage);
+  }
   try {
     return JSON.parse(response);
   } catch (err) {
-    console.error('Failed to parse response (error code: 0xf2):\n' + response);
-    throw new Error('Failed to parse response (error code: 0xf2)');
+    errorMessage = 'Failed to parse response (code: 0xf2)';
+    console.error(`${errorMessage}:\n${response}`);
+    throw new Error(errorMessage);
   }
 }
 
@@ -111,9 +119,8 @@ export function tryGetStories(targetIgUser) {
     loadSettings();
   }
   const queryUrl = getQuery(targetIgUser.id);
-  const html = getInstagramData(queryUrl);
-
-  const urls = parseDownloadUrl(html, true);
+  const data = getInstagramData(queryUrl);
+  const urls = parseDownloadUrl(data, true);
   console.log(
     'Number of downloadable media files from @' +
       targetIgUser.name +
@@ -166,7 +173,7 @@ export function fetch(target) {
 
     // If the URL appears in recent logs, skip uploading file to Google Drive
     if (isDownloaded(pathname)) {
-      message += 'Already been uploaded.\n';
+      msg += 'Already been uploaded.\n';
       return;
     }
 
