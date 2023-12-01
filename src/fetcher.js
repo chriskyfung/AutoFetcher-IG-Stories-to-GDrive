@@ -151,6 +151,13 @@ export function fetch(target) {
   // For each media URL
   if (urls != null && urls.length > 0) {
     urls.forEach((url) => {
+
+      // Remove query strings from the URL.
+      if (typeof url !== 'string') {
+        console.warn('The \'url\' variable is not a string.')
+        return;
+      };
+
       // Remove query strings from the URL.
       const pathname = url.split('.com')[1].split('?')[0];
       // Check if the URL appears in the recent logs.
