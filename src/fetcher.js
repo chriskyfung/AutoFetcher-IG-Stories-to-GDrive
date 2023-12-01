@@ -1,15 +1,13 @@
 /**
  * fetcher.js
- * Copyright (c) 2018-2023
+ * Copyright (c) 2023
  *
  * This file contains the Google Apps Script to fetch and upload the media
  * files from the latest available Stories of a Instagram user to your Google
  * Drive.
  *
  * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2018-01-29
- * Last modified  : 2023-02-14
+ * Last modified  : 2023-12-01
  */
 
 import {
@@ -53,8 +51,7 @@ export function getInstagramData(query) {
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-origin',
-      'user-agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+      'user-agent': `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36`,
       'viewport-width': '960',
       'x-asbd-id': igParams.X_ASBD_ID,
       'x-csrftoken': igParams.X_CSRFTOKEN,
@@ -104,7 +101,9 @@ function parseDownloadUrl(data) {
  * Test getting the URLs of media files in the data retrieved from Instagram's
  * API using getInstagramData() and parseDownloadUrl().
  * @param {Object} targetIgUser - A JSON object contains the name and id of an
- *  Instagram account, e.g. { "name": "john", "id": "1234567890", "destination": "1vm...sIS" }.
+ *  Instagram account, e.g. { "name": "john",
+ *                             "id": "1234567890",
+ *                            "destination": "1vm...sIS" }.
  * @return {number} The number of URLs obtained.
  */
 export function tryGetStories(targetIgUser) {
@@ -145,47 +144,44 @@ export function fetch(target) {
   const queryUrl = getQuery(target.id);
   const data = getInstagramData(queryUrl);
   const urls = parseDownloadUrl(data, false);
+
   // Get recent log data stored in the Google Sheet file.
   let msg = '';
   loadRecentLogs();
-  // For each media URL
-  if (urls != null && urls.length > 0) {
-    urls.forEach((url) => {
 
-      // Remove query strings from the URL.
-      if (typeof url !== 'string') {
-        console.warn('The \'url\' variable is not a string.')
-        return;
-      };
-
-      // Remove query strings from the URL.
-      const pathname = url.split('.com')[1].split('?')[0];
-      // Check if the URL appears in the recent logs.
-      if (isDownloaded(pathname)) {
-        // Skip processing any downloaded file.
-        msg += 'Already been uploaded.\n';
-      } else {
-        // Upload fresh media file to the destination Google Drive folder
-        let destinationFolder = ''
-        if (target.destination == '') {
-          destinationFolder = dest.folderId
-        } else {
-          destinationFolder = target.destination
-        }
-        msg += uploadToDrive(url, destinationFolder, '');
-        const currentDatatime = new Date();
-        insertNewLog(
-          currentDatatime.toLocaleString(), // Datatime string
-          target.name, // IG username
-          url, // Full URL
-          pathname.split('.').pop(), // File extension
-          createViewFileFormula(pathname.split('/').pop(), destinationFolder)
-        );
-      }
-    });
-  } else {
-    msg += 'No media file available.\n';
+  // Append message and return if no urls are obtained
+  if (urls === null || urls.length <= 0) {
+    msg += 'No media URLs.\n';
+    return msg;
   }
+
+  // For each media URL
+  urls.forEach((url) => {
+    // Remove query strings from the URL
+    if (typeof url !== 'string') {
+      console.warn("The 'url' variable is not a string.");
+      return;
+    }
+    const pathname = url.split('.com')[1].split('?')[0];
+
+    // If the URL appears in recent logs, skip uploading file to Google Drive
+    if (isDownloaded(pathname)) {
+      message += 'Already been uploaded.\n';
+      return;
+    }
+
+    // Upload fresh media file to the destination Google Drive folder
+    const destinationFolder = target.destination || dest.folderId;
+    const currentDatatime = new Date();
+    msg += uploadToDrive(url, destinationFolder, '');
+    insertNewLog(
+      currentDatatime.toLocaleString(), // Datatime string
+      target.name, // IG username
+      url, // Full URL
+      pathname.split('.').pop(), // File extension
+      createViewFileFormula(pathname.split('/').pop(), destinationFolder)
+    );
+  });
   return msg;
 }
 
