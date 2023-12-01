@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Fri, 01 Dec 2023 13:41:11 GMT
+ * Build at: Fri, 01 Dec 2023 16:44:24 GMT
  */
 
 const IGSF = Object.create(null);
@@ -139,7 +139,7 @@ function loadSettings() {
 
 /**
  * logger.js
- * Copyright (c) 2021
+ * Copyright (c) 2021-2023
  *
  * This file contains the Google Apps Script to read/write logs in the Google
  * Sheet that the Apps Script is bounded to.
@@ -147,12 +147,15 @@ function loadSettings() {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-09-20
+ * Last updated at : 2023-02-21
  */
 
 const numOfColumns = 5;
-const columnFilename = 5;
-const columnSelected = numOfColumns + 1;
+const column = {
+  filename: 5,
+  selected: 6,
+  empty: 7,
+};
 let previousLogs;
 
 /**
@@ -176,7 +179,7 @@ function insertNewLog(datetime, username, url, filetype, filename) {
   logsSheet
     .getRange(2, 1, 1, numOfColumns)
     .setValues([[datetime, username, url, filetype, filename]]);
-  logsSheet.getRange(2, columnSelected).insertCheckboxes();
+  logsSheet.getRange(2, column.selected).insertCheckboxes();
 }
 
 /**
@@ -213,19 +216,19 @@ function isDownloaded(searchTerm) {
 }
 
 /**
- * onEdit event handler
- * @param {Object} e An event object
+ * Get and format the data of selected log entries
+ * @return {Object} The log sheet and the data of the selected entries
  */
-function deleteSelected() {
+function getSelected() {
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
   );
   const lastRow = logsSheet.getLastRow();
-  const itemsToDelete = [];
+  const items = [];
   for (let row = 2; row <= lastRow; row++) {
-    if (logsSheet.getRange(row, columnSelected).isChecked()) {
-      const formula = logsSheet.getRange(row, columnFilename).getFormula();
-      itemsToDelete.push({
+    if (logsSheet.getRange(row, column.selected).isChecked()) {
+      const formula = logsSheet.getRange(row, column.filename).getFormula();
+      items.push({
         row: row,
         fileId: formula
           .split('https://drive.google.com/file/d/')
@@ -235,16 +238,89 @@ function deleteSelected() {
       });
     }
   }
+  return {
+    sheet: logsSheet,
+    items: items,
+  };
+}
+
+/**
+ * Delete selected log entries from the log sheet and
+ * their files from Google Drive
+ */
+function deleteSelected() {
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
+  const items = getSelected().items;
   const msg = Browser.msgBox(
     'Delete Seleted Items',
-    `Are you sure you want to delete these ${itemsToDelete.length} items and their files from your Drive?`,
+    `Are you sure you want to delete these ${items.length} items and their files from your Drive?`,
     Browser.Buttons.YES_NO
   );
   if (msg === 'yes') {
-    itemsToDelete.forEach((item, index) => {
+    items.forEach((item, index) => {
       DriveApp.getFileById(item.fileId).setTrashed(true);
       logsSheet.deleteRow(item.row - index);
     });
+  }
+}
+
+/**
+ * Ask user to enter a Google Folder ID, and
+ * move the selected entries' files to this folder
+ */
+function moveSelected() {
+    const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
+  const items = getSelected().items;
+  const ui = SpreadsheetApp.getUi();
+  const result = ui.prompt(
+    'Please enter the destination folder ID:',
+    ui.ButtonSet.OK_CANCEL
+  );
+  // Process the user's response.
+  const button = result.getSelectedButton();
+  const text = result.getResponseText();
+  if (button == ui.Button.OK) {
+    // User clicked "OK".
+    let destFolder;
+    try {
+      destFolder = DriveApp.getFolderById(text);
+    } catch (err) {
+      throw new Error(
+        'The folder does not exist or the user does not have permission to access it.'
+      );
+    }
+    const msg = Browser.msgBox(
+      'Move Seleted Items',
+      `Are you sure you want to move these ${
+        items.length
+      } items' files to 📁${destFolder.getName()}?`,
+      Browser.Buttons.YES_NO
+    );
+    if (msg === 'yes') {
+      items.forEach((item, index) => {
+        if (item.fileId != '') {
+          try {
+            DriveApp.getFileById(item.fileId).moveTo(destFolder);
+            logsSheet.getRange(item.row, column.selected).uncheck();
+            logsSheet
+              .getRange(item.row, column.empty)
+              .setValue('Moved')
+              .setFontColor('blue');
+          } catch (err) {
+            logsSheet
+              .getRange(item.row, column.empty)
+              .setValue(
+                'The file does not exist or the user does not have permission to access it.'
+              )
+              .setFontColor('red');
+          }
+        }
+      });
+    }
   }
 }
 
@@ -408,15 +484,23 @@ function getInstagramData(query) {
   try {
     response = UrlFetchApp.fetch(query, params).getContentText();
   } catch (err) {
-    const errorMessage = err.message + ' (error code: 0xf1)';
+    const errorMessage = err.message + ' (code: 0xf1)';
     console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+  if (response.startsWith('<!DOCTYPE html>')) {
+    const errorMessage = response.includes('not-logged-in')
+      ? 'Unable to log into Instagram (code: 0xf3)'
+      : 'Instagram API retured response in HTML not JSON (code: 0xf4)';
+    console.error(`${errorMessage}:\n${response}`);
     throw new Error(errorMessage);
   }
   try {
     return JSON.parse(response);
   } catch (err) {
-    console.error('Failed to parse response (error code: 0xf2):\n' + response);
-    throw new Error('Failed to parse response (error code: 0xf2)');
+    errorMessage = 'Failed to parse response (code: 0xf2)';
+    console.error(`${errorMessage}:\n${response}`);
+    throw new Error(errorMessage);
   }
 }
 
@@ -447,9 +531,8 @@ function tryGetStories(targetIgUser) {
     loadSettings();
   }
   const queryUrl = getQuery(targetIgUser.id);
-  const html = getInstagramData(queryUrl);
-
-  const urls = parseDownloadUrl(html);
+  const data = getInstagramData(queryUrl);
+  const urls = parseDownloadUrl(data);
   console.log(
     'Number of downloadable media files from @' +
       targetIgUser.name +
@@ -502,7 +585,7 @@ function fetch(target) {
 
     // If the URL appears in recent logs, skip uploading file to Google Drive
     if (isDownloaded(pathname)) {
-      message += 'Already been uploaded.\n';
+      msg += 'Already been uploaded.\n';
       return;
     }
 
@@ -536,128 +619,6 @@ function createViewFileFormula(filename, folderId) {
     const file = files.next();
     return `=HYPERLINK("${file.getUrl()}", "${filename}")`;
   }
-}
-
-/**
- * subscriber.js
- * Copyright (c) 2021
- *
- * This file contains the Google Apps Script to read/write logs in the Google
- * Sheet that the Apps Script is bounded to.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2021-11-02
- * Last modified  : 2021-11-02
- */
-
-/**
- * Get the listing from the Google Sheet that the Apps Script is bounded to,
- * and then fetch Instagram Stories for each item.
- */
-function batchFetch() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  const subscriptionsSheet = spreadsheet.getSheetByName(
-    sheetNames['subscriptions']
-  );
-  const data = subscriptionsSheet
-    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
-    .getValues();
-  data.forEach((row) => {
-    console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
-    console.log(msg);
-  });
-}
-
-/**
- * webapp.js
- * Copyright (c) 2018-2021
- *
- * This file contains the Google Apps Script for deploying a web app that
- * automatically fetches the latest available IG Stories of a target Instagram
- * user to your Google Drive.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2018-01-29
- * Last modified  : 2022-11-22
- */
-
-/**
- * Global variables
- */
-
-const AUTH_USERNAME =
-  PropertiesService.getUserProperties().getProperty('AUTH_USERNAME');
-const AUTH_PASSWORD =
-  PropertiesService.getUserProperties().getProperty('AUTH_PASSWORD');
-
-/**
- * Handle all HTTP GET requests made to the web app URL.
- * @param {Object} e - An event object containing request parameters, including
- *  the username and password for simple security check and the id and name of
- *  an Instagram account.
- * @return {string} The log messages.
- */
-function doGet(e) {
-  if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
-    console.error(
-      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
-    );
-  }
-  let usr = '';
-  let pwd = '';
-  let target = '';
-  // parse the username, password, and targeted Instagrm account information
-  try {
-    usr = e.parameter.usr.trim();
-    pwd = e.parameter.pwd.trim();
-    target =
-      typeof e.parameter.target === 'string'
-        ? JSON.parse(e.parameter.target)
-        : e.parameter.target;
-  } catch (err) {
-    console.error(err);
-  }
-  // Run the fetch() functoin if the request made with valid username,
-  // password, target parameters.
-  // Send the textual log or error message as the HTML response.
-  let msg = '';
-  if (usr === AUTH_USERNAME && pwd === AUTH_PASSWORD && target != '') {
-    msg = fetch(target);
-  } else {
-    msg = 'Invalid username and password or targetID!';
-    console.warn(msg);
-  }
-  ContentService.createTextOutput(msg);
-  return msg;
-}
-
-/**
- * Test doGet() with targeting NASA instagram stories
- */
-function try_get() {
-  /* eslint camelcase: "off" */
-  if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
-    console.error(
-      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
-    );
-  }
-  const igUserSampleSet = [
-    { name: 'bbcnews', id: '16278726' },
-    { name: 'cnn', id: '217723373' },
-    { name: 'medium', id: '1112881921' },
-    { name: 'nasa', id: '52881715' },
-  ];
-  const e = {
-    parameter: {
-      usr: AUTH_USERNAME,
-      pwd: AUTH_PASSWORD,
-      target: igUserSampleSet[0],
-    },
-  };
-  console.log(doGet(e));
 }
 
 /**
@@ -753,6 +714,128 @@ function setHealthStatusBadge(healthy) {
 }
 
 /**
+ * webapp.js
+ * Copyright (c) 2018-2021
+ *
+ * This file contains the Google Apps Script for deploying a web app that
+ * automatically fetches the latest available IG Stories of a target Instagram
+ * user to your Google Drive.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2018-01-29
+ * Last modified  : 2022-11-22
+ */
+
+/**
+ * Global variables
+ */
+
+const AUTH_USERNAME =
+  PropertiesService.getUserProperties().getProperty('AUTH_USERNAME');
+const AUTH_PASSWORD =
+  PropertiesService.getUserProperties().getProperty('AUTH_PASSWORD');
+
+/**
+ * Handle all HTTP GET requests made to the web app URL.
+ * @param {Object} e - An event object containing request parameters, including
+ *  the username and password for simple security check and the id and name of
+ *  an Instagram account.
+ * @return {string} The log messages.
+ */
+function doGet(e) {
+  if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
+    console.error(
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
+    );
+  }
+  let usr = '';
+  let pwd = '';
+  let target = '';
+  // parse the username, password, and targeted Instagrm account information
+  try {
+    usr = e.parameter.usr.trim();
+    pwd = e.parameter.pwd.trim();
+    target =
+      typeof e.parameter.target === 'string'
+        ? JSON.parse(e.parameter.target)
+        : e.parameter.target;
+  } catch (err) {
+    console.error(err);
+  }
+  // Run the fetch() functoin if the request made with valid username,
+  // password, target parameters.
+  // Send the textual log or error message as the HTML response.
+  let msg = '';
+  if (usr === AUTH_USERNAME && pwd === AUTH_PASSWORD && target != '') {
+    msg = fetch(target);
+  } else {
+    msg = 'Invalid username and password or targetID!';
+    console.warn(msg);
+  }
+  ContentService.createTextOutput(msg);
+  return msg;
+}
+
+/**
+ * Test doGet() with targeting NASA instagram stories
+ */
+function try_get() {
+  /* eslint camelcase: "off" */
+  if (!(AUTH_USERNAME && AUTH_PASSWORD)) {
+    console.error(
+      'Failed to get AUTH_USERNAME and AUTH_PASSWORD from User Properties'
+    );
+  }
+  const igUserSampleSet = [
+    { name: 'bbcnews', id: '16278726' },
+    { name: 'cnn', id: '217723373' },
+    { name: 'medium', id: '1112881921' },
+    { name: 'nasa', id: '52881715' },
+  ];
+  const e = {
+    parameter: {
+      usr: AUTH_USERNAME,
+      pwd: AUTH_PASSWORD,
+      target: igUserSampleSet[0],
+    },
+  };
+  console.log(doGet(e));
+}
+
+/**
+ * subscriber.js
+ * Copyright (c) 2021
+ *
+ * This file contains the Google Apps Script to read/write logs in the Google
+ * Sheet that the Apps Script is bounded to.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2021-11-02
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Get the listing from the Google Sheet that the Apps Script is bounded to,
+ * and then fetch Instagram Stories for each item.
+ */
+function batchFetch() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const subscriptionsSheet = spreadsheet.getSheetByName(
+    sheetNames['subscriptions']
+  );
+  const data = subscriptionsSheet
+    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
+    .getValues();
+  data.forEach((row) => {
+    console.log(`fetching ${row[0]}...`);
+    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
+    console.log(msg);
+  });
+}
+
+/**
  * Copyright (c) 2021-2022
  *
  * This file contains the code to test fetching Instagram stories using
@@ -821,6 +904,7 @@ exports.isDebug = isDebug;
 exports.isDownloaded = isDownloaded;
 exports.loadRecentLogs = loadRecentLogs;
 exports.loadSettings = loadSettings;
+exports.moveSelected = moveSelected;
 exports.setHealthStatusBadge = setHealthStatusBadge;
 exports.setTestDateBadge = setTestDateBadge;
 exports.sheetNames = sheetNames;
