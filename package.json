@@ -55,7 +55,11 @@
     "eslint": "eslint --ext .js --fix .",
     "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs -r && echo package.json) --write --ignore-path .eslintignore",
     "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:jekyll": "cd docs && bundle exec jekyll serve",
+    "start:jekyll:windows": "cd docs && bundle exec jekyll serve",
+    "version:github-pages": "cd docs && bundle exec github-pages versions",
+    "version:jekyll": "cd docs && bundle exec jekyll --version"
   },
   "dependencies": {
     "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
