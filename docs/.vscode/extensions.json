@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "dedsec727.jekyll-run",
+    "redhat.vscode-yaml",
+    "christian-kohler.npm-intellisense",
+    "eliostruyf.vscode-front-matter"
+  ]
+}
