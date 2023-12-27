@@ -99,17 +99,20 @@ function getSelected() {
   const lastRow = logsSheet.getLastRow();
   const items = [];
   for (let row = 2; row <= lastRow; row++) {
-    if (logsSheet.getRange(row, column.selected).isChecked()) {
-      const formula = logsSheet.getRange(row, column.filename).getFormula();
-      items.push({
-        row: row,
-        fileId: formula
-          .split('https://drive.google.com/file/d/')
-          .pop()
-          .split('/view?')
-          .shift(),
-      });
+    if (!logsSheet.getRange(row, column.selected).isChecked()) {
+      continue;
     }
+    const rowData = logsSheet.getRange(row, 1, 1, numOfColumns).getValues()[0];
+    const formula = logsSheet.getRange(row, column.filename).getFormula();
+    items.push({
+      row: row,
+      fileId: formula
+        .split('https://drive.google.com/file/d/')
+        .pop()
+        .split('/view?')
+        .shift(),
+      data: rowData,
+    });
   }
   return {
     sheet: logsSheet,
@@ -133,7 +136,16 @@ export function deleteSelected() {
   );
   if (msg === 'yes') {
     items.forEach((item, index) => {
-      DriveApp.getFileById(item.fileId).setTrashed(true);
+      if (item.fileId) {
+        const file = DriveApp.getFileById(item.fileId);
+        if (file) {
+          file.setTrashed(true);
+        } else {
+          console.error(`File not found for ${JSON.stringify(item)}`);
+        }
+      } else {
+        console.warn(`Missing File Id for ${JSON.stringify(item)}`);
+      }
       logsSheet.deleteRow(item.row - index);
     });
   }
@@ -144,7 +156,7 @@ export function deleteSelected() {
  * move the selected entries' files to this folder
  */
 export function moveSelected() {
-    const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
   );
   const items = getSelected().items;
@@ -163,7 +175,7 @@ export function moveSelected() {
       destFolder = DriveApp.getFolderById(text);
     } catch (err) {
       throw new Error(
-        'The folder does not exist or the user does not have permission to access it.'
+        `The folder does not exist or the user does not have permission to access it.`
       );
     }
     const msg = Browser.msgBox(
@@ -187,7 +199,7 @@ export function moveSelected() {
             logsSheet
               .getRange(item.row, column.empty)
               .setValue(
-                'The file does not exist or the user does not have permission to access it.'
+                `The file does not exist or the user does not have permission to access it.`
               )
               .setFontColor('red');
           }

@@ -30,3 +30,5 @@ const IGSF = Object.create(null);
     plugins: [multi()],
   },
 ];
+
+console.log(`Build at:\n${timestamp.toUTCString()}`);
