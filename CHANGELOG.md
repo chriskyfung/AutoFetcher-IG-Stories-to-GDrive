@@ -92,15 +92,15 @@ Please update your Apps Script code to avoid failing access to Google Drive file
 
 ### Build2006a - Remove third-party fetch source
 
+**Breaking Change**
+
+The version Build2005a has failed since 2020-06-02 due to the suspension of the download source, storydownloader.net.
+
 🚩 Starting from Build2006a, all story data and files will be fetched directly from Instagram.com.
 
-⚠ **IMPORTANT UPDATE**
+### Build2005a - Replace third-party fetch source (2020-05-14)
 
-The version **Build2005a** failed on 2020-06-02 due to the suspension of the download source, storydownloader.net. The data of IG stories has been changed to fetch from the official site in the new version **Build2006a**.
+**Breaking Change**
 
-### Build2005a - Replace third-party fetch source
-
-⚠ **IMPORTANT UPDATE**
-
-Due to the suspension of **storyig.com**, the former version has failed since 2020-05-08.
-The new script fetches IG stories from **storydownloader.net**.
+⚠ Due to the suspension of **storyig.com**, the former versions has failed to work since 2020-05-08.
+The new version changed to fetch IG stories from **storydownloader.net**.
