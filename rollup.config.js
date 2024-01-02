@@ -4,7 +4,10 @@ const timestamp = new Date();
 
 export default [
   {
-    input: ['src/**/*.js'],
+    input: {
+      include: ['src/**/*.js'],
+      exclude: ['src/__tests__/*.test.js']
+    },
     treeshake: true,
     output: {
       format: 'cjs',
