@@ -10,4 +10,6 @@ module.exports = {
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
+
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)'],
 };
