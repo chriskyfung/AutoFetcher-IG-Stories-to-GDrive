@@ -14,5 +14,8 @@
   "markdownlint.config": {
     "MD007": false,
     "MD029": false
-  }
+  },
+  "jest.autoRun": "on-save",
+  "jest.jestCommandLine": "npm test --",
+  "jestrunner.configPath": "jest.config.cjs"
 }
