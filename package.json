@@ -55,7 +55,7 @@
     "eslint": "eslint --ext .js --fix .",
     "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs -r && echo package.json) --write --ignore-path .eslintignore",
     "build": "rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config jest.config.cjs",
     "start:jekyll": "cd docs && bundle exec jekyll serve",
     "start:jekyll:windows": "cd docs && bundle exec jekyll serve",
     "version:github-pages": "cd docs && bundle exec github-pages versions",
@@ -65,14 +65,18 @@
     "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.23.7",
     "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^6.0.0",
     "@types/google-apps-script": "^1.0.56",
+    "babel-jest": "^29.7.0",
+    "babel-polyfill": "^6.26.0",
     "eslint": "^8.28.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-googleappsscript": "^1.0.4",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^29.7.0",
     "prettier": "^2.6.2",
     "rollup": "^3.4.0"
   }
