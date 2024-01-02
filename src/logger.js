@@ -42,6 +42,7 @@ let previousLogs;
  * @param {String} filename The filename of the downloaded file
  */
 export function insertNewLog(datetime, username, url, filetype, filename) {
+  // TODO: fix #84 logging blank file name
   // Get the sheet to store the log data.
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']

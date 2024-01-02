@@ -19,6 +19,7 @@ import {
 } from './init';
 import { insertNewLog, loadRecentLogs, isDownloaded } from './logger';
 import { uploadToDrive } from './url_to_drive';
+import { getFileDetails } from './utils';
 
 /**
  * Compose the URL and the query string to the Instagram's API endpoint.
@@ -69,8 +70,11 @@ export function getInstagramData(query) {
   try {
     response = UrlFetchApp.fetch(query, params).getContentText();
   } catch (err) {
+    // TODO: Inteprut error types and assign new error codes for known issues
     const errorMessage = err.message + ' (code: 0xf1)';
     console.error(errorMessage);
+    // eslint-disable-next-line max-len
+    // TODO: Skip throwing Error: Address unavailable: https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=... (code: 0xf1) 
     throw new Error(errorMessage);
   }
   if (isDebug) {
@@ -130,6 +134,8 @@ export function tryGetStories(targetIgUser) {
   return urls.length;
 }
 
+
+
 /**
  * Main function of this Apps Script.
  * - Insert logs to the Google Sheet that the Apps Script is bounded to.
@@ -169,10 +175,13 @@ export function fetch(target) {
       console.warn("The 'url' variable is not a string.");
       return;
     }
-    const pathname = url.split('.com')[1].split('?')[0];
+
+    // TODO: fix #84 logging blank filename
+    // const pathname = url.split('.com')[1].split('?')[0];
+    const {path, fileName, fileExtension} = getFileDetails(url);
 
     // If the URL appears in recent logs, skip uploading file to Google Drive
-    if (isDownloaded(pathname)) {
+    if (isDownloaded(path)) {
       msg += 'Already been uploaded.\n';
       return;
     }
@@ -185,8 +194,9 @@ export function fetch(target) {
       currentDatatime.toLocaleString(), // Datatime string
       target.name, // IG username
       url, // Full URL
-      pathname.split('.').pop(), // File extension
-      createViewFileFormula(pathname.split('/').pop(), destinationFolder)
+      fileExtension, // File extension
+      // TODO: fix #84 logging blank filename
+      createViewFileFormula(fileName, destinationFolder)
     );
   });
   return msg;
