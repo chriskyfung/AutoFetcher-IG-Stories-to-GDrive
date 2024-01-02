@@ -1,13 +1,12 @@
 /**
  * fetcher.js
- * Copyright (c) 2023
+ * Copyright (c) 2024
  *
  * This file contains the Google Apps Script to fetch and upload the media
  * files from the latest available Stories of a Instagram user to your Google
  * Drive.
  *
  * @author Chris K.Y. Fung <github.com/chriskyfung>
- * Last modified  : 2023-12-01
  */
 
 import {
@@ -134,8 +133,6 @@ export function tryGetStories(targetIgUser) {
   return urls.length;
 }
 
-
-
 /**
  * Main function of this Apps Script.
  * - Insert logs to the Google Sheet that the Apps Script is bounded to.
@@ -172,13 +169,15 @@ export function fetch(target) {
   urls.forEach((url) => {
     // Remove query strings from the URL
     if (typeof url !== 'string') {
-      console.warn("The 'url' variable is not a string.");
+      console.warn(
+        'Invalid type for url. Expected string but received ' + typeof url
+      );
       return;
     }
 
-    // TODO: fix #84 logging blank filename
+    // DONE: fix #84 logging blank filename
     // const pathname = url.split('.com')[1].split('?')[0];
-    const {path, fileName, fileExtension} = getFileDetails(url);
+    const { path, fileName, fileExtension } = getFileDetails(url);
 
     // If the URL appears in recent logs, skip uploading file to Google Drive
     if (isDownloaded(path)) {
@@ -190,13 +189,20 @@ export function fetch(target) {
     const destinationFolder = target.destination || dest.folderId;
     const currentDatatime = new Date();
     msg += uploadToDrive(url, destinationFolder, '');
+    // DONE: fix #84 logging blank filename
+    const fileLink = createViewFileFormula(fileName, destinationFolder);
+    if (!fileLink) {
+      console.warn(
+        `An issue occurred while generating the formula with the =HYPERLINK() function for the file ${fileName}. The URL ${url} was not downloaded as expected.`
+        );
+      return;
+    }
     insertNewLog(
       currentDatatime.toLocaleString(), // Datatime string
       target.name, // IG username
       url, // Full URL
       fileExtension, // File extension
-      // TODO: fix #84 logging blank filename
-      createViewFileFormula(fileName, destinationFolder)
+      fileLink, // Linked file name 
     );
   });
   return msg;
