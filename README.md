@@ -2,8 +2,7 @@
 
 A Google Apps Script to automatically fetch the latest available IG Stories of a target Instagram user to your Google Drive.
 
-[![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
-![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
+[![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive) ![Health Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.health&label=health%20check&color=%24.color) ![Last Tested Date](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.date&label=last%20tested&color=9146ff)
 
 ## 🔔 Highlights
 
