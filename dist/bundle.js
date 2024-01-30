@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Mon, 01 Jan 2024 10:44:31 GMT
+ * Build at: Tue, 30 Jan 2024 08:39:23 GMT
  */
 
 const IGSF = Object.create(null);
@@ -138,6 +138,98 @@ function loadSettings() {
 }
 
 /**
+ * badge.js
+ * Copyright (c) 2020-2021
+ *
+ * This file contains the code to create and update SVG badges,
+ * such as "last-tested-date.svg" and a "last-tested-status.svg".
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2020-10-08
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
+ * in the destination folder of your Google Drive using DriveApp service.
+ * Obtain the file IDs and store them in the "Settings" page of the bounded
+ * Google Sheet file.
+ */
+function createBadages() {
+  loadSettings();
+  // Get the sheet stored the settings of Instagram Stories Fetcher
+  const spreadsheet = SpreadsheetApp.getActive();
+  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
+  // Create blank SVG files in the destination folder, and store their file IDs
+  // in the global variable `badgeFileIds`.
+  badgeFileIds.lastTestedDate = dest.folderObj
+    .createFile('last-tested-date.svg', '', 'image/svg+xml')
+    .getId();
+  badgeFileIds.lastTestedStatus = dest.folderObj
+    .createFile('last-tested-status.svg', '', 'image/svg+xml')
+    .getId();
+  // Fill in the file IDs to the Google Sheet.
+  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
+  settingsSheet
+    .getRange('statusBadgeId')
+    .setValue(badgeFileIds.lastTestedStatus);
+  // Fill the blank SVG files with default contents.
+  setTestDateBadge();
+  setHealthStatusBadge();
+}
+
+/**
+ * Update the "last-tested-date.svg" file using DriveApp service.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setTestDateBadge() {
+  if (badgeFileIds.lastTestedDate != '') {
+    const formattedDate = Utilities.formatDate(
+      new Date(),
+      'GMT',
+      'MMM dd, YYYY'
+    );
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedDate,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
+      )
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
+ * Update the "last-tested-status.svg" file using DriveApp service.
+ * @param {boolean} healthy The arguement to determine the badge color and the
+ *                 text to display in the badge. Default value is 'failed'.
+ * @return {string|null} The URL that can be used to download the file.
+ *                       Otherwise, returns null.
+ */
+function setHealthStatusBadge(healthy) {
+  if (badgeFileIds.lastTestedStatus != '') {
+    const [color, status] =
+      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
+    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
+    return DriveApp.getFileByIdAndResourceKey(
+      badgeFileIds.lastTestedStatus,
+      file.getResourceKey()
+    )
+      .setContent(
+        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
+      )
+      .setDescription(`test-${healthy}`)
+      .getDownloadUrl();
+  }
+  return null;
+}
+
+/**
  * logger.js
  * Copyright (c) 2021-2023
  *
@@ -169,6 +261,7 @@ let previousLogs;
  * @param {String} filename The filename of the downloaded file
  */
 function insertNewLog(datetime, username, url, filetype, filename) {
+  // TODO: fix #84 logging blank file name
   // Get the sheet to store the log data.
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
@@ -436,15 +529,28 @@ function uploadToDrive(url, folderid, filename) {
 }
 
 /**
+ * Returns an object containing the path, file name, and file extension
+ *   of a given URL.
+ * @param {string} url - The URL to extract file details from.
+ * @return {Object} An object containing the path, file name, and file
+ *   extension of the URL.
+ */
+const getFileDetails = (url) => {
+  const path = url.split('.com')[1].split(/[?#]/)[0];
+  const fileName = path.split('/').pop();
+  const fileExtension = fileName.split('.').pop();
+  return { path: path, fileName: fileName, fileExtension: fileExtension };
+};
+
+/**
  * fetcher.js
- * Copyright (c) 2023
+ * Copyright (c) 2024
  *
  * This file contains the Google Apps Script to fetch and upload the media
  * files from the latest available Stories of a Instagram user to your Google
  * Drive.
  *
  * @author Chris K.Y. Fung <github.com/chriskyfung>
- * Last modified  : 2023-12-01
  */
 
 /**
@@ -492,26 +598,30 @@ function getInstagramData(query) {
     method: 'GET',
     mode: 'cors',
   };
+  
   let response;
   try {
-    response = UrlFetchApp.fetch(query, params).getContentText();
+    response = UrlFetchApp.fetch(query, params);
   } catch (err) {
-    const errorMessage = err.message + ' (code: 0xf1)';
-    console.error(errorMessage);
+    console.warn(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
+    const errorMessage = `${err.message} (code: 0xf1)`;
     throw new Error(errorMessage);
   }
-  if (response.startsWith('<!DOCTYPE html>')) {
-    const errorMessage = response.includes('not-logged-in')
+  console.log(`status code: ${response.getResponseCode()}`);
+
+  const contentText = response.getContentText();
+  if (contentText.startsWith('<!DOCTYPE html>')) {
+    const errorMessage = contentText.includes('not-logged-in')
       ? 'Unable to log into Instagram (code: 0xf3)'
       : 'Instagram API retured response in HTML not JSON (code: 0xf4)';
-    console.error(`${errorMessage}:\n${response}`);
+    console.warn(`HTTP content: ${contentText}`);
     throw new Error(errorMessage);
   }
   try {
-    return JSON.parse(response);
+    return JSON.parse(contentText);
   } catch (err) {
     errorMessage = 'Failed to parse response (code: 0xf2)';
-    console.error(`${errorMessage}:\n${response}`);
+    console.warn(`HTTP content: ${contentText}`);
     throw new Error(errorMessage);
   }
 }
@@ -523,6 +633,7 @@ function getInstagramData(query) {
  */
 function parseDownloadUrl(data) {
   return (
+    // {"reels":{...},"reels_media":[...],"status":"ok"}
     data.reels_media[0]?.items.map(
       (item) => (item.video_versions || item.image_versions2.candidates)[0].url
     ) || []
@@ -590,13 +701,18 @@ function fetch(target) {
   urls.forEach((url) => {
     // Remove query strings from the URL
     if (typeof url !== 'string') {
-      console.warn("The 'url' variable is not a string.");
+      console.warn(
+        'Invalid type for url. Expected string but received ' + typeof url
+      );
       return;
     }
-    const pathname = url.split('.com')[1].split('?')[0];
+
+    // DONE: fix #84 logging blank filename
+    // const pathname = url.split('.com')[1].split('?')[0];
+    const { path, fileName, fileExtension } = getFileDetails(url);
 
     // If the URL appears in recent logs, skip uploading file to Google Drive
-    if (isDownloaded(pathname)) {
+    if (isDownloaded(path)) {
       msg += 'Already been uploaded.\n';
       return;
     }
@@ -605,12 +721,20 @@ function fetch(target) {
     const destinationFolder = target.destination || dest.folderId;
     const currentDatatime = new Date();
     msg += uploadToDrive(url, destinationFolder, '');
+    // DONE: fix #84 logging blank filename
+    const fileLink = createViewFileFormula(fileName, destinationFolder);
+    if (!fileLink) {
+      console.warn(
+        `An issue occurred while generating the formula with the =HYPERLINK() function for the file ${fileName}. The URL ${url} was not downloaded as expected.`
+        );
+      return;
+    }
     insertNewLog(
       currentDatatime.toLocaleString(), // Datatime string
       target.name, // IG username
       url, // Full URL
-      pathname.split('.').pop(), // File extension
-      createViewFileFormula(pathname.split('/').pop(), destinationFolder)
+      fileExtension, // File extension
+      fileLink, // Linked file name 
     );
   });
   return msg;
@@ -756,98 +880,6 @@ function batchFetch() {
 }
 
 /**
- * badge.js
- * Copyright (c) 2020-2021
- *
- * This file contains the code to create and update SVG badges,
- * such as "last-tested-date.svg" and a "last-tested-status.svg".
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2020-10-08
- * Last modified  : 2021-11-02
- */
-
-/**
- * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
- * in the destination folder of your Google Drive using DriveApp service.
- * Obtain the file IDs and store them in the "Settings" page of the bounded
- * Google Sheet file.
- */
-function createBadages() {
-  loadSettings();
-  // Get the sheet stored the settings of Instagram Stories Fetcher
-  const spreadsheet = SpreadsheetApp.getActive();
-  const settingsSheet = spreadsheet.getSheetByName(sheetNames['settings']);
-  // Create blank SVG files in the destination folder, and store their file IDs
-  // in the global variable `badgeFileIds`.
-  badgeFileIds.lastTestedDate = dest.folderObj
-    .createFile('last-tested-date.svg', '', 'image/svg+xml')
-    .getId();
-  badgeFileIds.lastTestedStatus = dest.folderObj
-    .createFile('last-tested-status.svg', '', 'image/svg+xml')
-    .getId();
-  // Fill in the file IDs to the Google Sheet.
-  settingsSheet.getRange('dateBadgeId').setValue(badgeFileIds.lastTestedDate);
-  settingsSheet
-    .getRange('statusBadgeId')
-    .setValue(badgeFileIds.lastTestedStatus);
-  // Fill the blank SVG files with default contents.
-  setTestDateBadge();
-  setHealthStatusBadge();
-}
-
-/**
- * Update the "last-tested-date.svg" file using DriveApp service.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setTestDateBadge() {
-  if (badgeFileIds.lastTestedDate != '') {
-    const formattedDate = Utilities.formatDate(
-      new Date(),
-      'GMT',
-      'MMM dd, YYYY'
-    );
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedDate);
-    return DriveApp.getFileByIdAndResourceKey(
-      badgeFileIds.lastTestedDate,
-      file.getResourceKey()
-    )
-      .setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="152" height="20" role="img" aria-label="last health check on ${formattedDate}"><title>tested on: ${formattedDate}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="152" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="67" height="20" fill="#555"/><rect x="67" width="85" height="20" fill="#fe7d37"/><rect width="152" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="345" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="570">tested on</text><text x="345" y="140" transform="scale(.1)" fill="#fff" textLength="570">tested on</text><text aria-hidden="true" x="1085" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">${formattedDate}</text><text x="1085" y="140" transform="scale(.1)" fill="#fff" textLength="750">${formattedDate}</text></g></svg>`
-      )
-      .getDownloadUrl();
-  }
-  return null;
-}
-
-/**
- * Update the "last-tested-status.svg" file using DriveApp service.
- * @param {boolean} healthy The arguement to determine the badge color and the
- *                 text to display in the badge. Default value is 'failed'.
- * @return {string|null} The URL that can be used to download the file.
- *                       Otherwise, returns null.
- */
-function setHealthStatusBadge(healthy) {
-  if (badgeFileIds.lastTestedStatus != '') {
-    const [color, status] =
-      healthy === true ? ['#4c1', 'passed'] : ['#f00', 'failed'];
-    const file = DriveApp.getFileById(badgeFileIds.lastTestedStatus);
-    return DriveApp.getFileByIdAndResourceKey(
-      badgeFileIds.lastTestedStatus,
-      file.getResourceKey()
-    )
-      .setContent(
-        `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="20" role="img" aria-label="health check: ${status}}"><title>health check: ${status}</title><linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="r"><rect width="124" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#r)"><rect width="75" height="20" fill="#555"/><rect x="75" width="49" height="20" fill="${color}"/><rect width="124" height="20" fill="url(#s)"/></g><g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110"><text aria-hidden="true" x="385" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="650">health check</text><text x="385" y="140" transform="scale(.1)" fill="#fff" textLength="650">health check</text><text aria-hidden="true" x="985" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="390">${status}</text><text x="985" y="140" transform="scale(.1)" fill="#fff" textLength="390">${status}</text></g></svg>`
-      )
-      .setDescription(`test-${healthy}`)
-      .getDownloadUrl();
-  }
-  return null;
-}
-
-/**
  * Copyright (c) 2021-2022
  *
  * This file contains the code to test fetching Instagram stories using
@@ -908,6 +940,7 @@ exports.dest = dest;
 exports.doGet = doGet;
 exports.fetch = fetch;
 exports.fetchTest = fetchTest;
+exports.getFileDetails = getFileDetails;
 exports.getInstagramData = getInstagramData;
 exports.getQuery = getQuery;
 exports.igParams = igParams;
