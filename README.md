@@ -115,7 +115,7 @@ The following request header fields are required to access the Instagram API as 
 `cookie`
 : This is a small piece of data that is sent from Instagram’s servers to the user’s browser. It is used to keep track of the user’s activity on the site and to personalize the user’s experience.
 
-⚠ Please note that this information is subject to change and may not be up-to-date.
+⚠️ Please note that this information is subject to change and may not be up-to-date.
 
 #### Health Monitoring
 
@@ -132,7 +132,7 @@ The following request header fields are required to access the Instagram API as 
 - `Email To`
   : (Optional) The email address to receive an error message when the execution of `test_pipeline()` returns a "failed" status.
 
-### 🛠 Advanced Configurations
+### 🛠️ Advanced Configurations
 
 In addition to the basic configurations outlined above, you can also enable the following advanced configurations:
 
@@ -167,6 +167,6 @@ Would you like to buy me a coffee? I would really appreciate it if you could sup
 
 <a href="https://www.buymeacoffee.com/chrisfungky"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" target="_blank"></a>
 
-## ⚖ License
+## ⚖️ License
 
 Distributed under the [GNU Affero General Public License v3.0](LICENSE.md)
