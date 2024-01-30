@@ -169,4 +169,4 @@ Would you like to buy me a coffee? I would really appreciate it if you could sup
 
 ## ⚖️ License
 
-Distributed under the [GNU Affero General Public License v3.0](LICENSE.md)
+This project is distributed under the AGPL-3.0 license. You can use, modify, and distribute this project, as long as you comply with the terms and conditions in the [LICENSE](/LICENSE.md) file.
