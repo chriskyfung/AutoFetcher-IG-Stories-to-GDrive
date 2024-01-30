@@ -65,32 +65,34 @@ export function getInstagramData(query) {
     method: 'GET',
     mode: 'cors',
   };
+  
   let response;
   try {
-    response = UrlFetchApp.fetch(query, params).getContentText();
+    response = UrlFetchApp.fetch(query, params)
   } catch (err) {
-    // TODO: Inteprut error types and assign new error codes for known issues
-    const errorMessage = err.message + ' (code: 0xf1)';
-    console.error(errorMessage);
-    // eslint-disable-next-line max-len
-    // TODO: Skip throwing Error: Address unavailable: https://i.instagram.com/api/v1/feed/reels_media/?reel_ids=... (code: 0xf1) 
+    console.warn(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
+    const errorMessage = `${err.message} (code: 0xf1)`;
     throw new Error(errorMessage);
   }
+  console.log(`status code: ${response.getResponseCode()}`);
+
+  const contentText = response.getContentText();
   if (isDebug) {
-    console.log(response);
+    console.log(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
+    console.log(`HTTP content: ${contentText}`);
   }
-  if (response.startsWith('<!DOCTYPE html>')) {
-    const errorMessage = response.includes('not-logged-in')
+  if (contentText.startsWith('<!DOCTYPE html>')) {
+    const errorMessage = contentText.includes('not-logged-in')
       ? 'Unable to log into Instagram (code: 0xf3)'
       : 'Instagram API retured response in HTML not JSON (code: 0xf4)';
-    console.error(`${errorMessage}:\n${response}`);
+    console.warn(`HTTP content: ${contentText}`);
     throw new Error(errorMessage);
   }
   try {
-    return JSON.parse(response);
+    return JSON.parse(contentText);
   } catch (err) {
     errorMessage = 'Failed to parse response (code: 0xf2)';
-    console.error(`${errorMessage}:\n${response}`);
+    console.warn(`HTTP content: ${contentText}`);
     throw new Error(errorMessage);
   }
 }
@@ -102,6 +104,7 @@ export function getInstagramData(query) {
  */
 function parseDownloadUrl(data) {
   return (
+    // {"reels":{...},"reels_media":[...],"status":"ok"}
     data.reels_media[0]?.items.map(
       (item) => (item.video_versions || item.image_versions2.candidates)[0].url
     ) || []
