@@ -276,9 +276,15 @@ To see the full list of changes made in each release, please refer to the
 
 ## 💕 Like my stuff?
 
-Would you like to buy me a coffee? I would really appreciate it if you could support me in the development.
+If you enjoy using this tool and want to support me in the development, you can
+buy me a coffee. I would really appreciate it if you could show your appreciation
+and generosity.
 
-<a href="https://www.buymeacoffee.com/chrisfungky"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" target="_blank"></a>
+<a href="https://www.buymeacoffee.com/chrisfungky">
+  <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" 
+   style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;"
+   alt="Buy Me A Coffee" target="_blank" />
+</a>
 
 ## ⚖️ License
 
