@@ -26,15 +26,15 @@ phone, just use Google Sheets as a cloud tool to fetch the Stories you want.
 ### 🗄️ Table of Contents
 
 - [Introduction](#-introduction)
-- [How to Use](#-how-to-use)
+- [Usage](#-usage)
   - [Set Up Subscriptions](#-set-up-subscriptions)
-  - [Configuration Settings](#-configuration-settings)
-  - [Advanced Configurations](#-advanced-configurations)
-- [About Privacy](#-about-privacy)
+  - [Configuration Settings](#⚙️-configuration-settings)
+  - [Advanced Configurations](#🛠️-advanced-configurations)
+- [Privacy and Security](#-privacy-and-security)
 - [FAQ](#-faq)
 - [Release Notes](#-release-notes)
 - [Contributing](#-like-my-stuff)
-- [License](#-license)
+- [License](#⚖️-license)
 
 ## 📡 Introduction
 
