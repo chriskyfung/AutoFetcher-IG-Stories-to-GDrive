@@ -4,6 +4,8 @@
     "herrmannplatz.npm-dependency-links",
     "christian-kohler.npm-intellisense",
     "mikestead.dotenv",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "yahyabatulu.vscode-markdown-alert",
+    "bierner.markdown-preview-github-styles"
   ]
 }

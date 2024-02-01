@@ -1,20 +1,27 @@
 # IG Stories to GDrive Fetcher
 
-A Google Apps Script to automatically fetch the latest available IG Stories of a target Instagram user to your Google Drive.
+[![built with clasp]](https://github.com/google/clasp)
+[![code style: prettier]](https://github.com/prettier/prettier)
+![license: AGPL-3.0](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
+![Health Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.health&label=health%20check&color=%24.color) 
+![Last Tested Date](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.date&label=last%20tested&color=9146ff)
 
-[![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive) ![Health Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.health&label=health%20check&color=%24.color) ![Last Tested Date](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.date&label=last%20tested&color=9146ff)
+[built with clasp]: https://img.shields.io/badge/built%20with-clasp-4285f4.svg
+[code style: prettier]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square
 
-## 🔔 Highlights
+A no-code tool that lets you easily save the Instagram Stories of any user to 
+your Google Drive. You don’t need to install anything on your computer or 
+phone, just use Google Sheets as a cloud tool to fetch the Stories you want.
 
-🆕 NEW RELEASE ON 2023-02-16 🆕
+> [!NOTE]
+> **Release On 2023-02-16**  
+> Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤
+> We can now save downloaded files from different IG users to separate Google 
+> Drive folders 📁.
 
-Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤ We can now save downloaded files from different IG users to separate Google Drive folders 📁.
-
-Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named V8 or later.
-
-🪂 MINOR UPDATE ON 2023-02-14 🪂
-
-🧹 **Deprecated `x-instagram-ajax` from the _Settings_**. (_* Update Library to V7 or later_)
+> [!IMPORTANT]
+> Please update the Library Version to the latest in your Google Script or make 
+> a new copy of the Google Sheet template named **V8** or higher.
 
 ### 🗄️ Table of Contents
 
@@ -31,17 +38,23 @@ Please update the Library Version to the latest in your Google Script or make a 
 
 ## 📡 Introduction
 
-**AutoFetcher-IG-Stories-to-GDrive** is a Google Apps Script that automatically fetches the latest available Instagram stories of a target user to your Google Drive. The script is designed to work with a **Google Sheet** file as a user interface. The spreadsheet contains three sheets: **Subscriptions**, **Logs**, and **Settings**.
+This project lets you use Google Sheets and Google Apps Script, a platform that 
+allows you to create web apps with JavaScript, to make a cloud tool that saves 
+the latest Instagram Stories of any user you choose to your Google Drive.
 
-- **Subscriptions**: A table for you to list the Instagram users and their IDs that you want to subscribe to.
-- **Logs**: A log sheet of file download activities.
-- **Settings**: A tabular form for you to fill in the values of options and parameters for running the script.
+With this tool, you can:
 
-You can use the Google Sheet file and bind our script to it in the following ways:
+- Type the Instagram usernames and IDs of the people whose Stories you want to 
+  save in a Google Sheet.
+- Create a time-based trigger to run the script regularly at fixed intervals.
+- Modify the code to fit your needs and use it to connect and automate various 
+  Google services, such as Gmail, Calendar, Drive, and Sheets.
 
-- **Use our shared library**: Simply use a copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template. No coding is required, and it’s an easy way to upgrade to a new version.
-- **Inject our code into your project**: Modify the script bounded to your Google Sheet file by copying the source code in /dist/bundle.js to a .gs file and following the example below to call the functions from the IGSF object. This method is suitable for standalone deployment.
-- **Deploy a new library**: Create a new Apps Script project, copy the source code in /dist/bundle.js to it, and deploy the project as a library for other scripts. This method is suitable for reusable code across projects.
+This project is free and open-source. You can find the source code, the Google 
+Sheet template, and the step-by-step instructions on how to use the tool in this 
+repository. For more information, please visit the [project website].
+
+[project website]: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
 
 ## 🛹 How to Use
 

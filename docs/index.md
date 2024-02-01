@@ -26,9 +26,21 @@ description: Download any user’s IG Stories to GDrive for free. Just need Goog
 </figure>
 
 {:style="font-size:1.25rem;margin-top:2rem"}
-A Google Apps Script to automatically fetch the latest available IG Stories of a target Instagram user to your Google Drive.
+_Do you want to save the Instagram Stories of your favorite celebrities, influencers, or friends to your Google Drive?_ This project shows you how to do that with a simple tool that runs on Google Sheets. You just need to enter the Instagram usernames of the people you want to follow, and the tool will automatically download their latest Stories to your Drive. No coding or technical skills required!
 
 {% include toc.md %}
+
+## Introduction
+
+Instagram Stories are ephemeral posts that disappear after 24 hours. They are a popular way for users to share their daily moments, thoughts, and opinions with their followers. However, sometimes you may want to save the Stories of your favorite celebrities, influencers, or friends to your Google Drive for later viewing, analysis, or backup.
+
+This project uses Google Apps Script and Google Sheets to create a cloud-based tool that downloads the most recent Instagram Stories of any user you specify and saves them to your Google Drive. With this tool, you can:
+
+- Enter the Instagram usernames and IDs of the people you want to download Stories from in a Google Sheet.
+- Set up a time-driven trigger to run the script automatically at regular intervals.
+- Customize the code to suit your needs and use it to access and automate various Google services, such as Gmail, Calendar, Drive, and Sheets.
+
+This project is open-source and free to use. You can find the source code, the Google Sheet template, and the detailed instructions on how to use the tool on this website. You can also check out the project GitHub repository for more information and reporting issues.
 
 ## 🛹 How to Use
 
