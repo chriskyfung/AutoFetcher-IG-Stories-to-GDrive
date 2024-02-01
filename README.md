@@ -3,8 +3,8 @@
 [![built with clasp]](https://github.com/google/clasp)
 [![code style: prettier]](https://github.com/prettier/prettier)
 ![license: AGPL-3.0](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
-![Health Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.health&label=health%20check&color=%24.color) 
-![Last Tested Date](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbyLpLviO5VJY-AQGKWv5Mqy7jbJqGY3UfQqI56tWLbGIV9k0eI2mos0FgdOU9u2o164%2Fexec&query=%24.date&label=last%20tested&color=9146ff)
+![Health Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.health&label=health%20check&color=%24.color) 
+![Last Tested Date](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.date&label=last%20tested&color=9146ff)
 
 [built with clasp]: https://img.shields.io/badge/built%20with-clasp-4285f4.svg
 [code style: prettier]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square

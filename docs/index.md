@@ -21,8 +21,9 @@ description: Download any user’s IG Stories to GDrive for free. Just need Goog
 {% include picture.html img="/images/instagram-to-drive_730x365_o55.jpg" width="730" height="365" alt="Instagram to Google Drive Automation" source="raw" %}
 
 <figure class="status-badge-container shadow-none" style="display:flex;margin-top:1.75em">
-    <amp-img layout="fixed" width="150" height="20" src="https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download" alt="Service Status"></amp-img>
-    <amp-img layout="fixed" width="150" height="20" src="https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download" alt="Last tested date"></amp-img>
+  <amp-img layout="fixed" width="100" height="20" src="https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive" alt="License AGPL-3.0"></amp-img>
+  <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.health&label=health%20check&color=%24.color" alt="Health Status"></amp-img>
+  <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.date&label=last%20tested&color=9146ff" alt="Last Tested Date"></amp-img>
 </figure>
 
 {:style="font-size:1.25rem;margin-top:2rem"}
