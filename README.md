@@ -28,13 +28,13 @@ phone, just use Google Sheets as a cloud tool to fetch the Stories you want.
 - [Introduction](#-introduction)
 - [Usage](#-usage)
   - [Set Up Subscriptions](#-set-up-subscriptions)
-  - [Configuration Settings](#⚙️-configuration-settings)
-  - [Advanced Configurations](#🛠️-advanced-configurations)
+  - [Configuration Settings](#%EF%B8%8F-configuration-settings)
+  - [Advanced Configurations](#%EF%B8%8F-advanced-configurations)
 - [Privacy and Security](#-privacy-and-security)
 - [FAQ](#-faq)
 - [Release Notes](#-release-notes)
 - [Contributing](#-like-my-stuff)
-- [License](#⚖️-license)
+- [License](#%EF%B8%8F-license)
 
 ## 📡 Introduction
 
