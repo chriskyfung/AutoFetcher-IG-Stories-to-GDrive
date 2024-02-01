@@ -250,15 +250,29 @@ note:
 
 ## ❓ FAQ
 
-For answers to common questions, refer to our [FAQ section](https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/#-faq) on the project webpage. Some of the questions covered include:
+If you have any questions or problems with using our tool, please refer to our
+[FAQ section] on the project webpage. We have answered some of the most common
+questions, such as:
 
-1. How to find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id`, `x-ig-www-claim`, and `cookie`?
-2. Receiving an error message `Exception: Request failed for https://i.instagram.com returned code 400.`
-3. Receiving an error message `Exception: Unexpected error while getting the method or property getFolderById on object DriveApp.`
+[FAQ section]: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/#-faq
+
+1. How to find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id`,
+   `x-ig-www-claim`, and `cookie`?
+
+2. What to do if you receive an error message `Exception: Request failed for `
+   `https://i.instagram.com returned code 400.`?
+
+3. What to do if you receive an error message `Exception: Unexpected error while `
+   `getting the method or property getFolderById on object DriveApp.`?
+
+If you cannot find the answer to your question in the FAQ section, please feel
+free to contact us via GitHub issues or discussions. We will try our best to
+help you. 😊
 
 ## 📋 Release Notes
 
-To see the full list of changes made in each release, please refer to the [CHANGELOG.md](/CHANGELOG.md) file.
+To see the full list of changes made in each release, please refer to the
+[CHANGELOG.md](/CHANGELOG.md) file.
 
 ## 💕 Like my stuff?
 
