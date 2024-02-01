@@ -288,4 +288,14 @@ and generosity.
 
 ## ⚖️ License
 
-This project is distributed under the AGPL-3.0 license. You can use, modify, and distribute this project, as long as you comply with the terms and conditions in the [LICENSE](/LICENSE.md) file.
+This project is distributed under the AGPL-3.0 license. This means that you are
+free to use, modify, and share this project, as long as you follow these rules:
+
+- You must keep the original license and authorship information in the source
+  code and any copies or derivatives of the project.
+- You must disclose the source code and any modifications you make to the project
+  when you distribute it to others.
+- You must use the same license as the original project when you distribute it
+  to others.
+
+You can find the full text of the license in the [LICENSE](/LINCESE.txt) file.
