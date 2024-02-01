@@ -12,6 +12,12 @@ css:
       } .ml-li {
           margin-left: 1.5rem;
       } table { font-size: .95rem; margin-bottom: 1.5rem; } table ul { margin-top: 0; } tr:nth-child(odd) { backgroud-color: #e3edf3; } th, td { padding: .5em; vertical-align: top; } .faq>li>:first-child { background-color:bisque; padding: 1rem 0 1rem 2rem; margin-left: -1.5rem; }
+      p.hook { font-size: 1.15rem; margin:2rem 0 .5rem; }
+      p.hook::first-letter { font-size: 1.5rem; }
+      p.headline { font-size: 1.17rem; margin-left: 1.67rem; text-indent: .07rem }
+      .fa-google-drive { color: #4688F4; }
+      .fa-instagram { color: #d62976; }
+      .fa-heartbeat { color: #fa9573; }
 image:
    path: /images/instagram-to-drive_730x365_o55.jpg
    height: 365
@@ -26,8 +32,12 @@ description: Download any user’s IG Stories to GDrive for free. Just need Goog
   <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.date&label=last%20tested&color=9146ff" alt="Last Tested Date"></amp-img>
 </figure>
 
-{:style="font-size:1.25rem;margin-top:2rem"}
-_Do you want to save the Instagram Stories of your favorite celebrities, influencers, or friends to your Google Drive?_ This project shows you how to do that with a simple tool that runs on Google Sheets. You just need to enter the Instagram usernames of the people you want to follow, and the tool will automatically download their latest Stories to your Drive. No coding or technical skills required!
+{:.hook}
+_Do you want to save the Instagram Stories of your favorite celebrities, influencers, or friends to your Google Drive <i class="fab fa-google-drive"></i> ?_
+
+<i class="fab fa-instagram"></i> **IG Stories to GDrive Fetcher** lets you easily save Instagram Stories of anyone to
+your Google Drive simply using Google Sheets, You don’t need to install anything on your computer or phone.
+{:.headline}
 
 {% include toc.md %}
 
