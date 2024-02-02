@@ -1,7 +1,6 @@
 ---
 layout: page-right-sidebar
-date: 2020-09-29
-last_modified_at: 2023-12-27 21:56 +0800
+date: 2024-02-05 03:20:49 +08:00
 title: IG Stories to GDrive Fetcher 📸➡💾
 download: true
 amp:
@@ -263,6 +262,15 @@ Read the [Release Notes] page or visit the [project repository] to see the updat
 [Release Notes]: ./release-notes/
 [project repository]: {{ site.github.repository_url }} "Open on GitHub"
 
-## ⚖️ License
+## ⚖️ License and Terms
 
-Distributed under the [GNU Affero General Public License v3.0](LICENSE.md)
+This tool is distributed under the **GNU Affero General Public License v3.0**, which means that:
+
+- You can use, copy, modify, and distribute the tool for free. 🆓
+- You must disclose the source code and any modifications that you make. 📄
+- You must state the changes that you make to the tool. 📝
+- You must license your modified versions under the same license as the original tool. 📜
+
+Read the **[LICENSE]** file to learn more about the license and terms of use.
+
+[license]: {{ site.github.repository_url }}/blob/master/LICENSE.txt "Open on GitHub"
