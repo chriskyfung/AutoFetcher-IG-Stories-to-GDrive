@@ -4,14 +4,12 @@ date: 2020-09-29
 last_modified_at: 2023-12-27 21:56 +0800
 title: IG Stories to GDrive Fetcher 📸➡💾
 download: true
+amp:
+   youtube: true
 css:
    syntax: true
    custom: |-
-      .status-badge-container amp-img img {
-          object-fit: contain;
-      } .ml-li {
-          margin-left: 1.5rem;
-      } table { font-size: .95rem; margin-bottom: 1.5rem; } table ul { margin-top: 0; } tr:nth-child(odd) { backgroud-color: #e3edf3; } th, td { padding: .5em; vertical-align: top; } .faq>li>:first-child { background-color:bisque; padding: 1rem 0 1rem 2rem; margin-left: -1.5rem; }
+      .status-badge-container amp-img img { object-fit: contain; }
       p.hook { font-size: 1.15rem; margin:2rem 0 .5rem; }
       p.hook::first-letter { font-size: 1.5rem; }
       p.headline { font-size: 1.17rem; margin-left: 1.67rem; text-indent: .07rem }
@@ -22,6 +20,11 @@ css:
       .img-button a { box-shadow: 0 0 3px 2px #ffe51f; margin: 1.5rem; }
       .img-button a:hover { box-shadow: 0 -5px 16px 4px #ffdf1f; }
       .img-button a:hover > * { box-shadow: 0 -1px 24px 5px #ffed49; }
+      .note { font-style: normal; color: #2f81f7; border-left-color: #1f6feb; }
+      .note::first-line { font-family: sans-serif }
+      .tip { color: #238636; border-left-color: #238636; }
+      .caution { color: #f85149; border-left-color: #da3633; }
+      .ml-2 { margin-left: 2rem; }
 image:
    path: /images/instagram-to-drive_730x365_o55.jpg
    height: 365
@@ -95,57 +98,58 @@ The spreadsheet consists of the following three sheets:
 
 Please follow the instructions below to set up your Google Sheet.
 
-### 📩 Set Up Subscriptions
+### Set Up Subscriptions
 
-Add the name and ID of your target Instagram user accounts to the table on the page "Subscriptions"
+To subscribe to the Stories of your favorite Instagram users, you need to:
 
-The **Instagram User ID** is necessary to query the data of the target Instagram user from the official web API. You can look up the ID with username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id).
+- Add their names and IDs to the table on the "Subscriptions" sheet. 📝
 
-For example, label **bbcnews** as the name in the first column and put its ID **16278726** in the second column to subscribe to the stories from [BBC News's Instagram account](https://www.instagram.com/bbcnews/).
+  {:.note.tip}
+  > **💡 Tip**  
+  > For example, to subscribe to the Stories from [BBC News]’s Instagram account,
+  > you can enter **bbcnews** as the name in the first column and **16278726** as
+  > the ID in the second column.
 
-It will fetch the photos and videos from Instagram and upload them to your Google Drive folder if it finds any new stories from the listed accounts when you click on the <kbd>▶Run</kbd> button.
+  {% include picture.html alt="Screenshot of the Subscription sheet" img="images/subscription-sheet.png" width="418" height="193" source="raw" %}
 
-### ⚙️ Configuration Settings
+- Use [this online tool][User ID finder] powered by _The Code of a Ninja_ to find the ID of any user. 🔎
 
-- Google Drive
+  {% include picture.html alt="Screenshot of the Instagram User ID Finder" img="images/instagram-user-id-finder_565x341.png" width="418" height="252" source="raw" %}
 
-   - Folder ID (Optional)
-   : The ID of a Google Drive folder that serves as the default save location. Media files will be downloaded to the Google Drive root folder if this value is unspecified.
+- Click on the <kbd>▶Run</kbd> button to fetch the photos and videos from Instagram and upload them to your Google Drive folder. 🚀  
 
-- Instagram
+  {% include youtube.html id="ioeAkGVeqmA" title="Demo | IG Stories to GDrive Fetcher" indent="  " %}
 
-   - x-asbd-id 🆕
-  : The value of `x-asbd-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+[User ID finder]: https://www.codeofaninja.com/tools/find-instagram-user-id/
+[BBC News]: https://www.instagram.com/bbcnews/
 
-   - x-csrftoken 🆕
-   : The value of `x-csrftoken` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+### Configuration Settings
 
-   - x-ig-app-id
-   : The value of `x-ig-app-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+To use this tool, you need to fill in the values of the options and parameters in the "Settings" sheet.
 
-   - x-ig-www-claim
-   : The value of `x-ig-www-claim` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+**<i class="fab fa-google-drive"></i> Google Drive**
 
-   - x-instagram-ajax ⛔
-  : This field has been deprecated from Build 2023.02.14 (= Library v7).
+- **Folder ID**: (Optional) The ID of a Google Drive folder that serves as the default save location. Media files will
+  be downloaded to the Google Drive root folder if this value is unspecified.
 
-   - cookie
-   : The value of `cookie` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+**<i class="fab fa-instagram"></i> Instagram**
 
-- Health Monitoring
+These settings are related to your Instagram account and the request headers that are required to fetch the Stories.
 
-   - Badge File IDs (Optional)
+{% include picture.html alt="Screenshot of the Settings sheet" class="ml-2" img="images/settings-sheet_627x610.png" width="501" height="488" source="raw" %}
 
-      - Tested Date
-         : The Google Drive file ID of `last-tested-date.svg` badge, which shows show the last execution date of `test_pipeline()`.
+- **x-asbd-id**: A unique identifier for the user’s session. It is generated by Instagram’s servers and is used to track
+  the user’s activity on the site.
+- **x-csrftoken**: A security token that is used to prevent cross-site request forgery (CSRF) attacks. It is generated
+  by Instagram’s servers and is sent with every request to verify that the request is valid.
+- **x-ig-app-id**: A unique identifier for the Instagram application that the user is using. It is generated by Instagram’s
+  servers and is used to track the user’s activity on the site.
+- **x-ig-www-claim**: A security token that is used to prevent cross-site scripting (XSS) attacks. It is generated by
+  Instagram’s servers and is sent with every request to verify that the request is valid.
+- **x-instagram-ajax** ⛔: This field has been deprecated from `build230214a` (Library v7).
+- **cookie**: A small piece of data that is sent from Instagram’s servers to the user’s browser. It is used to track the
+  user’s activity on the site and to personalize the user’s experience.
 
-      - Health Status
-         : The Google Drive file ID of `last-tested-status.svg` badge, which shows if the last execution of `test_pipeline()` was "passed" or "failed".
-
-   - Error Report (Optional)
-
-      - Email To
-         : The email address to receive an error message when the execution of `test_pipeline()` returns a "failed" status.
 
 ### 🛠️ Advanced Configurations
 
