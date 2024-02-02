@@ -250,9 +250,18 @@ Visit the GitHub [issues] or [discussions] page to get help and support.
 [discussions]: {{ site.github.repository_url }}/discussions "Open on GitHub"
 [issues]: {{ site.github.issues_url }} "Open on GitHub"
 
-## 📋 Release Notes
+## 📋 Updates and Changes
 
-Please see our [release notes](./release-notes/) for information about the latest updates and changes to our project.
+To see the full list of changes made in each release, you can:
+
+- Read the release notes to learn about the new features, improvements, and bug fixes. 📋
+- Check out the source code to see how the tool works and how you can contribute. 💻
+- Follow the project on GitHub to get notified of the latest updates and releases. 🚀
+
+Read the [Release Notes] page or visit the [project repository] to see the updates and changes.
+
+[Release Notes]: ./release-notes/
+[project repository]: {{ site.github.repository_url }} "Open on GitHub"
 
 ## ⚖️ License
 
