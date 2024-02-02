@@ -25,6 +25,7 @@ css:
       .tip { color: #238636; border-left-color: #238636; }
       .caution { color: #f85149; border-left-color: #da3633; }
       .ml-2 { margin-left: 2rem; }
+      .word-break-wrap { word-break: break-all; }
 image:
    path: /images/instagram-to-drive_730x365_o55.jpg
    height: 365
@@ -192,31 +193,50 @@ note:
 
 ## ❓ FAQ
 
-{:.faq}
+{:.note.faq}
+> **Q1**:  
+> How to get the required Instagram headers and cookie for the tool?
 
-1. How to find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id`, `x-ig-www-claim`, and `cookie`?
+To use the tool, you need to provide some information from your Instagram account, such as `x-asbd-id`, `x-csrftoken`,
+`x-ig-app-id`, `x-ig-www-claim`, and `cookie`. These are used to authenticate your requests and access the IG stories.
+Here are the steps to get them:
 
-   1. Visit `www.instagram.com` and log in to your account using a desktop browser, such as Chrome or Firefox.
-   2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
-   3. Open the **Network** tab, then enter `?reel_ids=` in the filter.
-   4. Go back to the Instagram page and click on an IG story.
-   5. While the stories are playing on the screen, new items named `?reel_ids=...` will be iteratively added to the list of request items.
-   6. Click on one of the fetched items and explore its Headers.
-   7. Scroll to the **Request Header** section, grab the value of your **cookie** as in the picture below.
+1. Go to <www.instagram.com>  on your desktop browser (Chrome recommended) and sign in with your username and password.
+2. Right-click anywhere on the page and select **Inspect** (or press <kbd>F12</kbd>) to open the developer tools.
+3. Click on the **Network** tab and type `?reel_ids=` in the filter box.
+4. On the Instagram page, click on any IG story to play it.
+5. You will see some requests with `?reel_ids=...` in their names appear in the network tab. Select any one of them and
+   look at the **Headers** section.
+6. Under the Request Headers subsection, you will find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id` and
+   `x-ig-www-claim`. Copy them and paste them in the corresponding fields in the tool.
+7. Also, copy the value of the `cookie` header and paste it in the tool. It should look something like this:
 
-      {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" source="raw" img="/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" %}
+   {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" img="/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" source="raw" %}
 
-   8. Also, copy the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
+{:.note.faq}
+> **Q2**:  
+> What to do if you receive an error message `Exception: Request failed for https://i.instagram.com returned code 400.` ?
 
-2. Receiving an error message <span>'Exception: Request failed for https://i.instagram.com returned code 400.'</span>{:style="color:red;"}
+This error means that Instagram has blocked your access token because you have not logged in to the website for a long
+time. This is a security measure to protect your account from unauthorized access.
 
-   {:style="font-style:italic;"}
-   It happens when your account has not been logged in via the Instagram website for a long time. Instagram will suspend your access token to prevent your account from being hacked. You can fix this issue by opening _instagram.com_ to re-login and verify your account using a web browser.
+To resolve this error, you need to visit <www.instagram.com> on your web browser and sign in to your account again. You
+may also need to verify your account with a code or a captcha.
 
-3. Receiving an error message <span>'Exception: Unexpected error while getting the method or property getFolderById on object DriveApp.'</span>{:style="color:red;"}
+{:.note.faq}
+> **Q3**:  
+> What to do if you receive an error message `Exception: Unexpected error while getting the method or property getFolderById on object DriveApp.` ?
 
-   {:style="font-style:italic;"}
-   It happens if you put a incorrect `Folder ID` in the Settings.
+This error means that you have entered an invalid **Folder ID** in the "Settings" sheet. The **Folder ID** is a unique
+identifier for a folder in your Google Drive where the tool will save the downloaded IG stories.
+
+To fix this error, you need to make sure that you have entered the correct **Folder ID** in the "Settings" sheet. You
+can find the **Folder ID** by opening the folder in your Google Drive and looking at the URL. It should be a long
+string of letters and numbers after the `folders/` part.
+
+For example, in this URL:
+`https://drive.google.com/drive/folders/1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7`{:.word-break-wrap}
+The Folder ID is `1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7`{:.word-break-wrap}. Copy and paste it in the Settings and try again.
 
 ## 🛟 Get Help
 
