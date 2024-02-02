@@ -41,17 +41,28 @@ your Google Drive simply using Google Sheets, You don’t need to install anythi
 
 {% include toc.md %}
 
-## Introduction
+## 👀 Introduction
 
-Instagram Stories are ephemeral posts that disappear after 24 hours. They are a popular way for users to share their daily moments, thoughts, and opinions with their followers. However, sometimes you may want to save the Stories of your favorite celebrities, influencers, or friends to your Google Drive for later viewing, analysis, or backup.
+Do you love watching 📸 Instagram Stories? 😍 They are a great way to see what your favorite people are up to, whether
+they are celebrities, influencers, or friends. But what if you want to keep some of the Stories for later, or back them
+up in case they disappear?
 
-This project uses Google Apps Script and Google Sheets to create a cloud-based tool that downloads the most recent Instagram Stories of any user you specify and saves them to your Google Drive. With this tool, you can:
+**IG Stories to GDrive Fetcher** is the perfect solution for you. It is a free and open-source tool that lets you download
+any Instagram Stories you want and save them to your Google Drive. 🚀 All you need is a Google Sheet and a few minutes to
+set it up.
 
-- Enter the Instagram usernames and IDs of the people you want to download Stories from in a Google Sheet.
-- Set up a time-driven trigger to run the script automatically at regular intervals.
-- Customize the code to suit your needs and use it to access and automate various Google services, such as Gmail, Calendar, Drive, and Sheets.
+With this tool, you can:
 
-This project is open-source and free to use. You can find the source code, the Google Sheet template, and the detailed instructions on how to use the tool on this website. You can also check out the project GitHub repository for more information and reporting issues.
+- **Save Stories** of any Instagram user to your Google Drive 📂
+- **Schedule downloads** to run automatically at any time you want 🕖
+- **Customize the code** to fit your needs and use it to connect with other Google services, such as Gmail, Calendar, Drive, and Sheets 👨‍💻
+
+You can get the Google Sheet template, and the step-by-step guide on how to use the tool on this website. You can also
+visit the [project repository] for more details, the source code and feedback.
+
+[project repository]: {{ site.github.repository_url }} "Open on GitHub"
+
+**Get started now** and never miss an Instagram Story again! 💯
 
 ## 🛹 How to Use
 
