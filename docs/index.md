@@ -18,6 +18,10 @@ css:
       .fa-google-drive { color: #4688F4; }
       .fa-instagram { color: #d62976; }
       .fa-heartbeat { color: #fa9573; }
+      .img-button *, .img-button *:hover { transition:all .75s ease-in-out; }
+      .img-button a { box-shadow: 0 0 3px 2px #ffe51f; margin: 1.5rem; }
+      .img-button a:hover { box-shadow: 0 -5px 16px 4px #ffdf1f; }
+      .img-button a:hover > * { box-shadow: 0 -1px 24px 5px #ffed49; }
 image:
    path: /images/instagram-to-drive_730x365_o55.jpg
    height: 365
@@ -64,37 +68,32 @@ visit the [project repository] for more details, the source code and feedback.
 
 **Get started now** and never miss an Instagram Story again! 💯
 
-## 🛹 How to Use
+## 🚀 Get Started
 
-{:style="background:lightyellow;padding:1rem"}
-Starting from Build 2021.11.10, the Apps Script has been redesigned to work with a Google Sheet file as a user interface.
+To use this tool, you need to make a copy of our Google Sheet template to your Google Drive. The Google Sheet comes with
+the pre-built script, which contains the functions to import and use our library. 🚀
 
-Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
+### Make a Copy
 
-<div style="margin: 1.5rem">
+Make a copy of our template to your Google Drive by clicking the button below.
+
+<div class="img-button">
   <a href="https://docs.google.com/spreadsheets/d/1td-CfE5NWHtKSeAMo32rPYQOZC5ydX9BXnXtumzYnL8/copy">
-    <amp-img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" width="185" height="36" layout="fixed" alt=""></amp-img>
+    <amp-img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" width="185" height="36" layout="fixed" alt="Make Copy"></amp-img>
   </a>
 </div>
 
-The spreadsheet contains the following three sheets:
+### Explore the Sheets
 
-1. **Subscriptions**
-: A table for you to list the Instagram users and their IDs that you want to subscribe to.
+The spreadsheet consists of the following three sheets:
 
-2. **Logs**
-: A log sheet of file download activities.
+1. **Subscriptions**: A table where you can list the Instagram users and their IDs that you want to subscribe to. 👀
 
-3. **Settings**
-: A tabular form for you to fill in the values of options and parameters for running the script.
+2. **Logs**: A log sheet that records the file download. 📝
 
-You can use the Google Sheet file and bound our script to it in the following ways:
+3. **Settings**: A tabular form where you can fill in the values of options and parameters for running the script. ⚙️
 
-| Method                                                                                                        | Descriptions                                                                                                                                                                                      | Remarks                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Use our shared library                                                                                        | Simply use the copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template.                     | {::nomarkdown}<ul><li>No coding</li><li>Easy version upgrade</li><li>Unable to deploy as a web app</li></ul>{:/} |
-| Inject our code into your project                                                                             | Modify the script bounded to your Google Sheet file by copying the source code in `/dist/bundle.js` to a `.gs` file and following the example below to call the functions from the `IGSF` object. | {::nomarkdown}<ul><li>Standalone</li></ul>{:/}                                                                   |
-| [Deploy a new library](https://developers.google.com/apps-script/guides/libraries#create_and_share_a_library) | Create a new Apps Script project, copy copying the source code in `/dist/bundle.js` to it, and deploy the project as a library for other scripts.                                                 | {::nomarkdown}<ul><li>Self-hosted</li><li>Reusable code across projects</li></ul>{:/}                            |
+Please follow the instructions below to set up your Google Sheet.
 
 ### 📩 Set Up Subscriptions
 
