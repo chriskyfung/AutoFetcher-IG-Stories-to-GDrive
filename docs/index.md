@@ -164,12 +164,31 @@ For more information, please refer to the [Advanced Configurations] page.
 
 [Advanced Configurations]: ./advanced-configurations.md
 
-## 🛡️ About Privacy
+## 🛡️ Privacy and Security
 
-1. No sensitive data, like your Instagram username, password, cookies, credentials, and tokens, will be shared with our developers.
-2. The Apps Script, which bounds to a Google Sheet file that stores in your Google Drive will only run and be able to access with your Google Account unless you share the file with other users or place it in a shared folder.
-3. Self-hosting the code as a standalone project if you want better protection of your data.
-4. Do not use our script or shared library if you have any worries about any potential security issues with them.
+We respect your privacy and data security. Here are some important points to
+note:
+
+{:.note}
+> **📝 Note**  
+  No sensitive data, such as your Instagram username, password, cookies, credentials, and tokens, will be shared with
+  our developers or any third parties. They will only be stored in your Google Sheet file and used by the Apps Script
+  to access the Instagram API.
+
+{:.note}
+> The Apps Script, which is bound to a Google Sheet file that is stored in your Google Drive, will only run and be able
+  to access your data with your Google Account. Unless you share the file with other users or place it in a shared folder,
+  no one else can access or modify your data.
+
+{:.note.tip}
+> **💡 Tip**  
+  If you want better protection of your data, you can self-host the code as a standalone project. This way, you can have
+  full control over the code and the data, and you can customize the script according to your needs.
+
+{:.note.caution}
+> **⚠ Caution**  
+  If you have any worries about any potential security issues with our script or shared library, please do not use them.
+  We are not responsible for any data loss or damage that may occur from using our tool.
 
 ## ❓ FAQ
 
