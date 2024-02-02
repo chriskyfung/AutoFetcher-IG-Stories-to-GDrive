@@ -150,16 +150,19 @@ These settings are related to your Instagram account and the request headers tha
 - **cookie**: A small piece of data that is sent from Instagram’s servers to the user’s browser. It is used to track the
   user’s activity on the site and to personalize the user’s experience.
 
+## 🛠️ Advanced Configurations
 
-### 🛠️ Advanced Configurations
+In addition to the basic settings outlined above, you can further configure the script for the features below:
 
-In addition to the basic configurations outlined above, you can also enable the following advanced configurations:
+- **Set Up Health Check**: (Optional) You can establish health checks to monitor Instagram’s API and user login
+  status, update status badges, and send error report.
 
-1. **Enable Auto-Run (Optional)**: You can set up a time-driven trigger for your Apps Script, enabling automated function execution at specific time intervals.
-2. **Set Up Health Monitoring (Optional)**: You can establish health checks to monitor Instagram's API and user login status, update status badges, and send error report.
-3. **Deploy As a Web API (Optional)**: You can deploy your Apps Script as a web API to make it accessible to users via a web browser.
+- **Enable Auto-Run**: (Optional) You can set up a time-driven trigger for our Apps Script, enabling automated function
+  execution at specific time intervals.
 
-For more detailed information on these advanced configurations, please refer to our [Advanced Configurations](./advanced-configurations.md) documentation page.
+For more information, please refer to the [Advanced Configurations] page.
+
+[Advanced Configurations]: ./advanced-configurations.md
 
 ## 🛡️ About Privacy
 
