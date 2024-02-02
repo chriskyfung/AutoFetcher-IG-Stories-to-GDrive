@@ -238,10 +238,17 @@ For example, in this URL:
 `https://drive.google.com/drive/folders/1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7`{:.word-break-wrap}
 The Folder ID is `1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7`{:.word-break-wrap}. Copy and paste it in the Settings and try again.
 
-## 🛟 Get Help
+## 👨‍💻 Help and Support
 
-- 💬 [Discussions]({{ site.github.repository_url }}/discussions)
-- 🐛 [Bug Reporting]({{ site.github.issues_url }})
+If you need any help or have any feedback, you can:
+
+- Report any bugs or issues that you encounter while using the tool. 🐛
+- Join the discussions to share your feedback, ideas, or questions with other users and developers. 💬
+
+Visit the GitHub [issues] or [discussions] page to get help and support.
+
+[discussions]: {{ site.github.repository_url }}/discussions "Open on GitHub"
+[issues]: {{ site.github.issues_url }} "Open on GitHub"
 
 ## 📋 Release Notes
 
