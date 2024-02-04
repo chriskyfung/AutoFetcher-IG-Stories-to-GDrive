@@ -29,6 +29,7 @@ image:
    path: /images/instagram-to-drive_730x365_o55.jpg
    height: 365
 description: Download any user’s IG Stories to GDrive for free. Just need Google Sheets and Apps Script. No coding needed.
+slug: " "
 ---
 
 {% include picture.html img="/images/instagram-to-drive_730x365_o55.jpg" width="730" height="365" alt="Instagram to Google Drive Automation" source="raw" %}
