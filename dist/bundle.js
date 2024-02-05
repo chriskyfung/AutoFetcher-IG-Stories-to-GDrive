@@ -1,6 +1,6 @@
 /**
  * Bundle as defined from all files in src/modules/*.js
- * Copyright (c) 2022
+ * Copyright (c) 2024
  * 
  * A Google Apps Script for deploying a web application that automatically 
  * fetches the latest available IG Stories of a target Instagram user to your 
@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Tue, 30 Jan 2024 08:39:23 GMT
+ * Build at: Mon, 05 Feb 2024 09:18:54 GMT
  */
 
 const IGSF = Object.create(null);
@@ -604,8 +604,12 @@ function getInstagramData(query) {
     response = UrlFetchApp.fetch(query, params);
   } catch (err) {
     console.warn(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
-    const errorMessage = `${err.message} (code: 0xf1)`;
-    throw new Error(errorMessage);
+    const errorMessage = `${err.message}`;
+    if (errorMessage.indexOf("Address unavailable:") !== -1) {
+      console.error(errorMessage);
+      return;
+    }
+    throw new Error(errorMessage +  '(code: 0xf1)');
   }
   console.log(`status code: ${response.getResponseCode()}`);
 
@@ -758,6 +762,38 @@ function createViewFileFormula(filename, folderId) {
 }
 
 /**
+ * subscriber.js
+ * Copyright (c) 2021
+ *
+ * This file contains the Google Apps Script to read/write logs in the Google
+ * Sheet that the Apps Script is bounded to.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2021-11-02
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Get the listing from the Google Sheet that the Apps Script is bounded to,
+ * and then fetch Instagram Stories for each item.
+ */
+function batchFetch() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const subscriptionsSheet = spreadsheet.getSheetByName(
+    sheetNames['subscriptions']
+  );
+  const data = subscriptionsSheet
+    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
+    .getValues();
+  data.forEach((row) => {
+    console.log(`fetching ${row[0]}...`);
+    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
+    console.log(msg);
+  });
+}
+
+/**
  * webapp.js
  * Copyright (c) 2018-2021
  *
@@ -848,38 +884,6 @@ function try_get() {
 }
 
 /**
- * subscriber.js
- * Copyright (c) 2021
- *
- * This file contains the Google Apps Script to read/write logs in the Google
- * Sheet that the Apps Script is bounded to.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2021-11-02
- * Last modified  : 2021-11-02
- */
-
-/**
- * Get the listing from the Google Sheet that the Apps Script is bounded to,
- * and then fetch Instagram Stories for each item.
- */
-function batchFetch() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  const subscriptionsSheet = spreadsheet.getSheetByName(
-    sheetNames['subscriptions']
-  );
-  const data = subscriptionsSheet
-    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
-    .getValues();
-  data.forEach((row) => {
-    console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
-    console.log(msg);
-  });
-}
-
-/**
  * Copyright (c) 2021-2022
  *
  * This file contains the code to test fetching Instagram stories using
@@ -932,6 +936,32 @@ function test_pipeline() {
   return healthy;
 }
 
+/**
+ * ui.js
+ * Copyright (c) 2024
+ *
+ * This file contains the Google Apps Script to create a custom menu in the 
+ * Google Sheets when the spreadsheet opens.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ */
+
+function initUi(e) {
+  try {
+    let ui = SpreadsheetApp.getUi();
+    ui.createMenu('igFetcher')
+      .addItem('Fetch stories', 'run')
+      .addSubMenu(ui.createMenu('Logs')
+        .addItem('Move seleted files', 'moveSelected')
+        .addItem('Delete seleted logs', 'deleteSelected')
+      )
+      .addToUi();
+  } catch (err) {
+    // TODO (Developer) - Handle exception
+    Logger.log('Failed with error: %s', err.error);
+  }
+}
+
 exports.badgeFileIds = badgeFileIds;
 exports.batchFetch = batchFetch;
 exports.createBadages = createBadages;
@@ -944,6 +974,7 @@ exports.getFileDetails = getFileDetails;
 exports.getInstagramData = getInstagramData;
 exports.getQuery = getQuery;
 exports.igParams = igParams;
+exports.initUi = initUi;
 exports.insertNewLog = insertNewLog;
 exports.isDebug = isDebug;
 exports.isDownloaded = isDownloaded;
