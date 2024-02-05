@@ -2,6 +2,7 @@
 layout: page-right-sidebar
 date: 2024-02-05 03:20:32 +08:00
 title: Release Notes
+permalink: /release-notes/
 download: true
 css:
   syntax: true

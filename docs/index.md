@@ -200,7 +200,7 @@ To use the tool, you need to provide some information from your Instagram accoun
 `x-ig-app-id`, `x-ig-www-claim`, and `cookie`. These are used to authenticate your requests and access the IG stories.
 Here are the steps to get them:
 
-1. Go to <www.instagram.com>  on your desktop browser (Chrome recommended) and sign in with your username and password.
+1. Go to [www.instagram.com] on your desktop browser (Chrome recommended) and sign in with your username and password.
 2. Right-click anywhere on the page and select **Inspect** (or press <kbd>F12</kbd>) to open the developer tools.
 3. Click on the **Network** tab and type `?reel_ids=` in the filter box.
 4. On the Instagram page, click on any IG story to play it.
@@ -212,6 +212,8 @@ Here are the steps to get them:
 
    {% include picture.html alt="Find Instagram Cookie using Chrome DevTools" img="/images/find-your-instagram-cookie-with-devtools.png" width="1007" height="730" source="raw" %}
 
+[www.instagram.com]: https://www.instagram.com
+
 {:.note.faq}
 > **Q2**:  
 > What to do if you receive an error message `Exception: Request failed for https://i.instagram.com returned code 400.` ?
@@ -219,7 +221,7 @@ Here are the steps to get them:
 This error means that Instagram has blocked your access token because you have not logged in to the website for a long
 time. This is a security measure to protect your account from unauthorized access.
 
-To resolve this error, you need to visit <www.instagram.com> on your web browser and sign in to your account again. You
+To resolve this error, you need to visit [www.instagram.com] on your web browser and sign in to your account again. You
 may also need to verify your account with a code or a captcha.
 
 {:.note.faq}

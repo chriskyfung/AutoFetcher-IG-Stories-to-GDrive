@@ -2,6 +2,7 @@
 layout: page-right-sidebar
 date: 2024-02-05 03:21:16 +08:00
 title: Advanced Configurations
+permalink: /advanced-configurations/
 download: true
 css:
    syntax: true
