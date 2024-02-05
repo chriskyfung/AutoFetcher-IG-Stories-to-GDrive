@@ -20,11 +20,6 @@ group :jekyll_plugins do
     gem 'jekyll-feed'
     gem 'jekyll-sitemap'
     gem 'jekyll-seo-tag'
-    # gem 'jekyll-gist'
-    # gem 'jekyll-loading-lazy'
-    # gem 'jekyll-webp'
-    # gem 'jekyll-gzip'
-    # gem 'jekyll-extlinks'
     gem 'jekyll-remote-theme'
     gem 'jekyll-github-metadata'
 end

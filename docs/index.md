@@ -26,8 +26,7 @@ css:
       .ml-2 { margin-left: 2rem; }
       .word-break-wrap { word-break: break-all; }
 image:
-   path: /images/instagram-to-drive_730x365_o55.jpg
-   height: 365
+   hide: false
 description: Download any user’s IG Stories to GDrive for free. Just need Google Sheets and Apps Script. No coding needed.
 slug: " "
 ---
