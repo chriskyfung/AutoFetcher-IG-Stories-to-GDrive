@@ -9,9 +9,10 @@
 [built with clasp]: https://img.shields.io/badge/built%20with-clasp-4285f4.svg
 [code style: prettier]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square
 
-A no-code tool that lets you easily save the Instagram Stories of any user to 
-your Google Drive. You don’t need to install anything on your computer or 
-phone, just use Google Sheets as a cloud tool to fetch the Stories you want.
+A no-code tool that lets you easily save the Instagram Stories of any user to
+your Google Drive. You don’t need to install anything on your computer or
+phone, just use Google Sheets and Google Apps Script as a cloud tool to fetch
+the Stories you want.
 
 > [!NOTE]
 > **Release On 2023-02-16**  
@@ -20,19 +21,44 @@ phone, just use Google Sheets as a cloud tool to fetch the Stories you want.
 > Drive folders 📁.
 
 > [!IMPORTANT]
-> Please update the Library Version to the latest in your Google Script or make 
-> a new copy of the Google Sheet template named **V8** or higher.
+> **Release On 2024-02-05**
+> To use the latest features and bug fixes, please update the Library Version of
+> your Google Script to the latest one or create a new copy of the Google Sheet
+> template with the name V9 or higher.
 
-### 🗄️ Table of Contents
+> [!TIP]
+> **Manual upgrade from V8 to V9**
+> If you prefer to keep your existing Google Sheet file, you can manually update
+> the Apps Script by following these steps:
+>
+> 1. Open the Apps Script editor from your Google Sheet file.
+> 2. In the left panel, click on the **IGStoriesToGDrive** library under the **Libraries** section.
+> 3. From the **Version** dropdown, select **9** and click **Save**.
+> 4. Delete the `ui.gs` file from the project files.
+> 5. Open the `code.gs` file and add the following code to enable the new features.
+>
+>     ```js
+>     function moveSelected() {
+>       const IGSF = IGStoriesToGDriveDEV.getInstance();
+>       IGSF.moveSelected();
+>     }
+>     
+>     function onOpen() {
+>       const IGSF = IGStoriesToGDriveDEV.getInstance();
+>       IGSF.initUi();
+>     }
+>     ```
+
+## 🗄️ Table of Contents
 
 - [Introduction](#-introduction)
 - [Usage](#-usage)
   - [Set Up Subscriptions](#-set-up-subscriptions)
   - [Configuration Settings](#%EF%B8%8F-configuration-settings)
   - [Advanced Configurations](#%EF%B8%8F-advanced-configurations)
-- [Privacy and Security](#-privacy-and-security)
+- [Privacy and Security](#%EF%B8%8F-privacy-and-security)
 - [FAQ](#-faq)
-- [Release Notes](#-release-notes)
+- [Changelog](#-changelog)
 - [Contributing](#-like-my-stuff)
 - [License](#%EF%B8%8F-license)
 
@@ -119,11 +145,11 @@ Code of a Ninja.
 [ID finder]: https://www.codeofaninja.com/tools/find-instagram-user-id/
 
 > [!TIP]
-> For example, to subscribe to the stories from [BBC News’s Instagram account],
+> For example, to subscribe to the stories from [BBC News]’s Instagram account,
 > you can enter **bbcnews** as the name in the first column and **16278726** as
 > the ID in the second column.
 
-[BBC News’s Instagram account]: https://www.instagram.com/bbcnews/
+[BBC News]: https://www.instagram.com/bbcnews/
 
 The script will fetch the photos and videos from Instagram and upload them to
 your Google Drive folder whenever you click on the <kbd>▶ Run</kbd> button.
@@ -269,7 +295,9 @@ If you cannot find the answer to your question in the FAQ section, please feel
 free to contact us via GitHub issues or discussions. We will try our best to
 help you. 😊
 
-## 📋 Release Notes
+* * *
+
+## 📋 Changelog
 
 To see the full list of changes made in each release, please refer to the
 [CHANGELOG.md](/CHANGELOG.md) file.
