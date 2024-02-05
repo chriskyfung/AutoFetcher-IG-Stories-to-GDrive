@@ -18,6 +18,11 @@ function moveSelected() {
   IGSF.moveSelected();
 }
 
+function onOpen(e) {
+  const IGSF = IGStoriesToGDrive.getInstance();
+  IGSF.initUi(e);
+}
+
 function runTestPipeline() {
   const IGSF = IGStoriesToGDrive.getInstance();
   IGSF.test_pipeline();
