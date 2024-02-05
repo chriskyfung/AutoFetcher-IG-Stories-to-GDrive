@@ -35,8 +35,8 @@ slug: " "
 
 <figure class="status-badge-container shadow-none" style="display:flex;margin-top:1.75em">
   <amp-img layout="fixed" width="100" height="20" src="https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive" alt="License AGPL-3.0"></amp-img>
-  <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.health&label=health%20check&color=%24.color" alt="Health Status"></amp-img>
-  <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.date&label=last%20tested&color=9146ff" alt="Last Tested Date"></amp-img>
+  <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbydqk8NfrOWtfNjKtPOOCjAdzsUs2kIuAIlCUNF9H4XZEyEqXJkXihkhPijW_itxmGf%2Fexec&query=%24.health&label=health%20check&color=%24.color" alt="Health Status"></amp-img>
+  <amp-img layout="fixed" width="150" height="20" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycbydqk8NfrOWtfNjKtPOOCjAdzsUs2kIuAIlCUNF9H4XZEyEqXJkXihkhPijW_itxmGf%2Fexec&query=%24.date&label=last%20tested&color=9146ff" alt="Last Tested Date"></amp-img>
 </figure>
 
 {:.hook}
