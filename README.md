@@ -1,235 +1,327 @@
 # IG Stories to GDrive Fetcher
 
-A Google Apps Script to automatically fetch the latest available IG Stories of a target Instagram user to your Google Drive.
+[![built with clasp]](https://github.com/google/clasp)
+[![code style: prettier]](https://github.com/prettier/prettier)
+![license: AGPL-3.0](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
+![Health Status](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.health&label=health%20check&color=%24.color) 
+![Last Tested Date](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fscript.google.com%2Fmacros%2Fs%2FAKfycby9kCiEQTX6KgUoblgurVM2Fy31e3zk2nuKMMNuAdUCYYp3uPGdE_KCwWY_j68oMwpH%2Fexec&query=%24.date&label=last%20tested&color=9146ff)
 
-[![clasp](https://img.shields.io/badge/built%20with-clasp-4285f4.svg)](https://github.com/google/clasp) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) ![GitHub](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
-![Service Status](https://drive.google.com/u/0/uc?id=1BCyF1y8m1LKj8Um77st-3KC5-sTESoUZ&export=download) ![Last Tested Date](https://drive.google.com/u/0/uc?id=1VnSH5wtVOJXd_kmZsCSd3yQSpXTjMr0E&export=download)
+[built with clasp]: https://img.shields.io/badge/built%20with-clasp-4285f4.svg
+[code style: prettier]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square
 
-## Highlights
+A no-code tool that lets you easily save the Instagram Stories of any user to
+your Google Drive. You don’t need to install anything on your computer or
+phone, just use Google Sheets and Google Apps Script as a cloud tool to fetch
+the Stories you want.
 
-🆕 NEW RELEASE ON 2023-02-16 🆕
+> [!NOTE]
+> **Release On 2023-02-16**  
+> Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤
+> We can now save downloaded files from different IG users to separate Google 
+> Drive folders 📁.
 
-Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤ We can now save different downloaded IG users' files to seperate Google Drive folders 📁.
+> [!IMPORTANT]
+> **Release On 2024-02-05**
+> To use the latest features and bug fixes, please update the Library Version of
+> your Google Script to the latest one or create a new copy of the Google Sheet
+> template with the name V9 or higher.
 
-Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V8 or later.
+> [!TIP]
+> **Manual upgrade from V8 to V9**
+> If you prefer to keep your existing Google Sheet file, you can manually update
+> the Apps Script by following these steps:
+>
+> 1. Open the Apps Script editor from your Google Sheet file.
+> 2. In the left panel, click on the **IGStoriesToGDrive** library under the **Libraries** section.
+> 3. From the **Version** dropdown, select **9** and click **Save**.
+> 4. Delete the `ui.gs` file from the project files.
+> 5. Open the `code.gs` file and add the following code to enable the new features.
+>
+>     ```js
+>     function moveSelected() {
+>       const IGSF = IGStoriesToGDriveDEV.getInstance();
+>       IGSF.moveSelected();
+>     }
+>     
+>     function onOpen() {
+>       const IGSF = IGStoriesToGDriveDEV.getInstance();
+>       IGSF.initUi();
+>     }
+>     ```
 
-🪂 MINOR UPDATE ON 2023-02-14 🪂
+## 🗄️ Table of Contents
 
-🧹 **Deprecated `x-instagram-ajax` from the _Settings_**. (_* Update Library to V7 or later_)
+- [Introduction](#-introduction)
+- [Usage](#-usage)
+  - [Set Up Subscriptions](#-set-up-subscriptions)
+  - [Configuration Settings](#%EF%B8%8F-configuration-settings)
+  - [Advanced Configurations](#%EF%B8%8F-advanced-configurations)
+- [Privacy and Security](#%EF%B8%8F-privacy-and-security)
+- [FAQ](#-faq)
+- [Changelog](#-changelog)
+- [Contributing](#-like-my-stuff)
+- [License](#%EF%B8%8F-license)
 
-### Table of Contents
+## 📡 Introduction
 
-1. [Introduction](#introduction)
-2. [How to Use](#how-to-use)
-3. [Configuration Settings](#configuration-settings)
-4. [Set Up Subscriptions](#set-up-subscriptions)
-5. [Set Up Health Monitoring (Optional)](#set-up-health-monitoring-optional)
-6. [Deploy As Web App (Optional)](#deploy-as-web-app-optional)
-7. [About Privacy](#about-privacy)
-8. [Relesae Notes](#release-notes)
-9. [Contributing](#like-my-stuff)
-10. [License](#license)
+This project lets you use Google Sheets and Google Apps Script, a platform that
+allows you to create web apps with JavaScript, to make a cloud tool that saves
+the latest Instagram Stories of any user you choose to your Google Drive.
 
+With this tool, you can:
 
-## Introduction
+- Type the Instagram usernames and IDs of the people whose Stories you want to
+  save in a Google Sheet.
+- Create a time-based trigger to run the script regularly at fixed intervals.
+- Modify the code to fit your needs and use it to connect and automate various
+  Google services, such as Gmail, Calendar, Drive, and Sheets.
 
-**AutoFetcher-IG-Stories-to-GDrive** is a Google Apps Script that automatically fetches the latest available Instagram stories of a target user to your Google Drive. The script is designed to work with a **Google Sheet** file as a user interface. The spreadsheet contains three sheets: **Subscriptions**, **Logs**, and **Settings**.
+This project is free and open-source. You can find the source code, the Google
+Sheet template, and the step-by-step instructions on how to use the tool in
+this repository. For more information, please visit the [project website].
 
-- **Subscriptions**: A table for you to list the Instagram users and their IDs that you want to subscribe to.
-- **Logs**: A log sheet of file download activities.
-- **Settings**: A tabular form for you to fill in the values of options and parameters for running the script.
+[project website]: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
 
-You can use the Google Sheet file and bound our script to it in the following ways:
+## 🛹 Usage
 
-- **Use our shared library**: Simply use the copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template. No coding is required, and it’s an easy way to upgrade to a new version.
-- **Inject our code into your project**: Modify the script bounded to your Google Sheet file by copying the source code in /dist/bundle.js to a .gs file and following the example below to call the functions from the IGSF object. This method is suitable for standalone deployment.
-- **Deploy a new library**: Create a new Apps Script project, copy the source code in /dist/bundle.js to it, and deploy the project as a library for other scripts. This method is suitable for reusable code across projects.
+> [!NOTE]
+> From `build21110a` onwards, the Apps Script has been redesigned to work with a
+> Google Sheet file as a user interface.
 
-## How to Use
-
-Starting from Build 2021.11.10, the Apps Script has been redesigned to work with a Google Sheet file as a user interface.
-
-Make a copy of our Google Sheet template to your Google Drive by clicking the button below.
+To get started, click the button below to make a copy of our Google Sheet
+template to your Google Drive.
 
 <div style="padding-left: 1.5em">
   <a href="https://docs.google.com/spreadsheets/d/1td-CfE5NWHtKSeAMo32rPYQOZC5ydX9BXnXtumzYnL8/copy">
-    <img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" height="28" alt="">
+    <img src="https://img.shields.io/badge/Google%20Sheet-34a853?logo=googlesheets&logoColor=white" 
+     height="28" alt="Make Copy">
   </a>
 </div>
 
-The spreadsheet contains the following three sheets:
+The spreadsheet consists of the following three sheets:
 
-**Subscriptions**
-: A table for you to list the Instagram users and their IDs that you want to subscribe to.
+| Sheet Name    | Description                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------- |
+| Subscriptions | A table where you can list the Instagram users and their IDs that you want to subscribe to.       |
+| Logs          | A log sheet that records the file download activities.                                            |
+| Settings      | A tabular form where you can fill in the values of options and parameters for running the script. |
 
-**Logs**
-: A log sheet of file download activities.
+You can use the Google Sheet file and bind our script to it in the following
+ways:
 
-**Settings**
-: A tabular form for you to fill in the values of options and parameters for running the script.
+- **Use our shared library**: The easiest option that requires no coding
 
-You can use the Google Sheet file and bound our script to it in the following ways:
+  Simply make a copy of our template to your Google Drive. The Google Sheet
+  will come with the pre-built script, which contains the functions to import
+  and use our library.
 
-| Method                                                                                                        | Descriptions                                                                                                                                                                                      | Remarks                                                                                        |
-| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Use our shared library                                                                                        | Simply use the copy of our Google Sheet template. The functions to import and use our library are already present in the pre-built script bound to the Google Sheet template.                     | <ul><li>No coding</li><li>Easy version upgrade</li><li>Unable to deploy as a web app</li></ul> |
-| Inject our code into your project                                                                             | Modify the script bounded to your Google Sheet file by copying the source code in `/dist/bundle.js` to a `.gs` file and following the example below to call the functions from the `IGSF` object. | <ul><li>Standalone</li></ul>                                                                   |
-| [Deploy a new library](https://developers.google.com/apps-script/guides/libraries#create_and_share_a_library) | Create a new Apps Script project, copy copying the source code in `/dist/bundle.js` to it, and deploy the project as a library for other scripts.                                                 | <ul><li>Self-hosted</li><li>Reusable code across projects</li></ul>                            |
+- **Inject our code into your project**: Make a standalone project
 
-## Configuration Settings
+  Open the Script editor from your Google Sheet file and edit the script that is
+  bound to your Google Sheet file. Copy the code from the `/dist/bundle.js` file
+  in our repository and paste it to a `.gs` file in your Script editor. Then,
+  follow the example in the [Advanced Configurations] documentation page to get
+  and call the functions from the IGSF object.
 
-Google Drive
+  [Advanced Configurations]: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/advanced-configurations/
 
-- Folder ID (Optional)
-  : The ID of a Google Drive folder that serves as the default save location. Media files will be downloaded to the Google Drive root folder if this value is unspecified.
+- **Deploy a new library**: Reuse your code across multiple projects
 
-Instagram
+  Create a new Apps Script project and paste the code from `/dist/bundle.js` to
+  it. Then, [deploy the project as a library for other scripts][create_and_share_a_library]
+  and reference it in your Google Sheet files.
 
-- x-asbd-id 🆕
-  : The value of `x-asbd-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+  [create_and_share_a_library]: https://developers.google.com/apps-script/guides/libraries#create_and_share_a_library
 
-- x-csrftoken 🆕
-  : The value of `x-csrftoken` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+### 📩 Set Up Subscriptions
 
-- x-ig-app-id
-  : The value of `x-ig-app-id` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+To subscribe to the stories of your favorite Instagram users, you need to add
+their names and IDs to the table on the “Subscriptions” sheet.
 
-- x-ig-www-claim
-  : The value of `x-ig-www-claim` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+The **Instagram User ID** is a unique number that identifies each Instagram
+user. You can find the ID of any user by using the [ID finder] powered by The
+Code of a Ninja.
 
-- x-instagram-ajax ⛔
-  : This field has been deprecated from Build 2023.02.14 (= Library v7).
+[ID finder]: https://www.codeofaninja.com/tools/find-instagram-user-id/
 
-- cookie
-  : The value of `cookie` request-header field sends when you browse `www.instagram.com` with logging in to an account.
+> [!TIP]
+> For example, to subscribe to the stories from [BBC News]’s Instagram account,
+> you can enter **bbcnews** as the name in the first column and **16278726** as
+> the ID in the second column.
 
-Health Monitoring
+[BBC News]: https://www.instagram.com/bbcnews/
 
-- Badge File IDs (Optional)
+The script will fetch the photos and videos from Instagram and upload them to
+your Google Drive folder whenever you click on the <kbd>▶ Run</kbd> button.
 
-  - Tested Date
-    : The Google Drive file ID of `last-tested-date.svg` badge, which shows show the last execution date of `test_pipeline()`.
+### ⚙️ Configuration Settings
 
-  - Health Status
-    : The Google Drive file ID of `last-tested-status.svg` badge, which shows if the last execution of `test_pipeline()` was "passed" or "failed".
+The “Settings” sheet contains a tabular form where you can enter the values of
+options and parameters for running the script. Here is a brief explanation of
+each setting:
 
-- Error Report (Optional)
+#### Google Drive
 
-  - Email To
-    : The email address to receive an error message when the execution of `test_pipeline()` returns a "failed" status.
+- `Folder ID`
+  : (Optional) The ID of a Google Drive folder where you want to save the media
+  files. If you leave this blank, the files will be downloaded to the root
+  folder of your Google Drive.
 
-### How to find the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id`, `x-ig-www-claim`, and `cookie`
+> [!TIP]
+> You can find the ID in the URL of the folder. For example, if the URL of
+> the folder is `https://drive.google.com/drive/folders/1a2b3c4d5e6f7g8h9i0j1k2l3m4n?resourcekey=0-XXXXXCt-XXXXX4WRe1aA`,
+> then the folder ID is `1a2b3c4d5e6f7g8h9i0j1k2l3m4n`.
 
-1. Visit `www.instagram.com` and log in to your account using a desktop browser, such as Chrome or Firefox.
-2. Open the DevTool by pressing **F12** or choose **Inspect** from the right-click menu on the page.
-3. Open the **Network** tab, then enter `?reel_ids=` in the filter.
-4. Go back to the Instagram page and click on an IG story.
-5. While the stories are playing on the screen, new items named `?reel_ids=...` will be iteratively added to the list of request items.
-6. Click on one of the fetched items and explore its Headers.
-7. Scroll to the **Request Header** section, grab the value of your **cookie** as in the picture below. ![Find Instagram cookie using Chrome DevTools](/docs/images/find-your-instagram-cookie-with-devtools.png)
-8. Also, copy the values of `x-asbd-id`, `x-csrftoken`, `x-ig-app-id` and `x-ig-www-claim` at the bottom of the same section.
+#### Instagram
 
-## Set Up Subscriptions
+> [!WARNING]
+> Please note that this information may change over time and may not be accurate.
 
-Add the name and ID of your target Instagram user accounts to the table on the page "Subscriptions"
+To access the Instagram API, the script needs to send some request header
+fields that mimic the behavior of a logged-in user on instagram.com. These
+fields are:
 
-The **Instagram User ID** is necessary to query the data of the target Instagram user from the official web API. You can look up the ID with username by using [the ID finder powered by The Code of a Ninja](https://codeofaninja.com/tools/find-instagram-user-id).
+- `x-asbd-id`
+  : A unique identifier for the user’s session. It is generated by Instagram’s
+  servers and is used to track the user’s activity on the site.
 
-For example, label **bbcnews** as the name in the first column and put its ID **16278726** in the second column to subscribe to the stories from [BBC News's Instagram account](https://www.instagram.com/bbcnews/).
+- `x-csrftoken`
+  : A security token that is used to prevent cross-site request forgery (CSRF)
+  attacks. It is generated by Instagram’s servers and is sent with every
+  request to verify that the request is valid.
 
-It will fetch the photos and videos from Instagram and upload them to your Google Drive folder if it finds any new stories from the listed accounts when you click on the <kbd>▶Run</kbd> button.
+- `x-ig-app-id`
+  : A unique identifier for the Instagram application that the user is using.
+  It is generated by Instagram’s servers and is used to track the user’s
+  activity on the site.
 
-## Create Time-driven Trigger for Auto-Run
+- `x-ig-www-claim`
+  : A security token that is used to prevent cross-site scripting (XSS)
+  attacks. It is generated by Instagram’s servers and is sent with every
+  request to verify that the request is valid.
 
-You can manually create a trigger with the following steps:
+- `x-instagram-ajax`
+  : A header that is sent with every request to Instagram’s servers. It is used
+  to indicate that the request was made using AJAX (Asynchronous JavaScript
+  and XML) and to provide additional information about the request.
 
-1. Open an Apps Script Editor from your Google Sheet file.
-2. At the left, click **Triggers** ⏰.
-3. At the bottom right, click **Add Trigger**.
-4. In the dialog, choose `run` as the function to run and configure an appropriate time interval (6 - 12 hours) to run periodically, as the example below.
+> [!Caution]
+  The `x-instagram-ajax` field has been deprecated from `build230214a`
+> (Library v7).
 
-   ![Setup a Google App Script Timed Trigger](/docs/images/setup_a_google_app_script_timed_trigger.png)
+- `cookie`
+  : A small piece of data that is sent from Instagram’s servers to the user’s
+  browser. It is used to track the user’s activity on the site and to
+  personalize the user’s experience.
 
-## Set Up Health Monitoring (Optional)
+### 🛠️ Advanced Configurations
 
-Instagram changes its API endpoint and data structure occasionally without any announcements. Therefore, you may want to set up a health monitoring to check if the script requests and handles the Instagram API data properly.
+In addition to the basic configurations outlined above, you can also enable the
+following advanced configurations:
 
-`test_pipeline()` is a function to perform a health check, trigger badge updates, and error report emails. The health check is considered passing if it detects a presence of stories from the following Instagram accounts,
+- Set Up Health Monitoring
+  : (Optional) You can establish health checks to monitor Instagram’s API and
+  user login status, update status badges, and send error report.
 
-- bbcnews,
-- cnn,
-- medium, and
-- nasa.
+  To do this, you need to fill in these fields in the “Settings” sheet:
 
-The health check is likely passing because these accounts publish stories frequently. If a health check fails but not an absence of stories on the Instagram accounts, it points out an error occurring in accessing the API endpoint or interpreting media URLs from the data.
+  **Badge File IDs**
 
-You can set up a periodic health check with the following steps:
+  - `Tested Date`
+    : (Optional) The file ID of the `last-tested-date.svg` badge.
 
-1. Open an Apps Script Editor from your Google Sheet file.
-2. Add the following code to a `.gs` file:
+  - `Health Status`
+    : (Optional) The file ID of the `last-tested-status.svg` badge.
 
-   ```js
-   function runTestPipeline() {
-     const IGSF = IGStoriesToGDrive.getInstance();
-     IGSF.test_pipeline();
-   }
-   ```
+  **Error Report**
 
-3. At the left, click **Triggers** ⏰.
-4. At the bottom right, click **Add Trigger**.
-5. In the dialog, choose `runTestPipeline` as the function to run and configure an appropriate timer.
-6. (Optional) In your Google Sheet file, fill in an email address for error reporting on the page "Settings".
+  - `Email To`
+    : (Optional) The email address that will receive an error message when
+    the health check function returns a “failed” status.
 
-### Create and Register your Status Badges
+- Enable Auto-Run
+  : (Optional) You can set up a time-driven trigger for your Apps Script,
+  enabling automated function execution at specific time intervals.
 
-1. Open the page "Settings" in your Google Sheet file.
-2. Click the <kbd>+ Create badges</kbd> button to execute `createBadges()`.
-3. Open your Google Drive, you should see the two badge files, `last-tested-date.svg` and `last-tested-status.svg`, are created in the destination folder.
+- Deploy As a Web API
+  : (Optional) You can deploy your Apps Script as a web API to make it
+  accessible to users via a web browser.
 
-   ![Status Badges](/docs/images/status-badges.png)
+For more information, please refer to the [Advanced Configurations]
+documentation page.
 
-4. Go back to the spreadsheet, their file IDs should be found on the page **Settings**.
+## 🛡️ Privacy and Security
 
-5. Share the SVG files to view publicly and copy their Download URLs if you want to display them on a website or monitoring page.
+We respect your privacy and data security. Here are some important points to
+note:
 
-## Deploy As Web App (Optional)
+- No sensitive data, such as your Instagram username, password, cookies,
+  credentials, and tokens, will be shared with our developers or any third
+  parties. They will only be stored in your Google Sheet file and used by the
+  Apps Script to access the Instagram API.
 
-You can [publish the script as a web app](https://developers.google.com/apps-script/guides/web) and trigger the script with HTTP GET requests.
+- The Apps Script, which is bound to a Google Sheet file that is stored in your
+  Google Drive, will only run and be able to access your data with your Google
+  Account. Unless you share the file with other users or place it in a shared
+  folder, no one else can access or modify your data.
 
-**NOTE**: _The current version only supports web app deployment if you inject our source code directly into your Apps Script project_.
+> [!TIP]
+> If you want better protection of your data, you can self-host the code as a
+> standalone project. This way, you can have full control over the code and the
+> data, and you can customize the script according to your needs.
 
-To protect your deployed endpoint, you are required to set a username and password. Copy the following code to your project and replace `myUsername` and `myPassword` with your values:
+> [!CAUTION]
+> If you have any worries about any potential security issues with our script
+> or shared library, please do not use them. We are not responsible for any
+> data loss or damage that may occur from using our tool.
 
-```js
-function setUserProperties() {
-  PropertiesService
-      .getUserProperties()
-      .setProperty('AUTH_USERNAME', 'myUsername')
-      .setProperty('AUTH_PASSWORD', 'myPassword');
-}
-```
+## ❓ FAQ
 
-Run `setUserProperties()` once to store your username and password as secret  properties. After that, this code is no longer necessary and you can remove it.
+If you have any questions or problems with using our tool, please refer to our
+[FAQ section] on the project webpage. We have answered some of the most common
+questions, such as:
 
-Now you can test your web app deployment by passing a URL with query strings like this, `https://script.google.com/<YOUR_APP_PATH>/exec?usr=<AUTH_USERNAME>&pwd=<AUTH_PASSWORD>&target={"name":"bbcnews","id":"16278726"}`.
+[FAQ section]: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/#-faq
 
-## About Privacy
+1. _How to get the required Instagram headers and cookie for the tool?_
 
-1. No sensitive data, like your Instagram username, password, cookies, credentials, and tokens, will be shared with our developers.
-2. The Apps Script, which bounds to a Google Sheet file that stores in your Google Drive will only run and be able to access with your Google Account unless you share the file with other users or place it in a shared folder.
-3. Self-hosting the code as a standalone project if you want better protection of your data.
-4. Do not use our script or shared library if you have any worries about any potential security issues with them.
+2. What to do if you receive an error message `Exception: Request failed for https://i.instagram.com returned code 400.`?
 
-## Release Notes
+3. What to do if you receive an error message `Exception: Unexpected error while getting the method or property getFolderById on object DriveApp.`?
 
-To see the full list of changes made in each release, please refer to the [CHANGELOG.md](/CHANGELOG.md) file.
+If you cannot find the answer to your question in the FAQ section, please feel
+free to contact us via GitHub issues or discussions. We will try our best to
+help you. 😊
 
-## Like my stuff?
+* * *
 
-Would you like to buy me a coffee? I would really appreciate it if you could support me for the development.
+## 📋 Changelog
 
-<a href="https://www.buymeacoffee.com/chrisfungky"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" target="_blank"></a>
+To see the full list of changes made in each release, please refer to the
+[CHANGELOG.md](/CHANGELOG.md) file.
 
-## License
+## 💕 Like my stuff?
 
-Distributed under the [GNU Affero General Public License v3.0](LICENSE.md)
+If you enjoy using this tool and want to support me in the development, you can
+buy me a coffee. I would really appreciate it if you could show your appreciation
+and generosity.
+
+<a href="https://www.buymeacoffee.com/chrisfungky">
+  <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png"
+   style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;"
+   alt="Buy Me A Coffee" target="_blank" />
+</a>
+
+## ⚖️ License
+
+This project is distributed under the AGPL-3.0 license. This means that you are
+free to use, modify, and share this project, as long as you follow these rules:
+
+- You must keep the original license and authorship information in the source
+  code and any copies or derivatives of the project.
+- You must disclose the source code and any modifications you make to the project
+  when you distribute it to others.
+- You must use the same license as the original project when you distribute it
+  to others.
+
+You can find the full text of the license in the [LICENSE](/LINCESE.txt) file.

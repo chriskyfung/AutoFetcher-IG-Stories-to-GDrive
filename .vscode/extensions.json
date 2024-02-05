@@ -1,9 +1,11 @@
 {
   "recommendations": [
     "xabikos.javascriptsnippets",
-    "dedsec727.jekyll-run",
-    "redhat.vscode-yaml",
     "herrmannplatz.npm-dependency-links",
-    "christian-kohler.npm-intellisense"
+    "christian-kohler.npm-intellisense",
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint",
+    "yahyabatulu.vscode-markdown-alert",
+    "bierner.markdown-preview-github-styles"
   ]
 }

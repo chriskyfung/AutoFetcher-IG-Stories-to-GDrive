@@ -44,3 +44,15 @@ function testIsDownloaded_() {
   loadRecentLogs();
   console.log(isDownloaded('https://'));
 }
+
+/**
+ * A row data obtained by using the Apps Script below:
+ *   `logsSheet.getRange(row, 1, 1, 5).getValues()[0];`
+ */
+[
+  '12/23/2023, 7:01:50 AM',
+  'bbcnews',
+  `https://scontent-iad3-1.cdninstagram.com/v/t51.2885-15/412514476_1718390002006897_6716625557268607946_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTcweDIwODAuc2RyIn0&_nc_ht=scontent-iad3-1.cdninstagram.com&_nc_cat=1&_nc_ohc=Ng1OSbzyQ6QAX_-DNij&edm=ANmP7GQBAAAA&ccb=7-5&ig_cache_key=MzI2MzU1NDgwNzcwMzY4MTc3MQ%3D%3D.2-ccb7-5&oh=00_AfAtC1enDTdOoet5BqZN85bcp26KWGOF-TFCFEXJ184yPQ&oe=6587792D&_nc_sid=982cc7`,
+  'jpg',
+  '412514476_1718390002006897_6716625557268607946_n.jpg',
+];

@@ -3,7 +3,7 @@ repository: chriskyfung/AutoFetcher-IG-Stories-to-GDrive
 
 name: "Chris KY FUNG's Page"
 title: "AutoFetcher IG Stories to GDrive"
-description: "A Google App Script for deploying a web application that automatically fetches the latest available IG Stories of a target Instagram user to your Google Drive."
+description: "Save Instagram Stories of any user to your Google Drive using Google Sheets and Google Apps Script. Check out this website for more details."
 url: https://chriskyfung.github.io
 baseurl: '/AutoFetcher-IG-Stories-to-GDrive'
 favicon: 'assets/images/favicon_96x96.png'
@@ -14,6 +14,14 @@ timezone: 'Asia/Hong_Kong'
 nav:
   buttons:
     gh_sponsors: true # Show GitHub Sponsors button
+  global:
+    home: false  
+  local:
+    items:
+      - name: Release Notes
+        url: /release-notes/
+      - name: Advanced Configurations
+        url: /advanced-configurations/
 
 sidebar:
   featured: false
@@ -71,6 +79,11 @@ defaults:
       path: ""
     values:
       layout: "default"
+      download: true
+      image:
+        path: /images/instagram-to-drive_730x365_o55.jpg
+        height: 365
+        hide: true
 
 authors:
   chris:

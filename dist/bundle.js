@@ -1,6 +1,6 @@
 /**
  * Bundle as defined from all files in src/modules/*.js
- * Copyright (c) 2022
+ * Copyright (c) 2024
  * 
  * A Google Apps Script for deploying a web application that automatically 
  * fetches the latest available IG Stories of a target Instagram user to your 
@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Thu, 16 Feb 2023 06:25:23 GMT
+ * Build at: Mon, 05 Feb 2024 09:18:54 GMT
  */
 
 const IGSF = Object.create(null);
@@ -16,105 +16,6 @@ const IGSF = Object.create(null);
 'use strict';
 
 (function (exports, window) {
-
-// url_to_drive.gs
-// Google Apps Script
-// Allows uploading a URL directly to Google Drive.
-//
-// Live link:
-// https://script.google.com/macros/s/AKfycbzvhbHS4hnWPVBDHjQzZHA0qWq0GR-6hY7TbYsNto6hZ0MeAFZt/exec
-//
-// Source-code:
-// https://gist.github.com/denilsonsa/8134679
-// https://script.google.com/d/1Ye-OEn1bDPcmeKSe4gb0YSK83RPMc4sZJt79SRt-GRY653gm2qVUptoE/edit
-//
-// Other solutions written by other people:
-// https://ifttt.com/channels/google_drive/actions/78
-// https://sites.google.com/site/fileurltodrive/
-// Note: I wrote this script without looking at the source-code of other solutions.
-
-function getFilenameFromURL(url) {
-  //                  (host-ish)/(path-ish/)(filename)
-  const re = /^https?:\/\/([^\/]+)\/([^?]*\/)?([^\/?]+)/;
-  const match = re.exec(url);
-  if (match) {
-    return unescape(match[3]);
-  }
-  return null;
-}
-
-function uploadToDrive(url, folderid, filename) {
-  let msg = '';
-  let response;
-
-  try {
-    response = UrlFetchApp.fetch(url, {
-      // muteHttpExceptions: true,
-      // validateHttpsCertificates: false,
-      followRedirects: true, // Default is true anyway.
-    });
-  } catch (e) {
-    return e.toString();
-  }
-
-  if (response.getResponseCode() === 200) {
-    if (!filename) {
-      // TODO: try content-disposition.
-      filename = getFilenameFromURL(url);
-    }
-
-    if (!filename) {
-      msg += 'Aborting: Filename not detected. Please supply a filename.\n';
-    } else {
-      let folder = DriveApp.getRootFolder();
-      if (folderid) {
-        folder = DriveApp.getFolderById(folderid);
-      }
-
-      const haBDs = DriveApp.getFilesByName(filename);
-
-      // Does not exist
-      if (haBDs.hasNext()) {
-        return (msg += 'WARNING: Filename has already existed.');
-      }
-
-      const blob = response.getBlob();
-      const file = folder.createFile(blob);
-      file.setName(filename);
-      file.setDescription('Downloaded from ' + url);
-
-      const headers = response.getHeaders();
-      let content_length = NaN;
-      for (const key in headers) {
-        if (key.toLowerCase() == 'Content-Length'.toLowerCase()) {
-          content_length = parseInt(headers[key], 10);
-          break;
-        }
-      }
-
-      const blob_length = blob.getBytes().length;
-      msg += 'Saved "' + filename + '" (' + blob_length + ' bytes)';
-      if (!isNaN(content_length)) {
-        if (blob_length < content_length) {
-          msg += ' WARNING: truncated from ' + content_length + ' bytes.';
-        } else if (blob_length > content_length) {
-          msg +=
-            ' WARNING: size is greater than expected ' +
-            content_length +
-            ' bytes from Content-Length header.';
-        }
-      }
-      msg += '\nto folder "' + folder.getName() + '".\n';
-    }
-  } else {
-    msg += 'Response code: ' + response.getResponseCode() + '\n';
-  }
-
-  // Debug: printing response headers.
-  // msg += JSON.stringify(response.getHeaders(), undefined, 2) + '\n';
-
-  return msg;
-}
 
 /**
  * init.js
@@ -330,7 +231,7 @@ function setHealthStatusBadge(healthy) {
 
 /**
  * logger.js
- * Copyright (c) 2021
+ * Copyright (c) 2021-2023
  *
  * This file contains the Google Apps Script to read/write logs in the Google
  * Sheet that the Apps Script is bounded to.
@@ -338,12 +239,15 @@ function setHealthStatusBadge(healthy) {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-09-20
+ * Last updated at : 2023-02-21
  */
 
 const numOfColumns = 5;
-const columnFilename = 5;
-const columnSelected = numOfColumns + 1;
+const column = {
+  filename: 5,
+  selected: 6,
+  empty: 7,
+};
 let previousLogs;
 
 /**
@@ -357,6 +261,7 @@ let previousLogs;
  * @param {String} filename The filename of the downloaded file
  */
 function insertNewLog(datetime, username, url, filetype, filename) {
+  // TODO: fix #84 logging blank file name
   // Get the sheet to store the log data.
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
@@ -367,7 +272,7 @@ function insertNewLog(datetime, username, url, filetype, filename) {
   logsSheet
     .getRange(2, 1, 1, numOfColumns)
     .setValues([[datetime, username, url, filetype, filename]]);
-  logsSheet.getRange(2, columnSelected).insertCheckboxes();
+  logsSheet.getRange(2, column.selected).insertCheckboxes();
 }
 
 /**
@@ -404,53 +309,248 @@ function isDownloaded(searchTerm) {
 }
 
 /**
- * onEdit event handler
- * @param {Object} e An event object
+ * Get and format the data of selected log entries
+ * @return {Object} The log sheet and the data of the selected entries
+ */
+function getSelected() {
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
+  const lastRow = logsSheet.getLastRow();
+  const items = [];
+  for (let row = 2; row <= lastRow; row++) {
+    if (!logsSheet.getRange(row, column.selected).isChecked()) {
+      continue;
+    }
+    const rowData = logsSheet.getRange(row, 1, 1, numOfColumns).getValues()[0];
+    const formula = logsSheet.getRange(row, column.filename).getFormula();
+    items.push({
+      row: row,
+      fileId: formula
+        .split('https://drive.google.com/file/d/')
+        .pop()
+        .split('/view?')
+        .shift(),
+      data: rowData,
+    });
+  }
+  return {
+    sheet: logsSheet,
+    items: items,
+  };
+}
+
+/**
+ * Delete selected log entries from the log sheet and
+ * their files from Google Drive
  */
 function deleteSelected() {
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
   );
-  const lastRow = logsSheet.getLastRow();
-  const itemsToDelete = [];
-  for (let row = 2; row <= lastRow; row++) {
-    if (logsSheet.getRange(row, columnSelected).isChecked()) {
-      const formula = logsSheet.getRange(row, columnFilename).getFormula();
-      itemsToDelete.push({
-        row: row,
-        fileId: formula
-          .split('https://drive.google.com/file/d/')
-          .pop()
-          .split('/view?')
-          .shift(),
-      });
-    }
-  }
+  const items = getSelected().items;
   const msg = Browser.msgBox(
     'Delete Seleted Items',
-    `Are you sure you want to delete these ${itemsToDelete.length} items and their files from your Drive?`,
+    `Are you sure you want to delete these ${items.length} items and their files from your Drive?`,
     Browser.Buttons.YES_NO
   );
   if (msg === 'yes') {
-    itemsToDelete.forEach((item, index) => {
-      DriveApp.getFileById(item.fileId).setTrashed(true);
+    items.forEach((item, index) => {
+      if (item.fileId) {
+        const file = DriveApp.getFileById(item.fileId);
+        if (file) {
+          file.setTrashed(true);
+        } else {
+          console.error(`File not found for ${JSON.stringify(item)}`);
+        }
+      } else {
+        console.warn(`Missing File Id for ${JSON.stringify(item)}`);
+      }
       logsSheet.deleteRow(item.row - index);
     });
   }
 }
 
 /**
+ * Ask user to enter a Google Folder ID, and
+ * move the selected entries' files to this folder
+ */
+function moveSelected() {
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
+  const items = getSelected().items;
+  const ui = SpreadsheetApp.getUi();
+  const result = ui.prompt(
+    'Please enter the destination folder ID:',
+    ui.ButtonSet.OK_CANCEL
+  );
+  // Process the user's response.
+  const button = result.getSelectedButton();
+  const text = result.getResponseText();
+  if (button == ui.Button.OK) {
+    // User clicked "OK".
+    let destFolder;
+    try {
+      destFolder = DriveApp.getFolderById(text);
+    } catch (err) {
+      throw new Error(
+        `The folder does not exist or the user does not have permission to access it.`
+      );
+    }
+    const msg = Browser.msgBox(
+      'Move Seleted Items',
+      `Are you sure you want to move these ${
+        items.length
+      } items' files to 📁${destFolder.getName()}?`,
+      Browser.Buttons.YES_NO
+    );
+    if (msg === 'yes') {
+      items.forEach((item, index) => {
+        if (item.fileId != '') {
+          try {
+            DriveApp.getFileById(item.fileId).moveTo(destFolder);
+            logsSheet.getRange(item.row, column.selected).uncheck();
+            logsSheet
+              .getRange(item.row, column.empty)
+              .setValue('Moved')
+              .setFontColor('blue');
+          } catch (err) {
+            logsSheet
+              .getRange(item.row, column.empty)
+              .setValue(
+                `The file does not exist or the user does not have permission to access it.`
+              )
+              .setFontColor('red');
+          }
+        }
+      });
+    }
+  }
+}
+
+// url_to_drive.gs
+// Google Apps Script
+// Allows uploading a URL directly to Google Drive.
+//
+// Live link:
+// https://script.google.com/macros/s/AKfycbzvhbHS4hnWPVBDHjQzZHA0qWq0GR-6hY7TbYsNto6hZ0MeAFZt/exec
+//
+// Source-code:
+// https://gist.github.com/denilsonsa/8134679
+// https://script.google.com/d/1Ye-OEn1bDPcmeKSe4gb0YSK83RPMc4sZJt79SRt-GRY653gm2qVUptoE/edit
+//
+// Other solutions written by other people:
+// https://ifttt.com/channels/google_drive/actions/78
+// https://sites.google.com/site/fileurltodrive/
+// Note: I wrote this script without looking at the source-code of other solutions.
+
+function getFilenameFromURL(url) {
+  //                  (host-ish)/(path-ish/)(filename)
+  const re = /^https?:\/\/([^\/]+)\/([^?]*\/)?([^\/?]+)/;
+  const match = re.exec(url);
+  if (match) {
+    return unescape(match[3]);
+  }
+  return null;
+}
+
+function uploadToDrive(url, folderid, filename) {
+  let msg = '';
+  let response;
+
+  try {
+    response = UrlFetchApp.fetch(url, {
+      // muteHttpExceptions: true,
+      // validateHttpsCertificates: false,
+      followRedirects: true, // Default is true anyway.
+    });
+  } catch (e) {
+    return e.toString();
+  }
+
+  if (response.getResponseCode() === 200) {
+    if (!filename) {
+      // TODO: try content-disposition.
+      filename = getFilenameFromURL(url);
+    }
+
+    if (!filename) {
+      msg += 'Aborting: Filename not detected. Please supply a filename.\n';
+    } else {
+      let folder = DriveApp.getRootFolder();
+      if (folderid) {
+        folder = DriveApp.getFolderById(folderid);
+      }
+
+      const haBDs = DriveApp.getFilesByName(filename);
+
+      // Does not exist
+      if (haBDs.hasNext()) {
+        return (msg += 'WARNING: Filename has already existed.');
+      }
+
+      const blob = response.getBlob();
+      const file = folder.createFile(blob);
+      file.setName(filename);
+      file.setDescription('Downloaded from ' + url);
+
+      const headers = response.getHeaders();
+      let content_length = NaN;
+      for (const key in headers) {
+        if (key.toLowerCase() == 'Content-Length'.toLowerCase()) {
+          content_length = parseInt(headers[key], 10);
+          break;
+        }
+      }
+
+      const blob_length = blob.getBytes().length;
+      msg += 'Saved "' + filename + '" (' + blob_length + ' bytes)';
+      if (!isNaN(content_length)) {
+        if (blob_length < content_length) {
+          msg += ' WARNING: truncated from ' + content_length + ' bytes.';
+        } else if (blob_length > content_length) {
+          msg +=
+            ' WARNING: size is greater than expected ' +
+            content_length +
+            ' bytes from Content-Length header.';
+        }
+      }
+      msg += '\nto folder "' + folder.getName() + '".\n';
+    }
+  } else {
+    msg += 'Response code: ' + response.getResponseCode() + '\n';
+  }
+
+  // Debug: printing response headers.
+  // msg += JSON.stringify(response.getHeaders(), undefined, 2) + '\n';
+
+  return msg;
+}
+
+/**
+ * Returns an object containing the path, file name, and file extension
+ *   of a given URL.
+ * @param {string} url - The URL to extract file details from.
+ * @return {Object} An object containing the path, file name, and file
+ *   extension of the URL.
+ */
+const getFileDetails = (url) => {
+  const path = url.split('.com')[1].split(/[?#]/)[0];
+  const fileName = path.split('/').pop();
+  const fileExtension = fileName.split('.').pop();
+  return { path: path, fileName: fileName, fileExtension: fileExtension };
+};
+
+/**
  * fetcher.js
- * Copyright (c) 2018-2023
+ * Copyright (c) 2024
  *
  * This file contains the Google Apps Script to fetch and upload the media
  * files from the latest available Stories of a Instagram user to your Google
  * Drive.
  *
  * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2018-01-29
- * Last modified  : 2023-02-14
  */
 
 /**
@@ -484,8 +584,7 @@ function getInstagramData(query) {
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-origin',
-      'user-agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+      'user-agent': `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36`,
       'viewport-width': '960',
       'x-asbd-id': igParams.X_ASBD_ID,
       'x-csrftoken': igParams.X_CSRFTOKEN,
@@ -499,19 +598,35 @@ function getInstagramData(query) {
     method: 'GET',
     mode: 'cors',
   };
+  
   let response;
   try {
-    response = UrlFetchApp.fetch(query, params).getContentText();
+    response = UrlFetchApp.fetch(query, params);
   } catch (err) {
-    const errorMessage = err.message + ' (error code: 0xf1)';
-    console.error(errorMessage);
+    console.warn(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
+    const errorMessage = `${err.message}`;
+    if (errorMessage.indexOf("Address unavailable:") !== -1) {
+      console.error(errorMessage);
+      return;
+    }
+    throw new Error(errorMessage +  '(code: 0xf1)');
+  }
+  console.log(`status code: ${response.getResponseCode()}`);
+
+  const contentText = response.getContentText();
+  if (contentText.startsWith('<!DOCTYPE html>')) {
+    const errorMessage = contentText.includes('not-logged-in')
+      ? 'Unable to log into Instagram (code: 0xf3)'
+      : 'Instagram API retured response in HTML not JSON (code: 0xf4)';
+    console.warn(`HTTP content: ${contentText}`);
     throw new Error(errorMessage);
   }
   try {
-    return JSON.parse(response);
+    return JSON.parse(contentText);
   } catch (err) {
-    console.error('Failed to parse response (error code: 0xf2):\n' + response);
-    throw new Error('Failed to parse response (error code: 0xf2)');
+    errorMessage = 'Failed to parse response (code: 0xf2)';
+    console.warn(`HTTP content: ${contentText}`);
+    throw new Error(errorMessage);
   }
 }
 
@@ -522,6 +637,7 @@ function getInstagramData(query) {
  */
 function parseDownloadUrl(data) {
   return (
+    // {"reels":{...},"reels_media":[...],"status":"ok"}
     data.reels_media[0]?.items.map(
       (item) => (item.video_versions || item.image_versions2.candidates)[0].url
     ) || []
@@ -532,7 +648,9 @@ function parseDownloadUrl(data) {
  * Test getting the URLs of media files in the data retrieved from Instagram's
  * API using getInstagramData() and parseDownloadUrl().
  * @param {Object} targetIgUser - A JSON object contains the name and id of an
- *  Instagram account, e.g. { "name": "john", "id": "1234567890", "destination": "1vm...sIS" }.
+ *  Instagram account, e.g. { "name": "john",
+ *                             "id": "1234567890",
+ *                            "destination": "1vm...sIS" }.
  * @return {number} The number of URLs obtained.
  */
 function tryGetStories(targetIgUser) {
@@ -540,9 +658,8 @@ function tryGetStories(targetIgUser) {
     loadSettings();
   }
   const queryUrl = getQuery(targetIgUser.id);
-  const html = getInstagramData(queryUrl);
-
-  const urls = parseDownloadUrl(html);
+  const data = getInstagramData(queryUrl);
+  const urls = parseDownloadUrl(data);
   console.log(
     'Number of downloadable media files from @' +
       targetIgUser.name +
@@ -573,40 +690,57 @@ function fetch(target) {
   const queryUrl = getQuery(target.id);
   const data = getInstagramData(queryUrl);
   const urls = parseDownloadUrl(data);
+
   // Get recent log data stored in the Google Sheet file.
   let msg = '';
   loadRecentLogs();
-  // For each media URL
-  if (urls != null && urls.length > 0) {
-    urls.forEach((url) => {
-      // Remove query strings from the URL.
-      const pathname = url.split('.com')[1].split('?')[0];
-      // Check if the URL appears in the recent logs.
-      if (isDownloaded(pathname)) {
-        // Skip processing any downloaded file.
-        msg += 'Already been uploaded.\n';
-      } else {
-        // Upload fresh media file to the destination Google Drive folder
-        let destinationFolder = '';
-        if (target.destination == '') {
-          destinationFolder = dest.folderId;
-        } else {
-          destinationFolder = target.destination;
-        }
-        msg += uploadToDrive(url, destinationFolder, '');
-        const currentDatatime = new Date();
-        insertNewLog(
-          currentDatatime.toLocaleString(), // Datatime string
-          target.name, // IG username
-          url, // Full URL
-          pathname.split('.').pop(), // File extension
-          createViewFileFormula(pathname.split('/').pop(), destinationFolder)
-        );
-      }
-    });
-  } else {
-    msg += 'No media file available.\n';
+
+  // Append message and return if no urls are obtained
+  if (urls === null || urls.length <= 0) {
+    msg += 'No media URLs.\n';
+    return msg;
   }
+
+  // For each media URL
+  urls.forEach((url) => {
+    // Remove query strings from the URL
+    if (typeof url !== 'string') {
+      console.warn(
+        'Invalid type for url. Expected string but received ' + typeof url
+      );
+      return;
+    }
+
+    // DONE: fix #84 logging blank filename
+    // const pathname = url.split('.com')[1].split('?')[0];
+    const { path, fileName, fileExtension } = getFileDetails(url);
+
+    // If the URL appears in recent logs, skip uploading file to Google Drive
+    if (isDownloaded(path)) {
+      msg += 'Already been uploaded.\n';
+      return;
+    }
+
+    // Upload fresh media file to the destination Google Drive folder
+    const destinationFolder = target.destination || dest.folderId;
+    const currentDatatime = new Date();
+    msg += uploadToDrive(url, destinationFolder, '');
+    // DONE: fix #84 logging blank filename
+    const fileLink = createViewFileFormula(fileName, destinationFolder);
+    if (!fileLink) {
+      console.warn(
+        `An issue occurred while generating the formula with the =HYPERLINK() function for the file ${fileName}. The URL ${url} was not downloaded as expected.`
+        );
+      return;
+    }
+    insertNewLog(
+      currentDatatime.toLocaleString(), // Datatime string
+      target.name, // IG username
+      url, // Full URL
+      fileExtension, // File extension
+      fileLink, // Linked file name 
+    );
+  });
   return msg;
 }
 
@@ -625,6 +759,38 @@ function createViewFileFormula(filename, folderId) {
     const file = files.next();
     return `=HYPERLINK("${file.getUrl()}", "${filename}")`;
   }
+}
+
+/**
+ * subscriber.js
+ * Copyright (c) 2021
+ *
+ * This file contains the Google Apps Script to read/write logs in the Google
+ * Sheet that the Apps Script is bounded to.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ *
+ * Created at     : 2021-11-02
+ * Last modified  : 2021-11-02
+ */
+
+/**
+ * Get the listing from the Google Sheet that the Apps Script is bounded to,
+ * and then fetch Instagram Stories for each item.
+ */
+function batchFetch() {
+  const spreadsheet = SpreadsheetApp.getActive();
+  const subscriptionsSheet = spreadsheet.getSheetByName(
+    sheetNames['subscriptions']
+  );
+  const data = subscriptionsSheet
+    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
+    .getValues();
+  data.forEach((row) => {
+    console.log(`fetching ${row[0]}...`);
+    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
+    console.log(msg);
+  });
 }
 
 /**
@@ -718,38 +884,6 @@ function try_get() {
 }
 
 /**
- * subscriber.js
- * Copyright (c) 2021
- *
- * This file contains the Google Apps Script to read/write logs in the Google
- * Sheet that the Apps Script is bounded to.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- *
- * Created at     : 2021-11-02
- * Last modified  : 2021-11-02
- */
-
-/**
- * Get the listing from the Google Sheet that the Apps Script is bounded to,
- * and then fetch Instagram Stories for each item.
- */
-function batchFetch() {
-  const spreadsheet = SpreadsheetApp.getActive();
-  const subscriptionsSheet = spreadsheet.getSheetByName(
-    sheetNames['subscriptions']
-  );
-  const data = subscriptionsSheet
-    .getRange(2, 1, subscriptionsSheet.getLastRow() - 1, 3)
-    .getValues();
-  data.forEach((row) => {
-    console.log(`fetching ${row[0]}...`);
-    const msg = fetch({ id: row[1], name: row[0], destination: row[2] });
-    console.log(msg);
-  });
-}
-
-/**
  * Copyright (c) 2021-2022
  *
  * This file contains the code to test fetching Instagram stories using
@@ -802,6 +936,32 @@ function test_pipeline() {
   return healthy;
 }
 
+/**
+ * ui.js
+ * Copyright (c) 2024
+ *
+ * This file contains the Google Apps Script to create a custom menu in the 
+ * Google Sheets when the spreadsheet opens.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ */
+
+function initUi(e) {
+  try {
+    let ui = SpreadsheetApp.getUi();
+    ui.createMenu('igFetcher')
+      .addItem('Fetch stories', 'run')
+      .addSubMenu(ui.createMenu('Logs')
+        .addItem('Move seleted files', 'moveSelected')
+        .addItem('Delete seleted logs', 'deleteSelected')
+      )
+      .addToUi();
+  } catch (err) {
+    // TODO (Developer) - Handle exception
+    Logger.log('Failed with error: %s', err.error);
+  }
+}
+
 exports.badgeFileIds = badgeFileIds;
 exports.batchFetch = batchFetch;
 exports.createBadages = createBadages;
@@ -810,14 +970,17 @@ exports.dest = dest;
 exports.doGet = doGet;
 exports.fetch = fetch;
 exports.fetchTest = fetchTest;
+exports.getFileDetails = getFileDetails;
 exports.getInstagramData = getInstagramData;
 exports.getQuery = getQuery;
 exports.igParams = igParams;
+exports.initUi = initUi;
 exports.insertNewLog = insertNewLog;
 exports.isDebug = isDebug;
 exports.isDownloaded = isDownloaded;
 exports.loadRecentLogs = loadRecentLogs;
 exports.loadSettings = loadSettings;
+exports.moveSelected = moveSelected;
 exports.setHealthStatusBadge = setHealthStatusBadge;
 exports.setTestDateBadge = setTestDateBadge;
 exports.sheetNames = sheetNames;

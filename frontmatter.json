@@ -1,0 +1,63 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "default",
+      "pageBundle": false,
+      "fields": [
+        {
+          "title": "Title",
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "title": "Description",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "title": "Publishing date",
+          "name": "date",
+          "type": "datetime",
+          "default": "{{now}}",
+          "isPublishDate": true
+        },
+        {
+          "title": "Content preview",
+          "name": "preview",
+          "type": "image"
+        },
+        {
+          "title": "Is in draft",
+          "name": "draft",
+          "type": "draft"
+        },
+        {
+          "title": "Tags",
+          "name": "tags",
+          "type": "tags"
+        },
+        {
+          "title": "Categories",
+          "name": "categories",
+          "type": "categories"
+        }
+      ]
+    }
+  ],
+  "frontMatter.framework.id": "jekyll",
+  "frontMatter.content.publicFolder": "images",
+  "frontMatter.preview.pathName": "/AutoFetcher-IG-Stories-to-GDrive/",
+  "frontMatter.preview.host": "http://localhost:4000",
+  "frontMatter.site.baseURL": "https://chriskyfung.github.io",
+  "frontMatter.website.host": "https://chriskyfung.github.io",
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "docs",
+      "path": "[[workspace]]/docs",
+      "filePrefix": null,
+      "previewPath": null
+    }
+  ],
+  "frontMatter.framework.startCommand": "cd docs; bundle exec jekyll serve --livereload"
+}

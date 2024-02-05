@@ -1,6 +1,6 @@
 /**
  * logger.js
- * Copyright (c) 2021
+ * Copyright (c) 2021-2023
  *
  * This file contains the Google Apps Script to read/write logs in the Google
  * Sheet that the Apps Script is bounded to.
@@ -8,7 +8,7 @@
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  *
  * Created at     : 2021-11-01
- * Last updated at : 2022-09-20
+ * Last updated at : 2023-02-21
  */
 
 /**
@@ -24,8 +24,11 @@
 import { sheetNames } from './init';
 
 const numOfColumns = 5;
-const columnFilename = 5;
-const columnSelected = numOfColumns + 1;
+const column = {
+  filename: 5,
+  selected: 6,
+  empty: 7,
+};
 let previousLogs;
 
 /**
@@ -39,6 +42,7 @@ let previousLogs;
  * @param {String} filename The filename of the downloaded file
  */
 export function insertNewLog(datetime, username, url, filetype, filename) {
+  // TODO: fix #84 logging blank file name
   // Get the sheet to store the log data.
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
@@ -49,7 +53,7 @@ export function insertNewLog(datetime, username, url, filetype, filename) {
   logsSheet
     .getRange(2, 1, 1, numOfColumns)
     .setValues([[datetime, username, url, filetype, filename]]);
-  logsSheet.getRange(2, columnSelected).insertCheckboxes();
+  logsSheet.getRange(2, column.selected).insertCheckboxes();
 }
 
 /**
@@ -86,37 +90,122 @@ export function isDownloaded(searchTerm) {
 }
 
 /**
- * onEdit event handler
- * @param {Object} e An event object
+ * Get and format the data of selected log entries
+ * @return {Object} The log sheet and the data of the selected entries
+ */
+function getSelected() {
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
+  const lastRow = logsSheet.getLastRow();
+  const items = [];
+  for (let row = 2; row <= lastRow; row++) {
+    if (!logsSheet.getRange(row, column.selected).isChecked()) {
+      continue;
+    }
+    const rowData = logsSheet.getRange(row, 1, 1, numOfColumns).getValues()[0];
+    const formula = logsSheet.getRange(row, column.filename).getFormula();
+    items.push({
+      row: row,
+      fileId: formula
+        .split('https://drive.google.com/file/d/')
+        .pop()
+        .split('/view?')
+        .shift(),
+      data: rowData,
+    });
+  }
+  return {
+    sheet: logsSheet,
+    items: items,
+  };
+}
+
+/**
+ * Delete selected log entries from the log sheet and
+ * their files from Google Drive
  */
 export function deleteSelected() {
   const logsSheet = SpreadsheetApp.getActive().getSheetByName(
     sheetNames['logs']
   );
-  const lastRow = logsSheet.getLastRow();
-  const itemsToDelete = [];
-  for (let row = 2; row <= lastRow; row++) {
-    if (logsSheet.getRange(row, columnSelected).isChecked()) {
-      const formula = logsSheet.getRange(row, columnFilename).getFormula();
-      itemsToDelete.push({
-        row: row,
-        fileId: formula
-          .split('https://drive.google.com/file/d/')
-          .pop()
-          .split('/view?')
-          .shift(),
-      });
-    }
-  }
+  const items = getSelected().items;
   const msg = Browser.msgBox(
     'Delete Seleted Items',
-    `Are you sure you want to delete these ${itemsToDelete.length} items and their files from your Drive?`,
+    `Are you sure you want to delete these ${items.length} items and their files from your Drive?`,
     Browser.Buttons.YES_NO
   );
   if (msg === 'yes') {
-    itemsToDelete.forEach((item, index) => {
-      DriveApp.getFileById(item.fileId).setTrashed(true);
+    items.forEach((item, index) => {
+      if (item.fileId) {
+        const file = DriveApp.getFileById(item.fileId);
+        if (file) {
+          file.setTrashed(true);
+        } else {
+          console.error(`File not found for ${JSON.stringify(item)}`);
+        }
+      } else {
+        console.warn(`Missing File Id for ${JSON.stringify(item)}`);
+      }
       logsSheet.deleteRow(item.row - index);
     });
+  }
+}
+
+/**
+ * Ask user to enter a Google Folder ID, and
+ * move the selected entries' files to this folder
+ */
+export function moveSelected() {
+  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
+    sheetNames['logs']
+  );
+  const items = getSelected().items;
+  const ui = SpreadsheetApp.getUi();
+  const result = ui.prompt(
+    'Please enter the destination folder ID:',
+    ui.ButtonSet.OK_CANCEL
+  );
+  // Process the user's response.
+  const button = result.getSelectedButton();
+  const text = result.getResponseText();
+  if (button == ui.Button.OK) {
+    // User clicked "OK".
+    let destFolder;
+    try {
+      destFolder = DriveApp.getFolderById(text);
+    } catch (err) {
+      throw new Error(
+        `The folder does not exist or the user does not have permission to access it.`
+      );
+    }
+    const msg = Browser.msgBox(
+      'Move Seleted Items',
+      `Are you sure you want to move these ${
+        items.length
+      } items' files to 📁${destFolder.getName()}?`,
+      Browser.Buttons.YES_NO
+    );
+    if (msg === 'yes') {
+      items.forEach((item, index) => {
+        if (item.fileId != '') {
+          try {
+            DriveApp.getFileById(item.fileId).moveTo(destFolder);
+            logsSheet.getRange(item.row, column.selected).uncheck();
+            logsSheet
+              .getRange(item.row, column.empty)
+              .setValue('Moved')
+              .setFontColor('blue');
+          } catch (err) {
+            logsSheet
+              .getRange(item.row, column.empty)
+              .setValue(
+                `The file does not exist or the user does not have permission to access it.`
+              )
+              .setFontColor('red');
+          }
+        }
+      });
+    }
   }
 }
