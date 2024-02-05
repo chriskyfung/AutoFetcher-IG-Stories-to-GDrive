@@ -71,8 +71,12 @@ export function getInstagramData(query) {
     response = UrlFetchApp.fetch(query, params)
   } catch (err) {
     console.warn(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
-    const errorMessage = `${err.message} (code: 0xf1)`;
-    throw new Error(errorMessage);
+    const errorMessage = `${err.message}`;
+    if (errorMessage.indexOf("Address unavailable:") !== -1) {
+      console.error(errorMessage);
+      return;
+    }
+    throw new Error(errorMessage +  '(code: 0xf1)');
   }
   console.log(`status code: ${response.getResponseCode()}`);
 
