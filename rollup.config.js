@@ -14,7 +14,7 @@ export default [
       file: './dist/bundle.js',
       banner: `/**
  * Bundle as defined from all files in src/modules/*.js
- * Copyright (c) 2022
+ * Copyright (c) ${timestamp.getUTCFullYear()}
  * 
  * A Google Apps Script for deploying a web application that automatically 
  * fetches the latest available IG Stories of a target Instagram user to your 
