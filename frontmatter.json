@@ -4,7 +4,6 @@
     {
       "name": "default",
       "pageBundle": false,
-      "previewPath": null,
       "fields": [
         {
           "title": "Title",
@@ -47,12 +46,17 @@
     }
   ],
   "frontMatter.framework.id": "jekyll",
-  "frontMatter.content.publicFolder": "assets",
+  "frontMatter.content.publicFolder": "images",
+  "frontMatter.preview.pathName": "/AutoFetcher-IG-Stories-to-GDrive/",
   "frontMatter.preview.host": "http://localhost:4000",
+  "frontMatter.site.baseURL": "https://chriskyfung.github.io",
+  "frontMatter.website.host": "https://chriskyfung.github.io",
   "frontMatter.content.pageFolders": [
     {
       "title": "docs",
-      "path": "[[workspace]]/docs"
+      "path": "[[workspace]]/docs",
+      "filePrefix": null,
+      "previewPath": null
     }
   ],
   "frontMatter.framework.startCommand": "cd docs; bundle exec jekyll serve --livereload"
