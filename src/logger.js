@@ -32,27 +32,37 @@ const column = {
 let previousLogs;
 
 /**
- * Insert and record the date time, username, media URL and file type to be
- * downloaded to a new row at the start of the Google Sheet file that the
- * Apps Script is bounded to.
- * @param {String} datetime A date time in string format.
- * @param {String} username An Instagram username
- * @param {String} url A media URL
- * @param {String} filetype The extension of the downloaded file
- * @param {String} filename The filename of the downloaded file
+ * This function inserts a new log entry into the "Logs" sheet in a Google 
+ * Sheets document. The log entry includes the datetime, username, URL, 
+ * filetype, and filename. It formats the datetime, inserts a new row below the
+ * header, writes the log data to the new row, and inserts checkboxes into the
+ * respective column.
+ * @param {Date} datetime - The date and time of the log entry
+ * @param {string} username -  TheInstagram username
+ * @param {string} url - The media URL
+ * @param {string} filetype - The extension of the downloaded file
+ * @param {string} filename - The filename of the downloaded file
  */
 export function insertNewLog(datetime, username, url, filetype, filename) {
-  // TODO: fix #84 logging blank file name
-  // Get the sheet to store the log data.
-  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
-    sheetNames['logs']
+  const spreadsheet = SpreadsheetApp.getActive();
+  const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
+
+  // Use spreadsheet methods to get the desired date format and time zone
+  const formattedDateTime = Utilities.formatDate(
+    datetime,
+    spreadsheet.getSpreadsheetTimeZone(),
+    'yyyy-MM-dd HH:mm:ss'
   );
-  // Insert a blank row in a sheet below the header.
+
+  // Insert a new row below the header
   logsSheet.insertRows(2);
-  // Write the log data to the new row.
+
+  // Write the log data to the new row
   logsSheet
     .getRange(2, 1, 1, numOfColumns)
-    .setValues([[datetime, username, url, filetype, filename]]);
+    .setValues([[formattedDateTime, username, url, filetype, filename]]);
+
+  // Insert checkboxes into the respective column (column.selected)
   logsSheet.getRange(2, column.selected).insertCheckboxes();
 }
 
