@@ -68,7 +68,7 @@
     "@babel/preset-env": "^7.23.7",
     "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^6.0.0",
-    "@types/google-apps-script": "^1.0.56",
+    "@types/google-apps-script": "^1.0.82",
     "babel-jest": "^29.7.0",
     "babel-polyfill": "^6.26.0",
     "eslint": "^8.28.0",
