@@ -21,7 +21,7 @@ image:
 
 
 {:.note.tip}
-> ## Build240205a (Library V9) 2024-02-05
+> ## Library V9 (2024-02-05)
 
 To use the latest features and bug fixes, please update the Library Version of
 your Google Script to the latest one or create a new copy of the Google Sheet
@@ -76,7 +76,7 @@ the Apps Script by following these steps:
 [#90]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/90
 
 {:.note.tip}
-> ## Build230261a (Library V8) 2023-02-16
+> ## Library V8 (2023-02-16)
 
 ✨ Feature
 
@@ -89,7 +89,7 @@ the Apps Script by following these steps:
 [@hidehiro98]: https://github.com/hidehiro98
 
 {:.note.warning}
-> ## Build230214a (Library V7) 2023-02-14
+> ## Library V7 (2023-02-14)
 
 🗑 Deprecated
 
@@ -98,7 +98,7 @@ the Apps Script by following these steps:
 **Note**: Please update the Library Version to the latest in your Google Script or make a new copy of the Google Sheet template named with V7 or later.
 
 {:.note}
-> ## Build220904a (Library V5) 2022-09-04
+> ## Library V5 (2022-09-04)
 
 🐛 Bug Fix
 
@@ -107,7 +107,7 @@ the Apps Script by following these steps:
 [#53]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/53
 
 {:.note.caution}
-> ## Build220823a (Library V4) 2022-08-23
+> ## Library V4 (2022-08-23)
 
 💥 Breaking Change
 
@@ -116,7 +116,7 @@ the Apps Script by following these steps:
   **Note**: Please update to `build220823a` and make a copy of the new Google Sheet.
 
 {:.note.tip}
-> ## Build2112a (Library V2) <br> 2021-12-06
+> ## Library V2 (2021-12-06)
 
 ✨ Features
 
@@ -130,7 +130,7 @@ the Apps Script by following these steps:
   {% include picture.html source="raw" img="/images/delete_selected_optimized.png" width="260" height="188" alt="Delete selected items from spreadsheet" %}
 
 {:.note.tip}
-> ## Build2111a (Library V1) <br> 2021-11-11
+> ## Library V1 (2021-11-11)
 
 - **Integrate with Google Sheet**
 
