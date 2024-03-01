@@ -65,7 +65,7 @@
     "apps-script-oauth2": "github:googleworkspace/apps-script-oauth2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-env": "^7.24.0",
     "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@types/google-apps-script": "^1.0.56",
