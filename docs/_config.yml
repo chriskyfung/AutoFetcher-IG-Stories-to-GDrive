@@ -29,11 +29,6 @@ sidebar:
   ads: true
   related_sites: true
 
-# AddThis Inline Share Buttons
-addthis: 
-  pid: ra-5d01c83d522ad580 # Addthis profile id
-  wid: 7kfz # Addthis widget id
-
 # Disqus Comments
 amp_disqus: 
   shortname: 'chriskyfung' # Disqus shortname
