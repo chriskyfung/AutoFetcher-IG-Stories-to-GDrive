@@ -39,7 +39,6 @@ amp_disqus:
 cse_id: 011006674894885990812:tjln7k0nyjx 
 
 # Analytics
-google_analytics: 'UA-72575541-9' # Google Analytics Tracking ID
 ga4: 'G-HP4LN87NJE' # Google Analytics 4 Measurement ID
 gtm: 'GTM-WQMQK3X' # Google Tag Manager ID
 
