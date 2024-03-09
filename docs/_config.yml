@@ -67,6 +67,9 @@ copyright:
   ownership: Chris KY FUNG
   link: https://chriskyfung.github.io/
 
+# Cookie Consent Notice
+consent: true
+
 defaults:
   - 
     scope:
