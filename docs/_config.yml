@@ -29,11 +29,6 @@ sidebar:
   ads: true
   related_sites: true
 
-# AddThis Inline Share Buttons
-addthis: 
-  pid: ra-5d01c83d522ad580 # Addthis profile id
-  wid: 7kfz # Addthis widget id
-
 # Disqus Comments
 amp_disqus: 
   shortname: 'chriskyfung' # Disqus shortname
@@ -44,7 +39,6 @@ amp_disqus:
 cse_id: 011006674894885990812:tjln7k0nyjx 
 
 # Analytics
-google_analytics: 'UA-72575541-9' # Google Analytics Tracking ID
 ga4: 'G-HP4LN87NJE' # Google Analytics 4 Measurement ID
 gtm: 'GTM-WQMQK3X' # Google Tag Manager ID
 
@@ -72,6 +66,12 @@ copyright:
   prefix: 
   ownership: Chris KY FUNG
   link: https://chriskyfung.github.io/
+
+# Cookie Consent Notice
+consent: true
+consent_dev_mode: false
+script_hash:
+  consent_gsc: sha384-YZsyY8-Pag5BkrdKaSDSmZnCQGWcbyFYlQC0xq5mV_6kkBMuRA4Lnfjd3LEZ4ASF
 
 defaults:
   - 
