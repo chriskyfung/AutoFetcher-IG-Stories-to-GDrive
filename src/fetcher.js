@@ -205,11 +205,11 @@ export function fetch(target) {
       return;
     }
     insertNewLog(
-      currentDatatime.toLocaleString(), // Datatime string
+      currentDatatime, // Date object
       target.name, // IG username
       url, // Full URL
       fileExtension, // File extension
-      fileLink, // Linked file name 
+      fileLink, // Linked file name
     );
   });
   return msg;
