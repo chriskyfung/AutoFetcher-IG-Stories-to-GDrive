@@ -7,6 +7,16 @@ For more details on specific issues and pull requests, you can refer to the
 corresponding GitHub links provided. If you require further specific details
 about a particular build or feature, feel free to reach out.
 
+## Work-in-progress (WIP) for Library V10 
+
+### Bug Fixes
+
+- Standardized the log date and time format to be consistent with the local time
+  zone and locale settings[#80].
+
+[#80]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/80
+
+* * *
 
 ## Library V9 (build240205a) / 2024-02-05
 
