@@ -148,11 +148,11 @@ export function deleteSelected() {
   if (msg === 'yes') {
     items.forEach((item, index) => {
       if (item.fileId) {
-        const file = DriveApp.getFileById(item.fileId);
-        if (file) {
+        try {
+          const file = DriveApp.getFileById(item.fileId);
           file.setTrashed(true);
-        } else {
-          console.error(`File not found for ${JSON.stringify(item)}`);
+        } catch (e) {
+          console.error(`Exception when trying to trash file: ${e}. File details: ${JSON.stringify(item)}`);
         }
       } else {
         console.warn(`Missing File Id for ${JSON.stringify(item)}`);

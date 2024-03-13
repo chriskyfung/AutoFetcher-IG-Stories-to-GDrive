@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Mon, 05 Feb 2024 09:18:54 GMT
+ * Build at: Wed, 13 Mar 2024 05:45:49 GMT
  */
 
 const IGSF = Object.create(null);
@@ -357,11 +357,11 @@ function deleteSelected() {
   if (msg === 'yes') {
     items.forEach((item, index) => {
       if (item.fileId) {
-        const file = DriveApp.getFileById(item.fileId);
-        if (file) {
+        try {
+          const file = DriveApp.getFileById(item.fileId);
           file.setTrashed(true);
-        } else {
-          console.error(`File not found for ${JSON.stringify(item)}`);
+        } catch (e) {
+          console.error(`Exception when trying to trash file: ${e}. File details: ${JSON.stringify(item)}`);
         }
       } else {
         console.warn(`Missing File Id for ${JSON.stringify(item)}`);
@@ -762,6 +762,32 @@ function createViewFileFormula(filename, folderId) {
 }
 
 /**
+ * ui.js
+ * Copyright (c) 2024
+ *
+ * This file contains the Google Apps Script to create a custom menu in the 
+ * Google Sheets when the spreadsheet opens.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ */
+
+function initUi(e) {
+  try {
+    let ui = SpreadsheetApp.getUi();
+    ui.createMenu('igFetcher')
+      .addItem('Fetch stories', 'run')
+      .addSubMenu(ui.createMenu('Logs')
+        .addItem('Move seleted files', 'moveSelected')
+        .addItem('Delete seleted logs', 'deleteSelected')
+      )
+      .addToUi();
+  } catch (err) {
+    // TODO (Developer) - Handle exception
+    Logger.log('Failed with error: %s', err.error);
+  }
+}
+
+/**
  * subscriber.js
  * Copyright (c) 2021
  *
@@ -934,32 +960,6 @@ function test_pipeline() {
   setTestDateBadge();
   setHealthStatusBadge(healthy);
   return healthy;
-}
-
-/**
- * ui.js
- * Copyright (c) 2024
- *
- * This file contains the Google Apps Script to create a custom menu in the 
- * Google Sheets when the spreadsheet opens.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- */
-
-function initUi(e) {
-  try {
-    let ui = SpreadsheetApp.getUi();
-    ui.createMenu('igFetcher')
-      .addItem('Fetch stories', 'run')
-      .addSubMenu(ui.createMenu('Logs')
-        .addItem('Move seleted files', 'moveSelected')
-        .addItem('Delete seleted logs', 'deleteSelected')
-      )
-      .addToUi();
-  } catch (err) {
-    // TODO (Developer) - Handle exception
-    Logger.log('Failed with error: %s', err.error);
-  }
 }
 
 exports.badgeFileIds = badgeFileIds;
