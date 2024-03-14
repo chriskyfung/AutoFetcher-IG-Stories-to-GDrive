@@ -7,14 +7,66 @@ For more details on specific issues and pull requests, you can refer to the
 corresponding GitHub links provided. If you require further specific details
 about a particular build or feature, feel free to reach out.
 
-## Work-in-progress (WIP) for Library V10 
+## Library V10 (build240315a) / 2024-03-15
 
 ### Bug Fixes
 
-- Standardized the log date and time format to be consistent with the local time
-  zone and locale settings[#80].
+- Standardized log datetime format ([#80])
+
+  - Enhanced the `insertNewLog` function in `logger.js` to receive a JavaScript 
+    Date object for the `datetime` parameter instead of a string.
+  - Retrieve the time zone from the spreadsheet's locate setting.
+  - Transformed the `datetime` parameter to a datetime string in the format of 
+    `"yyyy-MM-dd HH:mm:ss"` using the `Utilities.formatDate()` method.
+  - Adjusted the `fetcher.js` file to pass the date and time as a `Date` object 
+    when calling the `insertNewLog` function.
+
+- Resolved the "No item with the given ID could be found" error ([#112])
+
+  - Enclosed the `DriveApp.getFileById` method call in a `try-catch` block in 
+    `logger.js`.
+  - Included error logging in the `catch` block if an exception is thrown.
 
 [#80]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/80
+[#112]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/issues/112
+
+### Dependencies
+
+- **Updated:**
+  - jekyll (3.9.0 → 3.9.5)
+  - nokogiri (1.16.0 → 1.16.2) in `/docs` ([#96])
+  - apps-script-oauth2 (72d4dbc → 6ae908a) ([#101])
+  - eslint-plugin-googleappsscript (1.0.4 → 1.0.5) ([#106])
+  - @babel/preset-env (7.23.7 → 7.24.0) ([#107])
+  - @rollup/plugin-multi-entry (6.0.0 → 6.0.1) ([#108])
+  - eslint (8.34.0 → 8.57.0) ([#109])
+  - rollup (3.15.0 → 4.12.0) ([#110])
+
+[#96]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/96
+[#101]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/101
+[#106]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/106
+[#107]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/107
+[#108]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/108
+[#109]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/109
+[#110]: https://github.com/chriskyfung/AutoFetcher-IG-Stories-to-GDrive/pull/110
+
+### Documentation
+
+- Corrected the permalink URLs of "Release Notes" and "Advanced Configurations"
+  pages.
+- Updated API endpoint URLs for status badges.
+- Enhanced formatting of H2 headers in release notes:
+
+  - Eliminated build numbers from H2 headers.
+  - Enclosed release dates with parentheses.
+
+- Refined and styled the changelog.
+
+### CI/CD Integration
+
+- Implemented automated version updates via Dependabot.
+- Upgraded github/codeql-action (1 → 3) and actions/checkout (2 → 4) in 
+  `codeql-analysis.yml`
 
 * * *
 

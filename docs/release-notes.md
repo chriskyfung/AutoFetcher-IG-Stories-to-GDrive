@@ -19,6 +19,28 @@ image:
   hide: true
 ---
 
+{:.note.tip}
+> ## Library V10 (2024-03-15)
+
+**Improved Reliability and Accuracy**
+
+* Standardized log date and time format for enhanced clarity and consistency.
+* Resolved an error related to file retrieval, ensuring seamless operation.
+
+**Updated Dependencies for Enhanced Security and Functionality**
+
+* Boosted security and functionality with the latest versions of jekyll, nokogiri, and other dependencies.
+
+**Enhanced Documentation**
+
+* Corrected website links for better navigation.
+* Updated API endpoint URLs for accurate information.
+* Refined formatting for clearer and easier-to-read documentation.
+
+**Automated Versioning and Security Scans**
+
+* Automated version updates through Dependabot, ensuring timely updates for enhanced security.
+* Upgraded GitHub actions for improved code quality and vulnerability detection.
 
 {:.note.tip}
 > ## Library V9 (2024-02-05)
@@ -50,7 +72,7 @@ the Apps Script by following these steps:
    }
    ```
 
-✨ Features
+✨ New Features
 
 - Add custom menu and menu items to Google Sheets
 
@@ -78,7 +100,7 @@ the Apps Script by following these steps:
 {:.note.tip}
 > ## Library V8 (2023-02-16)
 
-✨ Feature
+✨ New Feature
 
 - Save downloaded files to seperate folders based on their IG username. 📁
 
@@ -118,7 +140,7 @@ the Apps Script by following these steps:
 {:.note.tip}
 > ## Library V2 (2021-12-06)
 
-✨ Features
+✨ New Features
 
 - Save the filename of downloaded files in Column E in the "Logs" sheet.
 - Show the thumbnail preview and open the file on Drive by hovering and clicking on a hyperlinked filename.

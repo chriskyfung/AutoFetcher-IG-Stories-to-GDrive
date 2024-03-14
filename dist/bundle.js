@@ -8,7 +8,7 @@
  * 
  * Homepage: https://chriskyfung.github.io/AutoFetcher-IG-Stories-to-GDrive/
  * 
- * Build at: Wed, 13 Mar 2024 05:45:49 GMT
+ * Build at: Fri, 15 Mar 2024 06:01:06 GMT
  */
 
 const IGSF = Object.create(null);
@@ -150,6 +150,7 @@ function loadSettings() {
  * Last modified  : 2021-11-02
  */
 
+
 /**
  * Create badges, namely "last-tested-date.svg" and a "last-tested-status.svg",
  * in the destination folder of your Google Drive using DriveApp service.
@@ -242,6 +243,7 @@ function setHealthStatusBadge(healthy) {
  * Last updated at : 2023-02-21
  */
 
+
 const numOfColumns = 5;
 const column = {
   filename: 5,
@@ -251,27 +253,37 @@ const column = {
 let previousLogs;
 
 /**
- * Insert and record the date time, username, media URL and file type to be
- * downloaded to a new row at the start of the Google Sheet file that the
- * Apps Script is bounded to.
- * @param {String} datetime A date time in string format.
- * @param {String} username An Instagram username
- * @param {String} url A media URL
- * @param {String} filetype The extension of the downloaded file
- * @param {String} filename The filename of the downloaded file
+ * This function inserts a new log entry into the "Logs" sheet in a Google 
+ * Sheets document. The log entry includes the datetime, username, URL, 
+ * filetype, and filename. It formats the datetime, inserts a new row below the
+ * header, writes the log data to the new row, and inserts checkboxes into the
+ * respective column.
+ * @param {Date} datetime - The date and time of the log entry
+ * @param {string} username -  TheInstagram username
+ * @param {string} url - The media URL
+ * @param {string} filetype - The extension of the downloaded file
+ * @param {string} filename - The filename of the downloaded file
  */
 function insertNewLog(datetime, username, url, filetype, filename) {
-  // TODO: fix #84 logging blank file name
-  // Get the sheet to store the log data.
-  const logsSheet = SpreadsheetApp.getActive().getSheetByName(
-    sheetNames['logs']
+  const spreadsheet = SpreadsheetApp.getActive();
+  const logsSheet = spreadsheet.getSheetByName(sheetNames['logs']);
+
+  // Use spreadsheet methods to get the desired date format and time zone
+  const formattedDateTime = Utilities.formatDate(
+    datetime,
+    spreadsheet.getSpreadsheetTimeZone(),
+    'yyyy-MM-dd HH:mm:ss'
   );
-  // Insert a blank row in a sheet below the header.
+
+  // Insert a new row below the header
   logsSheet.insertRows(2);
-  // Write the log data to the new row.
+
+  // Write the log data to the new row
   logsSheet
     .getRange(2, 1, 1, numOfColumns)
-    .setValues([[datetime, username, url, filetype, filename]]);
+    .setValues([[formattedDateTime, username, url, filetype, filename]]);
+
+  // Insert checkboxes into the respective column (column.selected)
   logsSheet.getRange(2, column.selected).insertCheckboxes();
 }
 
@@ -553,6 +565,7 @@ const getFileDetails = (url) => {
  * @author Chris K.Y. Fung <github.com/chriskyfung>
  */
 
+
 /**
  * Compose the URL and the query string to the Instagram's API endpoint.
  * @param {String} igUserID The ID of the target Instagram user to fetch.
@@ -734,11 +747,11 @@ function fetch(target) {
       return;
     }
     insertNewLog(
-      currentDatatime.toLocaleString(), // Datatime string
+      currentDatatime, // Date object
       target.name, // IG username
       url, // Full URL
       fileExtension, // File extension
-      fileLink, // Linked file name 
+      fileLink, // Linked file name
     );
   });
   return msg;
@@ -762,32 +775,6 @@ function createViewFileFormula(filename, folderId) {
 }
 
 /**
- * ui.js
- * Copyright (c) 2024
- *
- * This file contains the Google Apps Script to create a custom menu in the 
- * Google Sheets when the spreadsheet opens.
- *
- * @author Chris K.Y. Fung <github.com/chriskyfung>
- */
-
-function initUi(e) {
-  try {
-    let ui = SpreadsheetApp.getUi();
-    ui.createMenu('igFetcher')
-      .addItem('Fetch stories', 'run')
-      .addSubMenu(ui.createMenu('Logs')
-        .addItem('Move seleted files', 'moveSelected')
-        .addItem('Delete seleted logs', 'deleteSelected')
-      )
-      .addToUi();
-  } catch (err) {
-    // TODO (Developer) - Handle exception
-    Logger.log('Failed with error: %s', err.error);
-  }
-}
-
-/**
  * subscriber.js
  * Copyright (c) 2021
  *
@@ -799,6 +786,7 @@ function initUi(e) {
  * Created at     : 2021-11-02
  * Last modified  : 2021-11-02
  */
+
 
 /**
  * Get the listing from the Google Sheet that the Apps Script is bounded to,
@@ -832,6 +820,7 @@ function batchFetch() {
  * Created at     : 2018-01-29
  * Last modified  : 2022-11-22
  */
+
 
 /**
  * Global variables
@@ -921,6 +910,7 @@ function try_get() {
  * Last modified  : 2022-11-22
  */
 
+
 const igUserSampleSet = [
   { name: 'bbcnews', id: '16278726' },
   { name: 'cnn', id: '217723373' },
@@ -960,6 +950,32 @@ function test_pipeline() {
   setTestDateBadge();
   setHealthStatusBadge(healthy);
   return healthy;
+}
+
+/**
+ * ui.js
+ * Copyright (c) 2024
+ *
+ * This file contains the Google Apps Script to create a custom menu in the 
+ * Google Sheets when the spreadsheet opens.
+ *
+ * @author Chris K.Y. Fung <github.com/chriskyfung>
+ */
+
+function initUi(e) {
+  try {
+    let ui = SpreadsheetApp.getUi();
+    ui.createMenu('igFetcher')
+      .addItem('Fetch stories', 'run')
+      .addSubMenu(ui.createMenu('Logs')
+        .addItem('Move seleted files', 'moveSelected')
+        .addItem('Delete seleted logs', 'deleteSelected')
+      )
+      .addToUi();
+  } catch (err) {
+    // TODO (Developer) - Handle exception
+    Logger.log('Failed with error: %s', err.error);
+  }
 }
 
 exports.badgeFileIds = badgeFileIds;

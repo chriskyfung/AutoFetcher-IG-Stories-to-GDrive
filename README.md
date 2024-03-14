@@ -14,26 +14,20 @@ your Google Drive. You don’t need to install anything on your computer or
 phone, just use Google Sheets and Google Apps Script as a cloud tool to fetch
 the Stories you want.
 
-> [!NOTE]
-> **Release On 2023-02-16**  
-> Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤
-> We can now save downloaded files from different IG users to separate Google 
-> Drive folders 📁.
-
 > [!IMPORTANT]
-> **Release On 2024-02-05**
+> **Release On 2024-03-15**
 > To use the latest features and bug fixes, please update the Library Version of
 > your Google Script to the latest one or create a new copy of the Google Sheet
-> template with the name V9 or higher.
+> template with the name V10 or higher.
 
 > [!TIP]
-> **Manual upgrade from V8 to V9**
+> **Manual upgrade from V8 to V9 or higher**
 > If you prefer to keep your existing Google Sheet file, you can manually update
 > the Apps Script by following these steps:
 >
 > 1. Open the Apps Script editor from your Google Sheet file.
 > 2. In the left panel, click on the **IGStoriesToGDrive** library under the **Libraries** section.
-> 3. From the **Version** dropdown, select **9** and click **Save**.
+> 3. From the **Version** dropdown, select **10** and click **Save**.
 > 4. Delete the `ui.gs` file from the project files.
 > 5. Open the `code.gs` file and add the following code to enable the new features.
 >
@@ -48,6 +42,12 @@ the Stories you want.
 >       IGSF.initUi();
 >     }
 >     ```
+
+> [!NOTE]
+> **Release On 2023-02-16**  
+> Thanks for the contributions from [hidehiro98](https://github.com/hidehiro98)❤
+> We can now save downloaded files from different IG users to separate Google 
+> Drive folders 📁.
 
 ## 🗄️ Table of Contents
 
@@ -105,6 +105,13 @@ The spreadsheet consists of the following three sheets:
 | Subscriptions | A table where you can list the Instagram users and their IDs that you want to subscribe to.       |
 | Logs          | A log sheet that records the file download activities.                                            |
 | Settings      | A tabular form where you can fill in the values of options and parameters for running the script. |
+
+> [!NOTE]
+> With Library V10, the script now leverages the time zone setting configured in Google Sheets, ensuring accurate
+  timestamps irrespective of your geographical location. To modify the time zone for a specific spreadsheet, please
+  refer to this [Google Support page]. By aligning the script with your spreadsheet's time zone, you can seamlessly manage tasks and track time entries with utmost precision.
+
+[Google Support page]: https://support.google.com/docs/answer/58515
 
 You can use the Google Sheet file and bind our script to it in the following
 ways:
