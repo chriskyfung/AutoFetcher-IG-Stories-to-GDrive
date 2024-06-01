@@ -71,7 +71,7 @@
     "@types/google-apps-script": "^1.0.56",
     "babel-jest": "^29.7.0",
     "babel-polyfill": "^6.26.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.4.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-googleappsscript": "^1.0.5",
