@@ -52,7 +52,7 @@
     "versions": "npx clasp versions",
     "logs": "npx clasp logs",
     "lint": "npm run eslint && npm run prettier",
-    "eslint": "eslint --ext .js --fix .",
+    "eslint": "eslint --fix .",
     "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs -r && echo package.json) --write --ignore-path .eslintignore",
     "build": "rollup -c",
     "test": "jest --config jest.config.cjs",
