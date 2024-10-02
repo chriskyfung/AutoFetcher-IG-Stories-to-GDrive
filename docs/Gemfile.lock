@@ -265,7 +265,7 @@ GEM
     unf_ext (0.0.9.1-x64-mingw-ucrt)
     unicode-display_width (1.8.0)
     uri (0.13.0)
-    webrick (1.8.1)
+    webrick (1.8.2)
 
 PLATFORMS
   x64-mingw-ucrt
@@ -280,7 +280,7 @@ DEPENDENCIES
   jekyll-seo-tag
   jekyll-sitemap
   tzinfo-data
-  webrick (~> 1.7)
+  webrick (~> 1.8)
 
 RUBY VERSION
    ruby 3.1.2p20
