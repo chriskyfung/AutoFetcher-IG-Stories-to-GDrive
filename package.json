@@ -35,8 +35,8 @@
     "doc": "docs"
   },
   "engines": {
-    "node": ">=14.18.0",
-    "npm": ">=6.14.15"
+    "node": ">=18.18.0",
+    "npm": ">=10.1.0"
   },
   "type": "module",
   "main": "src/main.js",
