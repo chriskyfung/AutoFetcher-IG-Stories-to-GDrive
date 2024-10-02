@@ -34,7 +34,7 @@ describe('getFileDetails', () => {
     expect(result).toEqual(expected);
   });
 
-  // eslint-disable-next-line max-len
+   
   test('returns the correct file details for a URL with query parameters', () => {
     const url = 'https://example.com/path/to/file.jpg?foo=bar';
     const expected = {
@@ -46,7 +46,7 @@ describe('getFileDetails', () => {
     expect(result).toEqual(expected);
   });
 
-  // eslint-disable-next-line max-len
+   
   test('returns the correct file details for a URL with a fragment identifier', () => {
     const url = 'https://example.com/path/to/file.jpg#foo';
     const expected = {

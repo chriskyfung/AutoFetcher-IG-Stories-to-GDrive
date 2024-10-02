@@ -32,8 +32,8 @@ const column = {
 let previousLogs;
 
 /**
- * This function inserts a new log entry into the "Logs" sheet in a Google 
- * Sheets document. The log entry includes the datetime, username, URL, 
+ * This function inserts a new log entry into the "Logs" sheet in a Google
+ * Sheets document. The log entry includes the datetime, username, URL,
  * filetype, and filename. It formats the datetime, inserts a new row below the
  * header, writes the log data to the new row, and inserts checkboxes into the
  * respective column.
@@ -152,7 +152,9 @@ export function deleteSelected() {
           const file = DriveApp.getFileById(item.fileId);
           file.setTrashed(true);
         } catch (e) {
-          console.error(`Exception when trying to trash file: ${e}. File details: ${JSON.stringify(item)}`);
+          console.error(
+            `Exception when trying to trash file: ${e}. File details: ${JSON.stringify(item)}`
+          );
         }
       } else {
         console.warn(`Missing File Id for ${JSON.stringify(item)}`);
