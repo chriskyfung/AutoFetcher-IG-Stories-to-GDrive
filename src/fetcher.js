@@ -65,18 +65,18 @@ export function getInstagramData(query) {
     method: 'GET',
     mode: 'cors',
   };
-  
+
   let response;
   try {
-    response = UrlFetchApp.fetch(query, params)
+    response = UrlFetchApp.fetch(query, params);
   } catch (err) {
     console.warn(`HTTP headers: ${JSON.stringify(response?.getHeaders())}`);
     const errorMessage = `${err.message}`;
-    if (errorMessage.indexOf("Address unavailable:") !== -1) {
+    if (errorMessage.indexOf('Address unavailable:') !== -1) {
       console.error(errorMessage);
       return;
     }
-    throw new Error(errorMessage +  '(code: 0xf1)');
+    throw new Error(errorMessage + '(code: 0xf1)');
   }
   console.log(`status code: ${response.getResponseCode()}`);
 
@@ -201,7 +201,7 @@ export function fetch(target) {
     if (!fileLink) {
       console.warn(
         `An issue occurred while generating the formula with the =HYPERLINK() function for the file ${fileName}. The URL ${url} was not downloaded as expected.`
-        );
+      );
       return;
     }
     insertNewLog(
@@ -209,7 +209,7 @@ export function fetch(target) {
       target.name, // IG username
       url, // Full URL
       fileExtension, // File extension
-      fileLink, // Linked file name
+      fileLink // Linked file name
     );
   });
   return msg;
