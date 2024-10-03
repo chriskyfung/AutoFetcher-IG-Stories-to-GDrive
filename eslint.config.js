@@ -1,4 +1,4 @@
-import pluginJs from "@eslint/js";
+import pluginJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 
@@ -31,8 +31,8 @@ export default [
     // Define rules
     rules: {
       'prettier/prettier': 'error', // Show Prettier errors as ESLint errors
-      'camelcase': ['warn', { properties: 'always' }], // Warn on camel case violations
-      'max-len': ['warn', { code: 80, "ignoreTemplateLiterals": true }], // Warn if lines exceed 80 characters
+      camelcase: ['warn', { properties: 'always' }], // Warn on camel case violations
+      'max-len': ['warn', { code: 80, ignoreTemplateLiterals: true }], // Warn if lines exceed 80 characters
       'no-undef': 'off', // Disable no-undef rule since Google Apps Script has global variables
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // Warn on unused variables but ignore those starting with _
     },
@@ -43,7 +43,7 @@ export default [
       '**/node_modules/**', // Ignore node_modules directory
       '**/*.test.js', // Ignore test files if applicable
       '**/dist/**', // Ignore distribution files if applicable
-      '**/docs/**'  // Ignore docs directory
+      '**/docs/**', // Ignore docs directory
     ],
   },
 ];
