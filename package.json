@@ -53,7 +53,7 @@
     "logs": "npx clasp logs",
     "lint": "npm run eslint && npm run prettier",
     "eslint": "eslint --fix .",
-    "prettier": "prettier $(git diff --name-only --diff-filter d | grep '\\.js$' | xargs -r && echo package.json) --write --ignore-path .eslintignore",
+    "prettier": "prettier **/*.{js,json} --write --ignore-path .eslintignore",
     "build": "rollup -c",
     "test": "jest --config jest.config.cjs",
     "start:jekyll": "cd docs && bundle exec jekyll serve",
