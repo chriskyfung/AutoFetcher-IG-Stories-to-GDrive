@@ -6,7 +6,7 @@ export default [
   {
     input: {
       include: ['src/**/*.js'],
-      exclude: ['src/__tests__/*.test.js']
+      exclude: ['src/__tests__/*.test.js'],
     },
     treeshake: true,
     output: {

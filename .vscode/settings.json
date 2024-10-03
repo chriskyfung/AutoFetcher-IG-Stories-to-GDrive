@@ -1,10 +1,5 @@
 {
-  "editor.rulers": [
-    80,
-    100,
-    120,
-    140
-  ],
+  "editor.rulers": [80, 100, 120, 140],
   "files.associations": {
     "*.gs": "javascript"
   },
@@ -12,7 +7,8 @@
     {
       "fileMatch": ["appsscript.json"],
       "url": "http://json.schemastore.org/appsscript"
-    }, {
+    },
+    {
       "fileMatch": [".clasp.json"],
       "url": "http://json.schemastore.org/clasp"
     }
