@@ -332,3 +332,15 @@ free to use, modify, and share this project, as long as you follow these rules:
   to others.
 
 You can find the full text of the license in the [LICENSE](/LINCESE.txt) file.
+
+## 📜 Disclaimer
+
+> [!CAUTION]
+> This software is provided for educational and informational purposes only. The 
+> authors do not condone or support any illegal activities. ⚠️ In case your use 
+> of the software forms the basis of copyright infringement, or you use the 
+> software for any other illegal purposes, the authors cannot take any 
+> responsibility for your actions.
+
+🚀 We only ship the code here, and how you choose to use it is left to your own 
+discretion.
