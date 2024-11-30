@@ -40,7 +40,6 @@ cse_id: 011006674894885990812:tjln7k0nyjx
 
 # Analytics
 ga4: 'G-HP4LN87NJE' # Google Analytics 4 Measurement ID
-gtm: 'GTM-WQMQK3X' # Google Tag Manager ID
 
 # Google Ads
 adstyle: true
