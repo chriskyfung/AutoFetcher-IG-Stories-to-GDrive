@@ -68,9 +68,13 @@ copyright:
 
 # Cookie Consent Notice
 consent: true
-consent_dev_mode: false
-script_hash:
-  consent_gsc: sha384-YZsyY8-Pag5BkrdKaSDSmZnCQGWcbyFYlQC0xq5mV_6kkBMuRA4Lnfjd3LEZ4ASF
+consent_preview: false
+iubenda:
+  siteId: 3904687 # Your own site ID
+  cookiePolicyId: 30443530 # Your own cookie policy ID
+  remote_consent_url: https://bit.ly/iubenda-cs-for-amp # Your own remote consent URL
+  tp_btn_style: false
+  tp_btn_position: 'bottom-left'
 
 defaults:
   - 
