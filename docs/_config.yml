@@ -72,7 +72,7 @@ consent_preview: false
 iubenda:
   siteId: 3904687 # Your own site ID
   cookiePolicyId: 30443530 # Your own cookie policy ID
-  remote_consent_url: https://bit.ly/iubenda-cs-for-amp # Your own remote consent URL
+  remote_consent_url: https://chris-iubenda-for-amp.fumikr.workers.dev/?auto-detect=1 # Your own remote consent URL
   tp_btn_style: false
   tp_btn_position: 'bottom-left'
 
