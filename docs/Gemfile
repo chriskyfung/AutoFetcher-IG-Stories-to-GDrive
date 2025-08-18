@@ -30,4 +30,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 # Fix for Load error: cannot load such file – webrick 
 # (https://talk.jekyllrb.com/t/load-error-cannot-load-such-file-webrick/5417)
-gem "webrick", "~> 1.8"
+gem "webrick", "~> 1.9"
