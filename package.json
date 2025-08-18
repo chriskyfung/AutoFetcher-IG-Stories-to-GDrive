@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.25.4",
-    "@eslint/js": "^9.11.1",
+    "@eslint/js": "^9.33.0",
     "@google/clasp": "^2.4.2",
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@types/google-apps-script": "^1.0.83",
