@@ -1,0 +1,32 @@
+name: Test Jekyll Build for docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+  pull_request:
+    paths:
+      - 'docs/**'
+
+jobs:
+  jekyll-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3' # Specify the Ruby version you are using
+          bundler-cache: true # Caches gems
+
+      - name: Install dependencies
+        run: bundle install
+        working-directory: ./docs
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+        working-directory: ./docs
