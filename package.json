@@ -77,6 +77,6 @@
     "eslint-plugin-prettier": "^5.5.4",
     "jest": "^30.2.0",
     "prettier": "^3.7.4",
-    "rollup": "^4.53.4"
+    "rollup": "^4.54.0"
   }
 }
