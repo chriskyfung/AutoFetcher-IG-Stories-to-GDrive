@@ -1,4 +1,4 @@
-name: Test Jekyll Build for docs
+name: docs build test
 
 on:
   push:
@@ -14,7 +14,7 @@ permissions:
     contents: read
 
 jobs:
-  jekyll-build:
+  docs-build-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,7 +23,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3' # Specify the Ruby version you are using
+          ruby-version: '3.3' # Specify the Ruby version you are using
           bundler-cache: true # Caches gems
 
       - name: Install dependencies
