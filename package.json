@@ -35,8 +35,7 @@
     "doc": "docs"
   },
   "engines": {
-    "node": ">=20.9.0",
-    "npm": ">=10.1.0"
+    "node": "^22.13.0 || >=24.0.0"
   },
   "type": "module",
   "main": "src/main.js",
@@ -78,5 +77,6 @@
     "jest": "^30.4.2",
     "prettier": "^3.8.3",
     "rollup": "^4.60.4"
-  }
+  },
+  "packageManager": "pnpm@12.10.1+sha512.ba40a37eb1a370d60fea8c4cf1d364c13bcccef518e98ad2bcee954f539d38da37458e58261a3fa55e06523450ea0ffff9f497b135be41f2c15c1642bacace6c"
 }
