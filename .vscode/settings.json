@@ -18,6 +18,6 @@
     "MD029": false
   },
   "jest.autoRun": "on-save",
-  "jest.jestCommandLine": "npm test --",
+  "jest.jestCommandLine": "pnpm test --",
   "jestrunner.configPath": "jest.config.cjs"
 }
