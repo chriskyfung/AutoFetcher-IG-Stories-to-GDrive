@@ -1,5 +1,32 @@
 # IG Stories to GDrive Fetcher
 
+> [!CAUTION]
+>
+> ## ⚠️ Project Sunset — Effective 2026-11-01
+> 
+> **AutoFetcher-IG-Stories-to-GDrive is discontinued effective November 1, 2026.**
+> 
+> This project relied on Instagram’s private, undocumented web endpoints and browser-session headers. Instagram now enforces stricter cross-origin protections, including CORS preflight checks, which prevent requests originating from Google Apps Script (`script.google.com`) from accessing `instagram.com` endpoints directly.
+> 
+> As a result, the tool no longer provides a stable or supportable way to fetch Instagram Stories through Google Sheets and Apps Script. Existing installations may stop working at any time without further notice.
+> 
+> ## Status
+> 
+> * **Discontinued:** November 1, 2026
+> * **Maintenance:** Ended immediately
+> 
+> ## Why it cannot be patched
+> 
+> This is not merely an expired token or missing header. A cross-origin browser request from Apps Script to Instagram is blocked because Instagram does not authorize the `script.google.com` origin through CORS. A client-side workaround cannot safely or reliably bypass this browser security boundary.
+> 
+> ## Alternatives
+> 
+> For an authorized, longer-term integration, use the official [Instagram Graph API](https://developers.facebook.com/docs/instagram-api/) with credentials and access tokens managed server-side. For personal archiving, use Instagram’s in-app download or data-export options where available.
+> 
+> Thank you to everyone who used, starred, forked, contributed to, or reported issues on this project. ❤️
+
+---
+
 [![built with clasp]](https://github.com/google/clasp)
 [![code style: prettier]](https://github.com/prettier/prettier)
 ![license: AGPL-3.0](https://img.shields.io/github/license/chriskyfung/AutoFetcher-IG-Stories-to-GDrive)
